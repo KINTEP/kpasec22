@@ -1,0 +1,386 @@
+
+{% extends "bootstrap.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>student pays</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+</head>
+<style type="text/css">
+
+
+
+
+body{
+
+	height: 100%;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: scroll;
+	background-attachment: fixed;
+}
+
+*{
+	margin-top: 0;
+	padding: 0;
+	
+}
+
+span {
+	margin-right:0% ;
+	background: transparent;
+	width: 27%;
+}
+span a{
+	margin-right: 4%;
+	padding-left: 5%;
+}
+
+	.kpa{
+		margin-left: 2%;
+	}
+	.first ul li{
+		display: inline;
+		float: right;
+		margin-right: 2%;
+	}
+	.nn{
+		text-decoration: none;
+	}
+
+	.second ul li{
+       display: inline;
+       margin-right: -2%;
+       padding-left: 2%;
+       margin-left: 4%;
+       margin-top: 3%;
+
+	}
+
+	.spa{
+		padding: 5px 30px;
+		background-color: #eee;
+		border-radius: 5px;
+		user-select: none;
+		transform: 0.5s;
+		color: #000;
+	}
+	.spa:hover{
+		background-color: #ccc;
+
+	}
+	input[ type="radio"]:checked + .spa{
+		background-color: #2874A6;
+		color: #fff;
+	}
+	.pet{
+		display: none;
+	}
+
+
+	.class2{
+		height: 100%;
+		width: 50%;
+		border-radius: 5px;
+		background: white;
+		margin-left: 25%;
+		opacity: 0.8;
+		margin-bottom: 2%;
+	}
+
+	  .class2 .rec{
+		background:#34495E ;
+		width: 18%;
+		margin-left: 0%;
+		color: white;
+		border-radius: 5px;
+		margin-top: 2%;
+		margin-bottom: 5%;
+		height: 2.1em;
+		border-color: #34495E;
+	}
+	.class2 .middle{
+		height: 2vh;
+		background: black;
+	}
+
+
+	.pta{
+		margin-left: 0%;
+	}
+	.etl{
+		margin-left: 0%;
+	}
+
+
+	.class2 .caten{
+		width: 50%;
+		height: 2.1em;
+		border-radius: 5px;
+		border: 0.3px solid black;
+		margin-left: 0%;
+		padding-left: 2%;
+	}
+
+	.pr{
+		margin-top: 3%;
+	}
+
+
+	.ssem select{
+		width: 50%;
+		height: 2.1em;
+		border-radius: 5px;
+		border: 0.3px solid black;
+		margin-left: 0%;
+		padding-left: 2%;
+		margin-bottom: 2%;
+
+	}
+	.class2 .action{
+		margin-top: 3%;
+		margin-bottom: 3%;
+	}
+
+	.class2 #etl1{
+		display: none;
+	}
+	.class2 #both1{
+		display: none;
+	}
+
+	
+	.class1 h3{
+		margin-left: 32%;
+		padding-top: 2%;
+		padding-left: 2%;
+	}
+	.class2 h3{
+		margin-left: 32%;
+		padding-top: 2%;
+		padding-left: 2%;
+	}
+	.waa .eer{
+		height: 3vh;
+	}
+	
+
+	.second .sos{
+		width: 10%;
+	}
+
+	.box{
+		height: 2.2em;
+		width: 20vw;
+		border-radius: 3px;
+		border: solid 1px black;
+	}
+
+    .ro1{
+    	background: transparent;
+    	margin-top: 2vh;
+    	width: 50vw;
+    }
+
+    .col1{
+     background: white;
+    }
+
+    .col1 .ss{
+         width: 20vw;
+         height: 2.2em;
+    }
+    .col1 .mm{
+         width: 20vw;
+         height: 2.2em;
+         align-content: flex-start;
+    }
+    .col1 input{
+    	width: 20vw;
+         height: 2.2em;
+         border-radius: 3px;
+         border: 1px solid grey;
+    }
+   
+
+	 @media  (max-width:900px){
+
+	     .class2{
+		height: 100%;
+		width: 85vw;
+		border-radius: 5px;
+		background: white;
+		margin-left: 5%;
+		opacity: 0.8;
+		margin-top: 2%;
+	}
+
+	.box{
+		height: 2.2em;
+		width: 35vw;
+		border-radius: 3px;
+		border: solid 1px black;
+	}
+	.class2 .rec{
+		background:#34495E ;
+		width: 27%;
+		color: white;
+		border-radius: 5px;
+		margin-top: 2%;
+		margin-bottom: 5%;
+		height: 2.1em;
+		border-color: #34495E;
+	}
+    }
+
+
+    }
+  	
+   }
+</style>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			    <a class="navbar-brand kpa" href="#">KPASEC P.T.A</a>
+			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			      <span class="navbar-toggler-icon"></span>
+			    </button>
+			    
+			    	
+				<div class="collapse navbar-collapse" id="navbarText">
+			      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			        <li class="nav-item">
+			          <a class="nav-link active " aria-current="page" href="{{url_for('clerk_dashboard')}}"id="nav1" style="color:green">Home</a>
+			        </li>
+			       
+			      </ul>
+
+			      <span class="navbar-text " >
+			      	<a href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
+			      	<a href="{{url_for('logout')}}">Logout</a>
+			      </span>
+			 
+			    </div>
+			</nav>
+	</header>
+
+  
+   <div class="waa">
+    <div class="eer">
+    	
+    </div>
+   	
+
+   	<div class="class2">
+   		<form method="POST" enctype="multipart/form-data">
+ 
+  
+   			<h4 style="margin-left: 38%;padding-top: 3%;">Student-Bio</h4>
+   		<center>
+   		 <div class="row ro1" style="width: 100%; " >
+   		 	<div class="col col1">
+   		 		<label>Student Name</label><br>
+                <div class="box">{{fullname}} </div>
+                <label>Parents Contact</label><br>
+                <div class="box"> {{parent_contact}}</div>
+                
+                <br>
+                
+   		 	</div>
+
+   		   <div class="col col1">
+   		 		<label>DoB </label><br>
+                <div class="box">{{date_of_birth}}</div>
+                <label>Student Class</label>
+                <br>
+                	<div class="box"> {{class1}}</div>
+                <br>
+                
+                	
+   		  </div>
+   		   </center>
+   		   <div class="middle">
+   		   	
+   		   </div>
+   		   <div class="">
+   		   	<center><h4 class="pr">Payment Requirements</h4></center>
+
+
+               <center>
+                 <div class="action">	   		
+   		   	
+   		   	 <label onchange="show()">
+   			   <input type="radio"  name="button"  checked class="pet">
+   			  <span class="spa">P.T.A</span>
+   		      </label>
+
+   		       <label onchange="show2()">
+   			   <input type="radio"  name="button"  class="pet">
+   			   <span class="spa">E.T.L</span>
+   		       </label>       
+
+   		   	 </div>
+               </center>
+   		   	
+
+   		   	
+
+                <center>
+
+               <div class="ssem">
+   		   		<select name="semester">
+   		   			<option>SEM1</option>
+   		   			<option>SEM2</option>
+   		   		</select><br>
+   		   	</div> 	
+
+   		   	<div id="pta1" class="pta">
+   		   		
+   		   		<input type="text" name="pta" placeholder="Enter P.T.A Amount" class="caten">
+   		   	</div>
+
+   		   	<div id="etl1" class="etl">		
+   		   	
+   		   		<input type="text" name="etl" placeholder="Enter E.T.L Amount" class="caten">
+   		   	</div>
+
+
+   		   	<input type="submit" name="Receive" class="rec" value="Receive">
+
+   		   	</center>
+   		   	
+
+       
+   		</div>
+          
+       
+   		</form><br>
+   			
+   		
+
+   	</div>
+
+   </div>
+
+   <script src="../js/jquery-3.6.0.min.js"></script>
+
+
+        <script type="text/javascript">
+            function show(str){
+                document.getElementById('etl1').style.display = 'none';
+                document.getElementById('pta1').style.display = 'block';
+            }
+            function show2(sign){
+                document.getElementById('etl1').style.display = 'block';
+                document.getElementById('pta1').style.display = 'none';
+            }
+        </script>
+
+
+</body>
+</html>
+{% endblock %}

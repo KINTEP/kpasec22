@@ -1,0 +1,282 @@
+
+{% extends "bootstrap.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Student Ledger</title>
+</head>
+<style type="text/css">
+	body{
+	
+	background: #AED6F1;
+	overflow-y: scroll;
+	height: 100%;
+
+	}
+
+ .first ul li{
+		display: inline;
+		float: right;
+		margin-right: 2%;
+	}
+.second ul li{
+       display: inline;
+       margin-right: -2%;
+       padding-left: 2%;
+       margin-left: 4%;
+       margin-top: 3%;
+
+	}
+
+
+.tablee table tr th{
+	border: 2px solid black;
+}
+
+.tablee table tr td{
+	border: 0.2px solid black;
+	width: 80%;
+	text-align: center;
+}
+
+
+.tablee2 table tr th{
+	border: 2px solid black;
+}
+
+.tablee2 table tr td{
+	border: 0.2px solid black;
+	width: 80%;
+	text-align: center;
+}
+
+table{
+	margin-left: 8.5vw;
+	margin-right: 8.5vw;
+}	
+
+.tablee2 table{
+	width: 52vw;
+	margin-left: 8.5vw;
+	margin-right: 8.5vw;
+}
+.tttable{
+	background: white;
+	height: 100%;
+	width: 70%;
+	border-radius: 5px;
+	font-family: monospace;
+	margin-top: 2%;
+	opacity: 0.8;
+	display: block;
+	margin-left: 15vw;
+}
+
+.tablee2 .dat1{
+	width: 27%;
+}
+.tablee2 .dat2{
+	width: 30%;
+}
+.tablee2 .dat3{
+	width: 12%;
+}
+.tablee2 .dat4{
+	width: 12%;
+}
+.tablee2 .dat5{
+	width: 19%;
+}
+
+
+@media(max-width: 900px){
+ 
+
+ body{
+	
+  background: #AED6F1;
+  overflow-y: scroll;
+
+	}
+ .tttable{
+	background: white;
+	height: 110%;
+	width: 80%;
+	border-radius: 5px;
+	font-family: monospace;
+	margin-top: 2%;
+	opacity: 0.8;
+	display: block;
+	margin-left: 10vw;
+}
+
+.tablee table tr td{
+	border: 0.2px solid black;
+	width: 77%;
+	text-align: center;
+}
+.tablee2 table{
+	width: 61.5vw;
+}
+
+
+
+}
+</style>
+<body>
+
+
+<header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			    <a class="navbar-brand" href="#">KPASEC P.T.A</a>
+			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			      <span class="navbar-toggler-icon"></span>
+			    </button>
+			    
+			    	
+				<div class="collapse navbar-collapse" id="navbarText">
+			      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			        <li class="nav-item">
+			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}" id="dash">Dashboard</a>
+			        </li>
+			        <li class="nav-item d-flex">
+			          <a class="nav-link" href="#" id="lis">Classes</a>
+			        </li>
+			        <li class="nav-item">
+			          <a class="nav-link " href="#" id="new-class">New-Class</a>
+			        </li>
+			      </ul>
+
+			      <span class="navbar-text" >
+			      	<a href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
+			      	<a href="{{url_for('logout')}}">Logout</a>
+			      </span>
+			 
+			    </div>
+			</nav>
+
+	</header>
+
+    <div class="tttable">
+
+    <div class="nul"></div>
+   	<div class="ttable" id="cont1">
+   		<h3 class="topp" style="padding-top:4vh;text-align: center;">Summary of Payments </h3>
+   		<div class="tablee">
+   		 <table >
+   			<tr>
+   			    <th>Name</th>
+   			    <td>{{student.fullname}}</td>
+   			</tr>
+   			<tr>
+   			   <th>Class</th>
+   			   <td>{{student.class1}}</td>
+   			</tr>
+   			<tr>
+   			   <th>DoB</th>
+   			   <td>{{student.date_of_birth}}</td>
+   			</tr>
+   			<tr>
+   			   <th>Parents Contact</th>
+   			   <td>{{student.parent_contact}}</td>
+   			</tr>
+   			<tr>
+   			   <th>P.T.A charges</th>
+   			   <td>{{charge.pta | currencyFormat }}</td>
+   			</tr>
+   			<tr>
+   			   <th>E.T.L charges</th>
+   			   <td>{{charge.etl | currencyFormat }}</td>
+   			</tr>
+   			<tr>
+   			   <th>Balance</th>
+   			   <td>3000.00</td>
+   			</tr>
+   		</table>
+   		</div><br>
+   		<h3 style="text-align:center">Student ETL Ledger</h3>
+             
+   		<div class="tablee2">
+   			<table>
+   				<tr>
+   					<th class="dat1">Date</th>
+   					<th  class="dat2">Details</th>
+   					<th  class="dat3">Debit</th>
+   					<th  class="dat4">Credit</th>
+   					<th  class="dat5">Balance</th>
+   				</tr>
+   				{% for pmt in etls %}
+   					{% if pmt.category != 'revenue' %}
+   				<tr>
+   					<td class="dat1">{{pmt.date.date()}}</td>
+   					<td  class="dat2">Semester Charge</td>
+   					<td  class="dat3 co">{{pmt.amount | currencyFormat }}</td>
+   					<td class="dat4 co"></td>
+   					{% if cum1[loop.index-1] < 1 %}
+   					<td class="dat5 bg-danger">{{cum1[loop.index-1] | currencyFormat }}</td>
+   					{% else %}
+   					<td class="dat5 bg-success">{{cum1[loop.index-1] | currencyFormat }}</td>
+   					{% endif %}
+   				</tr>
+   					{% else %}
+   				<tr>
+   					<td class="dat1">{{pmt.date.date()}}</td>
+   					<td  class="dat2">E.T.L</td>
+   					<td  class="dat3">---</td>
+   					<td class="dat4">{{pmt.amount | currencyFormat}}</td>
+   					<td class="dat5">{{cum1[loop.index-1] | currencyFormat}}</td>
+   				</tr>
+   					{% endif %}
+   				{% endfor %}
+   				
+   			</table><br>
+
+   		</div>
+
+
+   		<h3 style="text-align:center">Student PTA Ledger</h3>
+             
+   		<div class="tablee2">
+   			<table>
+   				<tr>
+   					<th class="dat1">Date</th>
+   					<th  class="dat2">Details</th>
+   					<th  class="dat3">Debit</th>
+   					<th  class="dat4">Credit</th>
+   					<th  class="dat5">Balance</th>
+   				</tr>
+   				{% for pta in ptas %}
+
+   				   {% if pta.category == 'charge' %}
+   				<tr>
+   					<td class="dat1">{{pta.date.date()}}</td>
+   					<td  class="dat2">Semester Charge</td>
+   					<td  class="dat3 bg-danger">{{pta.amount | currencyFormat }}</td>
+   					<td class="dat4 bg-danger"></td>
+   					<td class="dat5 bg-danger">{{cum2[loop.index-1] | currencyFormat }}</td>
+   				</tr>
+   				    {% else %}
+   				<tr>
+   					<td class="dat1">{{pta.date.date()}}</td>
+   					<td  class="dat2">P.T.A</td>
+   					<td  class="dat3">---</td>
+   					<td class="dat4">{{pta.amount | currencyFormat}}</td>
+   					<td class="dat5">{{cum2[loop.index-1] | currencyFormat}}</td>
+   				</tr>
+   				    {% endif %}
+   				{% endfor %}
+   				
+   			</table><br>
+
+   		</div>
+
+
+   	</div>
+
+</div><br>  
+
+</body>
+</html>
+{% endblock %}

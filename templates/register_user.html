@@ -1,0 +1,63 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+<style type="text/css">
+	#registerform{
+		border: 2px solid gold;
+		margin-top:20px;
+		color: blanchedalmond;
+		background: ;
+
+	}
+
+	.col-md-12{
+		margin: 10px;
+	}
+
+	#but3{
+		margin-bottom: 10px;
+	}
+</style>
+<div class="row">
+	<div class="col"></div>
+	<div class="col">
+		<div class="register form" id="registerform">
+		<form method="POST" action="" class="row g-3">
+			{{form.hidden_tag()}}
+			<fieldset>
+				<center><legend class="fw-bold text-danger">Register</legend></center>
+				<div class="col-md-12">
+					{{ form.username.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.username(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.email.label(class = "form-label shadow-sm text-dark fw-bold")}}
+						{% if form.email.errors %}
+							<div> {{form.email.errors[0]}}</div>
+						{% endif %}
+					{{ form.email(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.password.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.password(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.confirm_password.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.confirm_password(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+			</fieldset>
+			<div>
+				<center><div class="col-md-12" id="but3">
+					{{ form.submit(class = "btn btn-lg btn-success rounded-pill text-white fw-bold")}}
+				</div></center>
+			</div>
+			<div>
+				<span class="text-dark">Have an account?</span>
+				<a href="{{url_for('login')}}">Login</a>
+			</div>
+		</form>
+	</div>
+	</div>
+	<div class="col"></div>
+</div>
+{% endblock %}
+	

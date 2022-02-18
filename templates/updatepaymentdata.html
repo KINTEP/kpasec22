@@ -1,0 +1,63 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+<style type="text/css">
+	#studen_pmt{
+		border: 2px solid gold;
+		margin-top:20px;
+		color: blanchedalmond;
+		background: ;
+
+	}
+
+	.col-md-12{
+		margin: 10px;
+	}
+
+	#but5{
+		margin-bottom: 10px;
+	}
+</style>
+<div class="row">
+	<div class="col"></div>
+	<div class="col">
+		<div class="studen_pmt form">
+		<form method="POST" action="" id="studen_pmt">
+			{{form.hidden_tag()}}
+			<fieldset>
+				<center><legend class="fw-bold text-danger">Enter Data</legend></center>
+				<div class="col-md-12">
+					{{ form.fullname.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.fullname(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.amount.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.amount(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.semester.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.semester(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.mode_of_payment.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.mode_of_payment(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.category.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.category(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+			</fieldset>
+			<div class="col-md-12" id="but5">
+				<center>
+					<div>
+					{{ form.submit(class = "btn btn-lg btn-success rounded-pill text-white fw-bold")}}
+				</div>
+				</center>
+			</div>
+		</form>
+	</div>
+	</div>
+	<div class="col"></div>
+</div>
+		
+{% endblock %}
+	

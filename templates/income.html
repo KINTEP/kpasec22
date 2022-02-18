@@ -1,0 +1,68 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+	<div class="row">
+		<div class="col-1"></div>
+		<div class="income col">
+			<button type="button" id="export_button" class="btn btn-success btn-sm">Export</button>
+		<table class="table table-dark table-hover" style="margin-top: 20px;" id="income_data">
+			<center>
+				<label>Income Statement for the period {{start_date}} to {{end_date}}</label>
+			</center>
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Date</th>
+		      <th scope="col">Details</th>
+		      <th scope="col">Receipt</th>
+		      <th scope="col">Analysis</th>
+		      <th scope="col">Amount</th>
+		      <th scope="col"></th>
+		      <th scope="col">Balance</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {% for inc in income %}
+			    <tr>
+			      <th scope="row">{{loop.index}}</th>
+			      <td>{{inc.date.date()}}</td>
+			      <td>{{inc.student_fullname}}</td>
+			      <td></td>
+			      <td>{{inc.category}}</td>
+			      <td>{{inc.amount | currencyFormat}}</td>
+			      <td></td>
+			      <td>{{inc_cum[loop.index] | currencyFormat}}</td>
+			    </tr>
+		    {% endfor %}
+		  </tbody>
+		  <tfoot>
+		  	<tr>
+		      <th scope="row"></th>
+		      <td>TOTAL</td>
+		      <td></td>
+		      <td></td>
+		      <td></td>
+		      <td>{{inc_cum[-1] | currencyFormat}}</td>
+		      <td></td>
+		      <td>{{inc_cum[-1] | currencyFormat}}</td>
+		    </tr>
+		  </tfoot>
+		 </table>
+		</div>
+		<div class="col-1"></div>
+	</div>
+
+	<script type="text/javascript">
+		function table_to_excel(type) {
+			var data = document.getElementById('income_data')
+			var file = XLSX.utils.table_to_book(data, {sheet:'sheet1'})
+			XLSX.write(file, {bookType:type, bookSST:true, type:'base64'})
+			XLSX.writeFile(file, 'file.'+type)
+		}
+
+		const export_button = document.getElementById('export_button')
+		export_button.addEventListener('click', () => {
+			table_to_excel('xlsx')
+		})
+	</script>
+{% endblock %}
+

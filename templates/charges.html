@@ -1,0 +1,51 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+<style type="text/css">
+	#loginform{
+		border: 2px solid gold;
+		margin-top:20px;
+		color: greenyellow;
+		background: indianred;
+	}
+
+	#but2{
+		margin-bottom: 10px;
+	}
+</style>
+<div class="row">
+	<div class="col"></div>
+	<div class="col">
+		<div class="login form">
+		<form method="POST" class="row g-3" id = "loginform">
+			{{form.hidden_tag()}}
+			<fieldset>
+				<center><legend>Register</legend></center>
+				<div class="col-md-12">
+					{{ form.semester.label(class = "form-label shadow-sm")}}
+						{% if form.semester.errors %}
+							<div> {{form.semester.errors[0]}}</div>
+						{% endif %}
+					{{ form.semester(class = "form-control shadow-sm text-center")}}
+				</div class="col-md-12">
+				<div>
+					{{ form.pta_levy.label(class = "form-label shadow-sm")}}
+					{{ form.pta_levy(class = "form-control shadow-sm text-center")}}
+				</div>
+				<div>
+					{{ form.etl.label(class = "form-label shadow-sm")}}
+					{{ form.etl(class = "form-control shadow-sm text-center")}}
+				</div>
+			</fieldset>
+			<div>
+				<div class="col-md-12" id="but2">
+					<center>{{ form.submit(class = "btn btn-lg btn-primary rounded-pill")}}</center>
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+	<div class="col"></div>
+</div>
+	
+{% endblock %}
+	

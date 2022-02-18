@@ -1,0 +1,64 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+<style type="text/css">
+	#expensesform{
+		border: 2px solid gold;
+		margin-top:20px;
+		color: greenyellow;
+		background: indianred;
+		margin-bottom: 20px;
+	}
+	#but1{
+		margin-bottom: 10px;
+	}
+</style>
+<div class="row">
+	<div class="col"></div>
+	<div class="col">
+		<div class="studen_pmt form">
+		<form method="POST" action="" class="row g-3" id="expensesform">
+			{{form.hidden_tag()}}
+			<fieldset>
+				<center>
+					<legend class="form-label">Enter Data</legend>
+				</center>
+				<div class="col-md-12">
+					<center>{{ form.item.label(class = "form-label shadow-sm")}}</center>
+					{{ form.item(class = "form-control shadow-sm text-center")}}
+				</div>
+				<div class="col-md-12">
+					<center>{{ form.details.label(class = "form-label shadow-sm")}}</center>
+						{% if form.details.errors %}
+							<div> {{form.details.errors[0]}}</div>
+						{% endif %}
+					{{ form.details(class = "form-control shadow-sm text-center")}}
+				</div>
+				<div class="col-md-12">
+					<center>{{ form.amount.label(class = "form-label shadow-sm")}}</center>
+					{{ form.amount(class = "form-control shadow-sm text-center")}}
+				</div>
+				<div class="col-md-12">
+					<center>{{ form.category.label(class = "form-label shadow-sm")}}</center>
+					{{ form.category(class = "form-control shadow-sm text-center")}}
+				</div>
+				<div class="col-md-12">
+					<center>{{ form.semester.label(class = "form-label shadow-sm")}}</center>
+					{{ form.semester(class = "form-control shadow-sm text-center")}}
+				</div>
+				<div class="col-md-12">
+					<center>{{ form.mode_of_payment.label(class = "form-label shadow-sm")}}</center>
+					{{ form.mode_of_payment(class = "form-control shadow-sm text-center")}}
+				</div>
+			</fieldset>
+			<div>
+				<div class="col-md-12" id="but1">
+					{{ form.submit(class = "form-control text-white bg-primary btn-btn-sm shadow-sm rounded-pill")}}
+				</div>
+			</div>
+		</form>
+	</div>
+	</div>
+	<div class="col"></div>
+</div>
+{% endblock %}
+	

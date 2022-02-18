@@ -1,0 +1,179 @@
+
+{% extends "bootstrap.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Student Ledger</title>
+</head>
+<style type="text/css">
+body{
+
+	height: 100%;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: scroll;
+	background-attachment: fixed;
+}
+
+
+*{
+	margin-top: 0;
+	padding: 0;
+	
+}
+
+span {
+	margin-right:0% ;
+	background: transparent;
+	width: 27%;
+}
+span a{
+	margin-right: 4%;
+	padding-left: 5%;
+}
+
+.kpa{
+	margin-left: 2%;
+}
+
+ .first ul li{
+		display: inline;
+		float: right;
+		margin-right: 2%;
+	}
+.second ul li{
+       display: inline;
+       margin-right: -2%;
+       padding-left: 2%;
+       margin-left: 4%;
+       margin-top: 3%;
+
+	}
+.tttable{
+	background: white;
+	height: 100%;
+	width: 40%;
+	border-radius: 5px;
+	font-family: monospace;
+	margin-top: 15vh;
+	opacity: 0.8;
+	display: block;
+	margin-left: 30vw;
+	margin-bottom: 2%;
+}
+
+.tttable .sub{
+	height: 2.2em;
+	width: 13vw;
+	margin-top: 4%;
+	background: #2E4053;
+	color: yellow;
+	border-radius: 5px;
+	margin-left: 13vw;
+}
+.fff input{
+	width: 28vw;
+	height: 2.3em;
+	margin-bottom: 4%;
+	margin-left: 6vw;
+}
+.fff label{
+	margin-left: 6vw;
+}
+
+@media(max-width: 900px){
+
+   .tttable{
+	background: white;
+	height: 100%;
+	width: 80%;
+	border-radius: 5px;
+	font-family: monospace;
+	margin-top: 15vh;
+	opacity: 0.8;
+	display: block;
+	margin-left: 9.5vw;
+	margin-bottom: 2%;
+}
+
+.tttable .sub{
+	height: 2.2em;
+	width: 25vw;
+	margin-top: 4%;
+	background: #2E4053;
+	color: yellow;
+	border-radius: 5px;
+	margin-left: 25vw;
+}
+.fff input{
+	width: 65vw;
+	height: 2.3em;
+	margin-bottom: 4%;
+	margin-left: 6vw;
+}
+.fff label{
+	margin-left: 6vw;
+}
+
+
+}
+</style>
+<body>
+
+
+<header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			    <a class="navbar-brand kpa" href="#">KPASEC P.T.A</a>
+			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			      <span class="navbar-toggler-icon"></span>
+			    </button>
+			    
+			    	
+				<div class="collapse navbar-collapse" id="navbarText">
+			      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			        <li class="nav-item">
+			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}" id="dash">Home</a>
+			        </li>
+			       
+			      </ul>
+
+			      <span class="navbar-text" >
+			      	<a style="text-decoration:none" href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
+			      	<a href="{{url_for('logout')}}">Logout</a>
+			      </span>
+			 
+			    </div>
+			</nav>
+
+	</header>
+
+	   	<div class="tttable" id="cont2">
+   		<h3 class="topp" style="padding-top:4vh; text-align: center; font-family:sans-serif; ">Generate Student Ledger </h3>
+   		<form method="POST" action="" id="student_data" class="fff">
+   			{{form.hidden_tag()}}
+			<label style="text-align:flex-start;color: #2471A3;">Parent's Contact</label><br>
+			{% if form.phone.errors %}
+			    {% for error in form.phone.errors %}
+			    	{{error}}
+			    {% endfor %}
+			{% endif %}
+			{{form.phone(placeholder='0541994034', class='cls')}}
+			<label style="color:green">DoB</label>
+			{% if form.dob.errors %}
+			    {% for error in form.dob.errors %}
+			    	{{error}}
+			    {% endfor %}
+			{% endif %}
+			{{form.dob(placeholder='0541994034', class='cls')}}<br>
+
+			{{form.submit(class='sub')}}
+			<br>
+		</form>
+   	</div>
+
+</body>
+</html>
+{% endblock %}

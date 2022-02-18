@@ -1,0 +1,191 @@
+
+{% extends "bootstrap.html" %}
+{% from "macro.html" import render_field %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>user login</title>
+</head>
+<style type="text/css">
+body{
+
+	height: 100%;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: scroll;
+	background-attachment: fixed;
+}
+
+*{
+	margin-top: 0;
+	padding: 0;
+	
+}
+
+	.loginn{
+		background: white;
+		width: 40%;
+		height: 100%;
+		border-radius: 5px;
+		margin-left: 30%;
+		margin-top: 5vh;
+		opacity: 0.7;
+		margin-bottom: 3%;
+	}
+	.loginn label{
+		margin-left: 15%;
+	}
+	.loginn input{
+		margin-left: 15%;
+		width: 70%;
+		height: 2.3em;
+		border-radius: 5px;
+		border: 0.3px solid grey;
+	}
+
+	.loginn select{
+		margin-left: 15%;
+		width: 70%;
+		height: 2.3em;
+		border-radius: 5px;
+		border: 0.3px solid grey;
+	}
+	.loginn .clk{
+		width: 30%;
+		margin-left: 36%;
+		height: 2.2em;
+	    margin-top: 3vh;
+	    background: #2E4053;
+	    color: yellow;
+	    border-radius: 5px;
+	    margin-bottom: 3vh;
+	}
+	.loginn h3{
+		padding-top: 5vh;
+		font-family: monospace;
+	}
+
+    .dott{
+
+    	text-decoration: none;
+    	margin-left: 15%;
+    	padding-right: 2%;
+    	height: 2%;
+    	border-radius: 5px;
+    	font: 100px;
+    }
+
+     .imm{
+
+    	height: 8%;
+    	width: 6%;
+    	margin-left: 98%;
+    	margin-top: -9%;
+    	border-radius: 25px;
+    }
+    .mag{
+       height: 3.5%;
+       width: 3%;
+       margin-left: 15%;
+    }
+
+
+
+	@media(max-width: 900px){
+
+	 .imm{
+
+    	height: 6.5%;
+    	width: 6%;
+    	margin-left: 98%;
+    	margin-top: -9%;
+    	border-radius: 25px;
+    }
+    .mag{
+       height: 3.5%;
+       width: 3%;
+       margin-left: 15%;
+    }
+	
+
+
+	.loginn{
+		background: white;
+		width: 80%;
+		height: 100%;
+		border-radius: 5px;
+		margin-left: 9.5%;
+		margin-top: 6vh;
+		margin-bottom: 3%;
+	}	
+      
+    .loginn label{
+		margin-left: 5%;
+	}
+	.loginn input{
+		margin-left: 5%;
+		width: 90%;
+		height: 2.3em;
+	}
+
+	.loginn select{
+		margin-left: 5%;
+		width: 90%;
+		height: 2.3em;
+	}
+	.loginn .clk{
+		width: 30%;
+		margin-left: 36%;
+		height: 2.2em;
+	    margin-top: 3vh;
+	    background: #2E4053;
+	    color: yellow;
+	    border-radius: 5px;
+	}
+	.loginn h3{
+		padding-top: 5vh;
+		font-family: monospace;
+	}
+	}
+
+</style>
+<body>
+
+	<div class="loginn">
+		<a href="{{url_for('home')}}"><img src="{{url_for('static', filename='images/close.png')}}" alt="there is no image" class="imm"></a>
+		<h3 style="text-align:center">Register Staff</h3>
+		<form method="POST" enctype="multipart/form-data">
+			{{form.hidden_tag()}}
+			{{form.csrf_token}}
+			<label>Full Name</label><br>
+			{{render_field(form.username)}}
+			{{form.username(style="padding-left:2%;",)}}
+			<br>
+			<label>Email</label><br>
+			{{render_field(form.email)}}
+			{{form.email(style="padding-left:2%;",)}}
+			<br>
+			<label>Password</label><br>
+			{{render_field(form.password)}}
+			{{form.password(style="padding-left:2%;",)}}
+			<br>
+			<label>Confirm Password</label><br>
+			{{render_field(form.confirm_password)}}
+			{{form.confirm_password(style="padding-left:2%;",)}}
+			<br>
+			<label>Staff Role</label><br>
+			{{render_field(form.function)}}
+			{{form.function()}}
+			<br>
+			{{form.submit(class='clk')}}
+		</form>
+
+		<span><img src="{{url_for('static', filename='images/dot.png')}}" alt="there is no image" class="mag"> Don't have account?<a href="{{url_for('login')}}" style="text-decoration: none;"> Login</a></span><br><br><br>
+	</div>
+
+</body>
+</html>
+{% endblock %}

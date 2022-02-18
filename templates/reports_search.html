@@ -1,0 +1,210 @@
+
+{% extends "bootstrap.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>user login</title>
+</head>
+<style type="text/css">
+	body{
+
+	height: 100vh;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: scroll;
+}
+
+*{
+	margin-top: 0;
+	padding: 0;
+	
+}
+
+	.loginn{
+		background: white;
+		width: 40%;
+		height: 70vh;
+		border-radius: 5px;
+		margin-left: 30%;
+		margin-top: 14vh;
+		opacity: 0.7;
+	}
+	.loginn label{
+		margin-left: 15%;
+	}
+	.loginn input{
+		margin-left: 15%;
+		width: 70%;
+		height: 6vh;
+		border-radius: 5px;
+		border: 0.3px solid grey;
+	}
+
+	.loginn select{
+		margin-left: 15%;
+		width: 70%;
+		height: 6vh;
+		border-radius: 5px;
+		border: 0.3px solid grey;
+	}
+	.loginn .clk{
+		width: 30%;
+		margin-left: 36%;
+		height: 5.5vh;
+	    margin-top: 3vh;
+	    background: #2E4053;
+	    color: yellow;
+	    border-radius: 5px;
+	    margin-bottom: 3vh;
+	}
+	.loginn h3{
+		padding-top: 5vh;
+		font-family: monospace;
+	}
+
+    .dott{
+
+    	text-decoration: none;
+    	margin-left: 15%;
+    	padding-right: 2%;
+    	height: 2%;
+    	border-radius: 5px;
+    	font: 100px;
+    }
+
+     .imm{
+
+    	height: 7%;
+    	width: 6%;
+    	margin-left: 98%;
+    	margin-top: -9%;
+    	border-radius: 25px;
+    }
+    .mag{
+       height: 3.5%;
+       width: 3%;
+       margin-left: 15%;
+    }
+
+
+
+	@media(max-width: 900px){
+
+	 .imm{
+
+    	height: 5.5%;
+    	width: 6%;
+    	margin-left: 98%;
+    	margin-top: -9%;
+    	border-radius: 25px;
+    }
+    .mag{
+       height: 3.5%;
+       width: 3%;
+       margin-left: 15%;
+    }
+	
+
+
+	.loginn{
+		background: white;
+		width: 80%;
+		height: 70vh;
+		border-radius: 5px;
+		margin-left: 9.5%;
+		margin-top: 14vh;
+	}	
+      
+    .loginn label{
+		margin-left: 5%;
+	}
+	.loginn input{
+		margin-left: 5%;
+		width: 90%;
+		height: 6vh;
+	}
+
+	.loginn select{
+		margin-left: 5%;
+		width: 90%;
+		height: 6vh;
+	}
+	.loginn .clk{
+		width: 30%;
+		margin-left: 36%;
+		height: 5.5vh;
+	    margin-top: 3vh;
+	    background: #2E4053;
+	    color: yellow;
+	    border-radius: 5px;
+	}
+	.loginn h3{
+		padding-top: 5vh;
+		font-family: monospace;
+	}
+	}
+
+</style>
+<body>
+
+	<div class="loginn">
+		<a href="{{url_for('accountant_dashboard')}}"><img src="{{url_for('static', filename='images/close.png')}}" alt="there is no image" class="imm"></a>
+		<h3 style="text-align:center">Filter Reports</h3>
+		<form>
+			<label>Choos Type of Report</label><br>
+			<select>
+				<option value="cash_book">Cash Book</option>
+				<option value="income_statement">Income Statement</option>
+				<option value="expenses_statement">Expenses Statement</option>
+				<option value="income_expenditure">Income & Expenditure</option>
+			</select><br>
+			<label>Choose Category</label><br>
+         <select>
+				<option value="cash_book">P.T.A</option>
+				<option value="income_statement">E.T.L</option>
+				<option value="expenses_statement">P.T.A & E.T.L</option>
+			</select><br>			
+			<label>Start Date</label><br>
+			<input type="date" name="start_date"><br>
+			<label>End Date</label><br>
+			<input type="date" name="end_date"><br>
+			<input type="submit" name="sub" value="Register" class="clk">
+		</form>
+
+	</div>
+
+
+	<div class="row loginn"  id="cont2">
+  	   
+  	<form method="POST" action="" id="student_data" class="fff">
+			<h3 style="text-align: center;">Accounting Report</h3>
+			<label>Choose A Report</label><br>
+			<select name="classes" style="width:70%; height: 6vh;">
+				<option value="cash_book">Cash Book</option>
+				<option value="income_statement">Income Statement</option>
+				<option value="expenses_statement">Expenses Statement</option>
+				<option value="income_&_expenditure">Income and Expenditure</option>			
+			</select><br>
+			<label>Choose Category</label><br>
+			<select name="classes" style="width:70%; height: 6vh;">
+				<option value="cash_book">P.T.A</option>
+				<option value="income_statement">E.T.L</option>
+				<option value="expenses_statement">P.T.A & E.T.L</option>
+			</select><br>
+
+			<label>Start Date</label><br>
+			<input type="date" name="start_date"><br>
+			<label>End Date</label><br>
+			<input type="date" name="end_date"><br>
+
+			<input type="submit" name="todo" value="Proceed" class="clk"><br>
+		</form>
+			
+  </div>
+
+</body>
+</html>
+{% endblock %}

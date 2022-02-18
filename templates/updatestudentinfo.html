@@ -1,0 +1,61 @@
+{% extends "bootstrap.html" %}
+{% block content %}
+<style type="text/css">
+	#student_data{
+		border: 2px solid gold;
+		margin-top:20px;
+		color: blanchedalmond;
+		background: ;
+
+	}
+
+	.col-md-12{
+		margin: 10px;
+	}
+
+	#but3{
+		margin-bottom: 10px;
+	}
+</style>
+<div class="row">
+	<div class="col"></div>
+	<div class="col">
+		<div class="student_data form">
+		<form method="POST" action="" id="student_data">
+			{{form.hidden_tag()}}
+			<fieldset>
+				<center><legend class="fw-bold text-danger">Enter Data</legend></center>
+				<div class="col-md-12">
+					{{ form.name.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.name(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.email.label(class = "form-label shadow-sm text-dark fw-bold")}}
+						{% if form.email.errors %}
+							<div> {{form.email.errors[0]}}</div>
+						{% endif %}
+					{{ form.email(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12"> 					
+					{{ form.class1.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.class1(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+				<div class="col-md-12">
+					{{ form.parent_contact.label(class = "form-label shadow-sm text-dark fw-bold")}}
+					{{ form.parent_contact(class = "form-control shadow-sm text-center fw-bold text-danger")}}
+				</div>
+			</fieldset>
+			<div>
+				<center>
+					<div class="col-md-12" id="but4">
+					{{ form.submit(class = "btn btn-lg btn-success rounded-pill text-white fw-bold")}}
+				</div>
+				</center>
+			</div>
+		</form>
+	</div>
+	</div>
+	<div class="col"></div>
+</div>
+	
+{% endblock %}
