@@ -800,7 +800,6 @@ def delete_class(id):
 
 
 class Classes(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	class1 = db.Column(db.String(10), unique=False, nullable=False)
