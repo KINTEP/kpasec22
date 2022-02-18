@@ -34,7 +34,7 @@ import re
 
 
 
-uri = "postgres://rcrcittfbiapfa:de3c945a97fc541a87f471a61603111e34eaa0be3234ace747f85d96800b8430@ec2-44-192-245-97.compute-1.amazonaws.com:5432/da8kfqt02ehgca"#os.environ.get("DATABASE_URL")  # or other relevant config var
+uri = os.environ.get('DATABASE_URL')#"postgres://rcrcittfbiapfa:de3c945a97fc541a87f471a61603111e34eaa0be3234ace747f85d96800b8430@ec2-44-192-245-97.compute-1.amazonaws.com:5432/da8kfqt02ehgca"#os.environ.get("DATABASE_URL")  # or other relevant config var
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 
