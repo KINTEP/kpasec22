@@ -20,10 +20,20 @@ body{
 	background-attachment: fixed;
 }
 
+span {
+	margin-right:0% ;
+	background: transparent;
+	width: 27%;
+}
+span a{
+	margin-right: 4%;
+	padding-left: 5%;
+}
+
 
 	.narv{
 		background: white;
-		width: 80vw;
+		width: 80%;
 		height: 100%;
 		border-radius: 5px;
 		margin-top: 5vh;
@@ -53,6 +63,49 @@ body{
 		margin-left: 5vw;
 		margin-top: -1vw;
 	}
+
+@media(max-width: 1000px){
+
+
+
+   body{
+
+	height: 100%;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: scroll;
+	background-attachment: fixed;
+}
+
+   
+  .narv{
+		background: white;
+		width: 97%;
+		height: 100%;
+		border-radius: 5px;
+		margin-top: 5vh;
+		margin-left: 1%;
+		opacity: 0.8;
+	}
+	table{
+		width: 95%;
+		margin-left: 1%;
+		margin-top: -0.9em;
+	}
+	.narv ul {
+		margin-left: 0vw;
+	}
+
+  .narv ul input{
+		width: 5em;
+	}
+
+	}
+
+}
+
+
 	@media(max-width: 900px){
 
    body{
@@ -68,24 +121,24 @@ body{
    
   .narv{
 		background: white;
-		width: 94%;
+		width: 97%;
 		height: 100%;
 		border-radius: 5px;
 		margin-top: 5vh;
-		margin-left: 3vw;
+		margin-left: 1%;
 		opacity: 0.8;
 	}
 	table{
-		width: 92%;
-		margin-left: 2vw;
-		margin-top: -1vw;
+		width: 80%;
+		margin-left: 1%;
+		margin-top: -0.9em;
 	}
 	.narv ul {
 		margin-left: 0vw;
 	}
 
-    .narv ul input{
-		width: 12vw;
+  .narv ul input{
+		width: 5em;
 	}
 
 	}
@@ -114,7 +167,7 @@ body{
 			      </ul>
 
 			      <span class="navbar-text" >
-			      	<a href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
+			      	<a style="text-decoration:none" href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
 			      	<a href="{{url_for('logout')}}">Logout</a>
 			      </span>
 			 
@@ -126,7 +179,8 @@ body{
 	 <div class="narv">
 
 		<div class="income">
-		<h3 style="text-align: center;padding-top: 5vh;padding-bottom: 2vh;">Expenses Statement</h3>
+		<h3 style="text-align: center;padding-top: 5vh;padding-bottom: 2vh;">Combined
+		Expenses <br>  Dated <abbr style="font-family:cursive;color: red; font-size: 24px"> {{start}}</abbr> to <abbr style="color:red;font-size:24px;font-family: cursive;"> {{end}}</abbr>
 	    </div>
 		<ul>
 			<input type="button" name="excel" value="EXCEL" onclick="exporttoexcell()">

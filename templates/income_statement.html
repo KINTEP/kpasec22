@@ -19,6 +19,16 @@ body{
 	background-attachment: fixed;
 }
 
+span {
+	margin-right:0% ;
+	background: transparent;
+	width: 27%;
+}
+span a{
+	margin-right: 4%;
+	padding-left: 5%;
+}
+
 	.narv{
 		background: white;
 		width: 80vw;
@@ -34,10 +44,10 @@ body{
     }
 
 	.narv ul {
-		margin-left: 2.5vw;
+		margin-left: 3.2%;
 	}
 	.narv ul input{
-		width: 6vw;
+		width: 5em;
 	}
 
 	table tr th{
@@ -48,8 +58,8 @@ body{
 	}
 	table{
 		width: 70vw;
-		margin-left: 5vw;
-		margin-top: -1vw;
+		margin-left: 6.2%;
+		margin-top: -0.9em;
 	}
 @media(max-width: 900px){
  body{
@@ -71,7 +81,7 @@ body{
 		margin-left: 1%;
 	}
 	table{
-		width: 94%;
+		width: 95%;
 		margin-left: 2%;
 		margin-top: -0.9em;
 	}
@@ -109,7 +119,7 @@ body{
 			      </ul>
 
 			      <span class="navbar-text" >
-			      	<a href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
+			      	<a style="text-decoration:none;" href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
 			      	<a href="{{url_for('logout')}}">Logout</a>
 			      </span>
 			 
