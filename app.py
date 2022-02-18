@@ -34,20 +34,20 @@ import re
 
 
 
-#uri = os.environ.get("DATABASE_URL")  # or other relevant config var
-#if uri.startswith("postgres://"):
-#    uri = uri.replace("postgres://", "postgresql://", 1)
+uri = "postgres://rcrcittfbiapfa:de3c945a97fc541a87f471a61603111e34eaa0be3234ace747f85d96800b8430@ec2-44-192-245-97.compute-1.amazonaws.com:5432/da8kfqt02ehgca"#os.environ.get("DATABASE_URL")  # or other relevant config var
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
 
 
 
 #db_url =  "postgres://ncvzgxfhqksvxj:031bfc49b611636694193e8fb7ab6fb92ef44edf4490ef604bec977a56075bff@ec2-54-158-26-89.compute-1.amazonaws.com:5432/ddo3qjkq45niev"
-db_url = "postgres://ezffanfmtiwixw:de187f5a9db402e1a04dd724c333c47b3f8de2252c475f4e2a505a6d40591478@ec2-3-217-219-146.compute-1.amazonaws.com:5432/ddsrcsftn519t3"
+#db_url = "postgres://ezffanfmtiwixw:de187f5a9db402e1a04dd724c333c47b3f8de2252c475f4e2a505a6d40591478@ec2-3-217-219-146.compute-1.amazonaws.com:5432/ddsrcsftn519t3"
 #db_url =  "postgres://ezffanfmtiwixw:de187f5a9db402e1a04dd724c333c47b3f8de2252c475f4e2a505a6d40591478@ec2-3-217-219-146.compute-1.amazonaws.com:5432/ddsrcsftn519t3"
 #HEROKU_POSTGRESQL_IVORY_URL
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://rcrcittfbiapfa:de3c945a97fc541a87f471a61603111e34eaa0be3234ace747f85d96800b8430@ec2-44-192-245-97.compute-1.amazonaws.com:5432/da8kfqt02ehgca"
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 #app.config['SQLALCHEMY_BINDS'] = {"kpasec": "sqlite:///kpasec.db", "kpasecarchives":"sqlite:///kpasecarchives.db"}
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
