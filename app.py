@@ -13,7 +13,7 @@ import datetime as dt
 from sqlalchemy.sql import extract
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-import gspread
+#import gspread
 import string
 from cryptography.fernet import Fernet
 from num2words import num2words as n2w

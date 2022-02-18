@@ -1,0 +1,59 @@
+Exception on / [GET]
+Traceback (most recent call last):
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\sqlalchemy\util\_collections.py", line 1008, in __call__
+    return self.registry[key]
+KeyError: <greenlet.greenlet object at 0x07879448 (otid=0x0788F578) current active started main>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask\app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask\app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask\app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask\app.py", line 1502, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "C:\Users\user\Desktop\kpasec22\app.py", line 91, in home
+    return render_template("homepage1.html")
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask\templating.py", line 146, in render_template
+    ctx.app.update_template_context(context)
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask\app.py", line 756, in update_template_context
+    context.update(func())
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_login\utils.py", line 379, in _user_context_processor
+    return dict(current_user=_get_user())
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_login\utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_login\login_manager.py", line 318, in _load_user
+    user = self._user_callback(user_id)
+  File "C:\Users\user\Desktop\kpasec22\app.py", line 87, in load_user
+    return User.query.get(int(user_id))
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_sqlalchemy\__init__.py", line 552, in __get__
+    return type.query_class(mapper, session=self.sa.session())
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\sqlalchemy\orm\scoping.py", line 47, in __call__
+    sess = self.registry()
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\sqlalchemy\util\_collections.py", line 1010, in __call__
+    return self.registry.setdefault(key, self.createfunc())
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\sqlalchemy\orm\session.py", line 4205, in __call__
+    return self.class_(**local_kw)
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_sqlalchemy\__init__.py", line 176, in __init__
+    bind = options.pop('bind', None) or db.engine
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_sqlalchemy\__init__.py", line 998, in engine
+    return self.get_engine()
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_sqlalchemy\__init__.py", line 1017, in get_engine
+    return connector.get_engine()
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_sqlalchemy\__init__.py", line 594, in get_engine
+    self._engine = rv = self._sa.create_engine(sa_url, options)
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\flask_sqlalchemy\__init__.py", line 1027, in create_engine
+    return sqlalchemy.create_engine(sa_url, **engine_opts)
+  File "<string>", line 2, in create_engine
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\sqlalchemy\util\deprecations.py", line 309, in warned
+    return fn(*args, **kwargs)
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\sqlalchemy\engine\create.py", line 534, in create_engine
+    entrypoint = u._get_entrypoint()
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\sqlalchemy\engine\url.py", line 661, in _get_entrypoint
+    cls = registry.load(name)
+  File "C:\Users\user\Desktop\kpasec22\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 343, in load
+    raise exc.NoSuchModuleError(
+sqlalchemy.exc.NoSuchModuleError: Can't load plugin: sqlalchemy.dialects:postgres
