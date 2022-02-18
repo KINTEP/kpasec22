@@ -878,7 +878,6 @@ class NewClassForm(FlaskForm):
 
 
 class User(db.Model, UserMixin):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	username = db.Column(db.String(80), unique=False, nullable=False)
@@ -896,7 +895,6 @@ class User(db.Model, UserMixin):
 
 
 class Student(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	clerk = db.Column(db.String(120),nullable=False)
@@ -917,7 +915,6 @@ class Student(db.Model):
 
 
 class PTAIncome(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	clerk = db.Column(db.String(120), nullable=False)
@@ -933,7 +930,6 @@ class PTAIncome(db.Model):
 
 
 class ETLIncome(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	clerk = db.Column(db.String(120),nullable=False)
@@ -949,7 +945,6 @@ class ETLIncome(db.Model):
 
 
 class StudentPayments(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	etl_amount = db.Column(db.Integer)
@@ -965,7 +960,6 @@ class StudentPayments(db.Model):
 		return f'User: {self.student_id}'
 
 class Expenses(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	expensor = db.Column(db.String(120), nullable=False)
@@ -983,7 +977,6 @@ class Expenses(db.Model):
 		return f'User: {self.item}'
 
 class PTAExpenses(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	expensor = db.Column(db.String(120), nullable=False)
@@ -1000,7 +993,6 @@ class PTAExpenses(db.Model):
 
 
 class ETLExpenses(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	expensor = db.Column(db.String(120), nullable=False)
@@ -1017,7 +1009,6 @@ class ETLExpenses(db.Model):
 
 
 class Charges(db.Model):
-	__bind_key__ = "kpasec"
 	id = db.Column(db.Integer, primary_key=True)
 	begin_date = db.Column(db.DateTime)
 	end_date = db.Column(db.DateTime)
