@@ -299,7 +299,7 @@ def all_students():
 
 
 def prepare_etlptacash_book(mode='pta'):
-    con = sqlite3.connect("kpasec.db")
+    con = sqlite3.connect(uri)
     if mode == 'etl':
     	etl_exp = pd.read_sql_query("SELECT date, item, totalcost from etl_expenses", con)
     	etl_inc = pd.read_sql_query("SELECT date, amount, category from etl_income WHERE category=='revenue'", con)
@@ -368,7 +368,7 @@ def combined_cash_bk(start, end, cat):
 			category1=cat, category=category,start=start, end=end, bf=bf, bfdate=bfdate)
 
 def combined_cash_book():
-    con = sqlite3.connect("kpasec.db")
+    con = sqlite3.connect(uri)
     etl_exp = pd.read_sql_query("SELECT date, item, totalcost from etl_expenses", con)
     pta_exp = pd.read_sql_query("SELECT date, item, totalcost from pta_expenses", con)
     etl_exp['category'] = 'etl_exp'
