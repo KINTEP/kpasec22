@@ -25,6 +25,17 @@ body{
 	padding: 0;
 	
 }
+
+  span {
+	margin-right:0% ;
+	background: transparent;
+	width: 20.5%;
+  }
+  span a{
+	margin-right: 2%;
+	padding-left: 5%;
+  }
+
 	.rowan{
 		margin-top: 43px;
 		margin-right:10px;
@@ -542,7 +553,7 @@ body{
 			      </ul>
 
 			      <span class="navbar-text" >
-			      	<a href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
+			      	<a style="text-decoration:none;" href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
 			      	<a href="{{url_for('logout')}}">Logout</a>
 			      </span>
 			 
