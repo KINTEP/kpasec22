@@ -1123,7 +1123,7 @@ class MyModelView(ModelView):
 
 
 admin = Admin(app, template_mode='bootstrap4', name = 'Kpasec PTA')
-#admin.add_view(MyModelView(User, db.session))
+admin.add_view(MyModelView(User, db.session))
 #admin.add_view(MyModelView(Student, db.session))
 #admin.add_view(MyModelView(StudentPayments, db.session))
 #admin.add_view(MyModelView(Expenses, db.session))
