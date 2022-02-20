@@ -81,11 +81,20 @@ def load_user(user_id):
 
 
 def clerk_asses():
-	return (current_user.approval and current_user.function == 'Clerk') or (current_user.is_admin)
+	if current_user.is_authenticated and  current_user.approval and current_user.function == 'Clerk':
+		return True
+	if current_user.is_authenticated and current_user.approval and current_user.is_admin:
+		return True
+	else:
+		return False
 
 def account_asses():
-	return (current_user.approval and current_user.function == 'Accountant') or (current_user.is_admin)
-
+	if current_user.is_authenticated and  current_user.approval and current_user.function == 'Accountant':
+		return True
+	if current_user.is_authenticated and current_user.approval and current_user.is_admin:
+		return True
+	else:
+		return False
 
 @app.route("/", methods = ['GET', 'POST'])
 def home():
@@ -1113,12 +1122,12 @@ class MyModelView(ModelView):
 			return False
 
 
-admin = Admin(app, template_mode='bootstrap4')
-admin.add_view(MyModelView(User, db.session))
-admin.add_view(MyModelView(Student, db.session))
-admin.add_view(MyModelView(StudentPayments, db.session))
-admin.add_view(MyModelView(Expenses, db.session))
-admin.add_view(MyModelView(PTAIncome, db.session))
+admin = Admin(app, template_mode='bootstrap4', name = 'Kpasec PTA')
+#admin.add_view(MyModelView(User, db.session))
+#admin.add_view(MyModelView(Student, db.session))
+#admin.add_view(MyModelView(StudentPayments, db.session))
+#admin.add_view(MyModelView(Expenses, db.session))
+#admin.add_view(MyModelView(PTAIncome, db.session))
 
 @click.command(name='create_db')
 @with_appcontext
