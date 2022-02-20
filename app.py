@@ -851,7 +851,7 @@ class UserLogInForm(FlaskForm):
     submit = SubmitField("Login")
 
     def validate_password(self, password):
-    	characters = ['=', '.','<','>', '-', '_', '/', '?', '!']
+    	characters = ['=', '.','<','>', '-', '_', '/', '?', '!', '&', '\\', '$']
     	for char in characters:
     		if char in password.data:
     			raise ValidationError(f"{char} are not acceppted")

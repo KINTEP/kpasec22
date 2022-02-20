@@ -18,7 +18,11 @@ def decrypt_text(encrypted_text, key=key):
     return f.decrypt(bytes(encrypted_text,"UTF-8")).decode()
 
 def inside(ch):
-    data = [i for i in string.ascii_lowercase] + [' '] + [1,2,3,4,5,6,7,8,9,0]
+    data = [i for i in string.ascii_lowercase] + [' '] + [str(i) for i in range(10)]
+    return ch.lower() in data 
+
+def inside2(ch):
+    data = ['+'] + [str(i) for i in range(10)]
     return ch.lower() in data 
 
 def date_transform(start1,end1):

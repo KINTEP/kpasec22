@@ -32,6 +32,13 @@ class StudentLedgerForm(FlaskForm):
 		if len(num) != 9:
 			raise ValidationError("Phone number must be 10 digits")
 
+	def validate_dob(self, dob):
+		today = datetime.utcnow()
+		today = dt.date(year=today.year, month=today.month, day=today.day)
+		dob1 = dt.date(year=dob.data.year, month=dob.data.month, day=purchase_date.data.day)
+		if dob1 > today:
+			raise ValidationError(f"Date cant't be further than {today}")
+
 class ClientLogInForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
@@ -64,12 +71,12 @@ class ExpensesForm(FlaskForm):
 	def validate_item(self, item):
 		for char in item.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid characters')
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 			
 	def validate_purpose(self, purpose):
 		for char in purpose.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid characters')
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 	def validate_totalcost(self, totalcost):
 		if totalcost.data != self.quantity.data * self.unitcost.data:
@@ -96,12 +103,12 @@ class ETLExpensesForm(FlaskForm):
 	def validate_item(self, item):
 		for char in item.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid characters')
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 			
 	def validate_purpose(self, purpose):
 		for char in purpose.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid characters')
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 	def validate_totalcost(self, totalcost):
 		if totalcost.data != self.quantity.data * self.unitcost.data:
@@ -128,12 +135,12 @@ class PTAExpensesForm(FlaskForm):
 	def validate_item(self, item):
 		for char in item.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid characters')
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 			
 	def validate_purpose(self, purpose):
 		for char in purpose.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid characters')
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 	def validate_totalcost(self, totalcost):
 		if totalcost.data != self.quantity.data * self.unitcost.data:
@@ -191,3 +198,8 @@ class SearchForm(FlaskForm):
     parent_contact = StringField("Parent Contact", validators=[DataRequired(), Length(min=8, max=20)])
     date_of_birth = DateField("Date of Birth", validators=[DataRequired()])
     search_submit = SubmitField("Search")
+
+    def validate_parent_contact(self, parent_contact):
+		for char in parent_contact.data:
+			if inside2(ch=char) == False:
+				raise ValidationError('Invalid character, only numbers')
