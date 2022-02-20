@@ -310,6 +310,7 @@ def prepare_etlptacash_book(mode='pta'):
     if mode == 'pta':
     	etl_exp = pd.read_sql_query("SELECT date, item, totalcost from pta_expenses", con)
     	etl_inc = pd.read_sql_query("SELECT date, amount, category from pta_income WHERE category='revenue'", con)
+    	etl_exp.rename(columns={'totalcost':'amount'}, inplace = True)
     	etl_exp['amount'] = -1*etl_exp['amount']
     	etl_exp['category'] = 'payment'
     	etl_inc['item'] = 'pta payments'
