@@ -80,10 +80,10 @@ def load_user(user_id):
 	return User.query.get(int(user_id))
 
 
-def clerk_asses:
+def clerk_asses():
 	return (current_user.approval and current_user.function == 'Clerk') or (current_user.is_admin)
 
-def account_asses:
+def account_asses():
 	return (current_user.approval and current_user.function == 'Accountant') or (current_user.is_admin)
 
 
