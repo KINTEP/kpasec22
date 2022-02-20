@@ -80,14 +80,20 @@ def load_user(user_id):
 	return User.query.get(int(user_id))
 
 
+def clerk_asses:
+	return (current_user.approval and current_user.function == 'Clerk') or (current_user.is_admin)
+
+def account_asses:
+	return (current_user.approval and current_user.function == 'Accountant') or (current_user.is_admin)
+
 
 @app.route("/", methods = ['GET', 'POST'])
 def home():
 	if request.method == 'POST':
 		if current_user.is_authenticated:
-			if current_user.function == 'Clerk':
+			if clerk_asses:
 				return redirect(url_for('clerk_dashboard'))
-			if current_user.function == 'Accountant':
+			if account_asses:
 				return redirect(url_for('accountant_dashboard'))
 		else:
 			return redirect(url_for('login'))
