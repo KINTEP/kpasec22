@@ -354,7 +354,7 @@ def combined_cash_bk(start, end, cat):
 	start1, end1 = date_transform(start,end)
 	cbk = query_cash_book(str(start1), str(end1), df = combined_cash_book())
 	balance = list(cbk['balance'])
-	date = [dat for dat in cbk['date']]
+	date = [str(dat)[:10] for dat in cbk['date']]
 	details = list(cbk['item'])
 	amount = list(cbk['amount'])
 	category = list(cbk['main_cat'])
