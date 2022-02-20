@@ -334,7 +334,7 @@ def cash_book_report1(start, end, cat):
 	if cat == 'ETL & PTA Levy':
 		return redirect(url_for('combined_cash_bk', start=start,end=end, cat=cat))
 	balance = list(cbk['balance'])
-	date = [dat[:10] for dat in cbk['date']]
+	date = [dat for dat in cbk['date']]
 	details = list(cbk['item'])
 	amount = list(cbk['amount'])
 	category = list(cbk['category'])
@@ -354,7 +354,7 @@ def combined_cash_bk(start, end, cat):
 	start1, end1 = date_transform(start,end)
 	cbk = query_cash_book(str(start1), str(end1), df = combined_cash_book())
 	balance = list(cbk['balance'])
-	date = [dat[:10] for dat in cbk['date']]
+	date = [dat for dat in cbk['date']]
 	details = list(cbk['item'])
 	amount = list(cbk['amount'])
 	category = list(cbk['main_cat'])
