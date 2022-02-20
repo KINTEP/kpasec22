@@ -92,8 +92,8 @@ def register_user():
 	if form.validate_on_submit():
 		print('validate')
 		if request.method == "POST":
-			username = form.data.get('username')
-			email = form.data.get('email')
+			username = form.data.get('username').strip()
+			email = form.data.get('email').strip()
 			password = form.data.get('password')
 			function = form.data.get('function')
 			hash_password = bcrypt.generate_password_hash(password).decode("utf-8")
@@ -112,7 +112,7 @@ def login():
 		return redirect(url_for('home'))
 	form = UserLogInForm()
 	if form.validate_on_submit():
-		user = User.query.filter_by(email=form.email.data).first()
+		user = User.query.filter_by(email=form.email.data.strip()).first()
 		if user and bcrypt.check_password_hash(user.password, form.password.data):
 			login_user(user, remember=form.remember.data)
 			next_page = request.args.get('next')
@@ -243,7 +243,7 @@ def clerk_dashboard():
 		form2 = StudentSignUp()
 
 		if form2.data['register_submit'] and form2.validate_on_submit():
-			name = form2.data.get("name")
+			name = form2.data.get("name").strip()
 			class1 = form2.data.get("class1")
 			dob = form2.data.get("date_of_birth")
 			date_ad = form2.data.get("date_admitted")
