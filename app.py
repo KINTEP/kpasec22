@@ -277,7 +277,7 @@ def charges():
 @app.route("/clerk_dashboard", methods=['GET', 'POST'])
 @login_required
 def clerk_dashboard():
-	if clerk_asses:
+	if not account_asses:
 		form1 = SearchForm()
 		form2 = StudentSignUp()
 
