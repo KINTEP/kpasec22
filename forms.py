@@ -200,6 +200,6 @@ class SearchForm(FlaskForm):
     search_submit = SubmitField("Search")
 
     def validate_parent_contact(self, parent_contact):
-		for char in parent_contact.data:
-			if inside2(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers')
+    	for char in parent_contact.data:
+    		if inside2(ch=char) == False:
+    			raise ValidationError('Invalid character, only numbers')
