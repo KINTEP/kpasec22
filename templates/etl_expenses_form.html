@@ -1,5 +1,6 @@
 
 {% extends "bootstrap.html" %}
+{% from 'macro.html' import render_field %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -149,21 +150,22 @@ span a{
    		<form method="POST" action="" id="student_data" class="fff">
 			{{form.hidden_tag()}}
 			<label style="color:green">Purchase Date</label><br>
+			{{render_field(form.purchase_date)}}
 			{{form.purchase_date()}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Item</label><br>
+			{{render_field(form.item)}}
 			{{form.item(class='cls', placeholder='marker')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Purpose</label><br>
+			{{render_field(form.purpose)}}
 			{{form.purpose(class='cls', placeholder='teaching')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Quantity</label><br>
+			{{render_field(form.quantity)}}
 			{{form.quantity(class='cls', placeholder='20')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Unit Cost</label><br>
+			{{render_field(form.unitcost)}}
 			{{form.unitcost(class='cls', placeholder='5.00')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Total Cost</label><br>
-			{% if form.totalcost.errors %}
-			    {% for error in form.totalcost.errors %}
-			    	{{error}}
-			    {% endfor %}
-			{% endif %}
+			{{render_field(form.totalcost)}}
 			{{form.totalcost(class='cls', placeholder='100.00')}}
 			<br>
 			{{form.submit(class='sub')}}<br>
