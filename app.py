@@ -100,9 +100,9 @@ def account_asses():
 def home():
 	if request.method == 'POST':
 		if current_user.is_authenticated:
-			if clerk_asses:
+			if not account_asses:
 				return redirect(url_for('clerk_dashboard'))
-			if account_asses:
+			if not clerk_asses:
 				return redirect(url_for('accountant_dashboard'))
 		else:
 			return redirect(url_for('login'))
@@ -168,7 +168,7 @@ def logout():
 @app.route("/accountant_dashboard/pta_expenses", methods = ['GET', 'POST'])
 @login_required
 def pta_expenses():
-	if account_asses:
+	if not clerk_asses:
 		title = "Make PTA Expense"
 		form = PTAExpensesForm()
 		if form.validate_on_submit():
@@ -198,7 +198,7 @@ def pta_expenses():
 @app.route("/accountant_dashboard/etl_expenses", methods = ['GET', 'POST'])
 @login_required
 def etl_expenses():
-	if account_asses:
+	if not clerk_asses:
 		title = "Make ETL Expense"
 		form = ETLExpensesForm()
 		if form.validate_on_submit():
@@ -237,7 +237,7 @@ def account():
 @app.route("/accountant_dashboard/promote_all_students")
 @login_required
 def promote_all_students():
-	if account_asses:
+	if not clerk_asses:
 		students = Student.query.all()
 		for stud in students:
 			new_class = promote_student(stud.class1)
@@ -254,7 +254,7 @@ def promote_all_students():
 @app.route("/accountant_dashboard/semester/charges")
 @login_required
 def charges():
-	if account_asses:
+	if not clerk_asses:
 		form = ChargeForm()
 		if form.validate_on_submit():
 			etl = form.data.get('etl')
@@ -330,7 +330,7 @@ def clerk_dashboard():
 @app.route("/accountant_dashboard/all_students")
 @login_required
 def all_students():
-	if account_asses:
+	if not clerk_asses:
 		students = Student.query.all()
 		return render_template("all_students.html", students=students)
 	else:
@@ -369,7 +369,7 @@ def query_cash_book(start, end, df):
 @app.route("/accountant_dashboard/cash_book_report1/<start>,<end>, <cat>")
 @login_required
 def cash_book_report1(start, end, cat):
-	if account_asses:
+	if not clerk_asses:
 		start1, end1 = date_transform(start,end)
 		if cat == 'ETL':
 			cbk = query_cash_book(str(start1), str(end1), df=prepare_etlptacash_book(mode='etl'))
@@ -397,7 +397,7 @@ def cash_book_report1(start, end, cat):
 @app.route("/accountant_dashboard/combined_cash_bk/<start>,<end>,<cat>")
 @login_required
 def combined_cash_bk(start, end, cat):
-	if account_asses:
+	if not clerk_asses:
 		start1, end1 = date_transform(start,end)
 		cbk = query_cash_book(str(start1), str(end1), df = combined_cash_book())
 		balance = list(cbk['balance'])
@@ -464,7 +464,7 @@ def bal_date(cash_book, book):
 @app.route("/accountant_dashboard/expenses_statement/<start1>, <end1>, <category>")
 @login_required
 def expenses_statement(start1, end1, category):
-	if account_asses:
+	if not clerk_asses:
 		if category == 'ETL & PTA Levy':
 			start, end = date_transform(start1,end1)
 			expenses = Expenses.query.filter(Expenses.date.between(start, end)).all()
@@ -484,7 +484,7 @@ def expenses_statement(start1, end1, category):
 @app.route("/accountant_dashboard/pta_expenses_statement/<start1>, <end1>")
 @login_required
 def pta_expenses_statement(start1, end1):
-	if account_asses:
+	if not clerk_asses:
 		start, end = date_transform(start1,end1)
 		expenses = PTAExpenses.query.filter(PTAExpenses.date.between(start, end)).all()
 		cum1 = cumsum([exp.totalcost for exp in expenses ])
@@ -499,7 +499,7 @@ def pta_expenses_statement(start1, end1):
 @app.route("/accountant_dashboard/etl_expenses_statement/<start1>, <end1>")
 @login_required
 def etl_expenses_statement(start1, end1):
-	if account_asses:
+	if not clerk_asses:
 		start, end = date_transform(start1,end1)
 		expenses = ETLExpenses.query.filter(ETLExpenses.date.between(start, end)).all()
 		cum1 = cumsum([exp.totalcost for exp in expenses ])
@@ -514,7 +514,7 @@ def etl_expenses_statement(start1, end1):
 @app.route("/accountant_dashboard/income_statement/<start1>, <end1>, <category>")
 @login_required
 def income_statement(start1, end1, category):
-	if account_asses:
+	if not clerk_asses:
 		start, end = date_transform(start1,end1)
 		if category == "PTA Levy":
 			incomes = PTAIncome.query.filter(PTAIncome.date.between(start, end)).filter(PTAIncome.category=='revenue').all()	
@@ -534,7 +534,7 @@ def income_statement(start1, end1, category):
 @app.route("/accountant_dashboard/income_and_expenditure/<start1>, <end1>, <category>")
 @login_required
 def income_and_expenditure(start1, end1, category):
-	if account_asses:
+	if not clerk_asses:
 		start, end = date_transform(start1,end1)
 		if category == "PTA Levy":
 			incomes = PTAIncome.query.filter(PTAIncome.date.between(start, end)).filter(PTAIncome.category=='revenue').all()
@@ -557,7 +557,7 @@ def income_and_expenditure(start1, end1, category):
 @app.route("/accountant_dashboard/begin_sem", methods=['GET', 'POST'])
 @login_required
 def begin_sem():
-	if account_asses:
+	if not clerk_asses:
 		form = ChargeForm()
 		if form.validate_on_submit():
 			etl = form.data.get('etl')
@@ -586,7 +586,7 @@ def begin_sem():
 @app.route("/accountant_dashboard", methods=['POST', 'GET'])
 @login_required
 def accountant_dashboard():
-	if account_asses:
+	if not clerk_asses:
 		studs = len(Student.query.all())
 		incomes = StudentPayments.query.all()
 		etl = sum([inc.etl_amount for inc in incomes if inc.category == 'revenue'])
@@ -628,7 +628,7 @@ def accountant_dashboard():
 @app.route("/accountant_dashboard/student_classes/", methods=['POST', 'GET'])
 @login_required
 def student_classes():
-	if account_asses:
+	if not clerk_asses:
 		newclass = NewClassForm()
 		if newclass.validate_on_submit():
 			cls1 = Classes(account=current_user.username,class1=newclass.data.get('newclass'))
@@ -644,7 +644,7 @@ def student_classes():
 @app.route("/accountant_dashboard/search_ledgers", methods=['POST','GET'])
 @login_required
 def search_ledgers():
-	if account_asses:
+	if not account_asses:
 		form = StudentLedgerForm()
 		if form.validate_on_submit():
 			phone = form.data.get("phone")
@@ -660,7 +660,7 @@ def search_ledgers():
 @app.route("/clerk_dashboard/student/pay_search_result/<name>,<dob>,<phone>, <int:idx>, <class1>", methods=['GET', 'POST'])
 @login_required
 def pay_search_result(name, dob, phone, idx, class1):
-	if clerk_asses:
+	if not account_asses:
 		form = StudentPaymentsForm()
 		
 		name = decrypt_text(name)
@@ -741,7 +741,7 @@ def pay_search_result(name, dob, phone, idx, class1):
 @app.route("/clerk_dashboard/receipt/<num>, <name>, <etl_amount>, <pta_amount>, <contact>, <class1>")
 @login_required
 def receipt(num, name, etl_amount, pta_amount, contact, class1):
-	if clerk_asses:
+	if not account_asses:
 		num = decrypt_text(num)
 		name = decrypt_text(name)
 		contact = decrypt_text(contact)
@@ -759,7 +759,7 @@ def receipt(num, name, etl_amount, pta_amount, contact, class1):
 @app.route("/accountant_dashboard/expenses/gen_expenses")
 @login_required
 def gen_expenses():
-	if account_asses:
+	if not clerk_asses:
 		expenses = Expenses.query.all()
 		total = sum([exp.totalcost for exp in expenses])
 		return render_template("gen_expenses.html", expenses=expenses, total=total)
@@ -769,7 +769,7 @@ def gen_expenses():
 @app.route("/accountant_dashboard/total_etl_income")
 @login_required
 def total_etl_income():
-	if account_asses:
+	if not clerk_asses:
 		incomes = ETLIncome.query.all()
 		return render_template("total_etl_income.html", incomes=incomes)
 	else:
@@ -778,7 +778,7 @@ def total_etl_income():
 @app.route("/accountant_dashboard/total_pta_income")
 @login_required
 def total_pta_income():
-	if account_asses:
+	if not clerk_asses:
 		incomes = PTAIncome.query.all()
 		return render_template("total_pta_income.html", incomes=incomes)
 	else:
@@ -787,7 +787,7 @@ def total_pta_income():
 @app.route("/clerk_dashboard/clerk_daily_report")
 @login_required
 def clerk_daily_report():
-	if clerk_asses:
+	if not account_asses:
 		today = datetime.utcnow()
 		date = dt.date(today.year, today.month, today.day)
 		payments = StudentPayments.query.filter(func.date(StudentPayments.date) == date).all()
@@ -800,7 +800,7 @@ def clerk_daily_report():
 @app.route("/accountant_dashboard/search_ledgers/ledger_results/<string:phone>, <string:dob>")
 @login_required
 def ledger_results(phone, dob):
-	if account_asses:
+	if not clerk_asses:
 		phone1 = '0' + decrypt_text(phone)
 		idx = generate_student_id(phone1, dob)
 		student = Student.query.filter_by(id_number=idx).first()
@@ -832,7 +832,7 @@ def ledger_results(phone, dob):
 @app.route("/accountant_dashboard/delete_class/<int:id>", methods=['GET'])
 @login_required
 def delete_class(id):
-	if account_asses:
+	if not clerk_asses:
 		cls1 = Classes.query.get_or_404(id)
 		db.session.delete(cls1)
 		db.session.commit()
