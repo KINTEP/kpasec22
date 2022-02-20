@@ -303,13 +303,16 @@ def prepare_etlptacash_book(mode='pta'):
     if mode == 'etl':
     	etl_exp = pd.read_sql_query("SELECT date, item, totalcost from etl_expenses", con)
     	etl_inc = pd.read_sql_query("SELECT date, amount, category from etl_income WHERE category='revenue'", con)
+    	etl_exp.rename(columns={'totalcost':'amount'}, inplace = True)
+    	etl_exp['amount'] = -1*etl_exp['amount']
+    	etl_exp['category'] = 'payment'
+    	etl_inc['item'] = 'etl payments'
     if mode == 'pta':
     	etl_exp = pd.read_sql_query("SELECT date, item, totalcost from pta_expenses", con)
     	etl_inc = pd.read_sql_query("SELECT date, amount, category from pta_income WHERE category='revenue'", con)
-    etl_exp.rename(columns={'totalcost':'amount'}, inplace = True)
-    etl_exp['amount'] = -1*etl_exp['amount']
-    etl_exp['category'] = 'payment'
-    etl_inc['item'] = 'etl payments'
+    	etl_exp['amount'] = -1*etl_exp['amount']
+    	etl_exp['category'] = 'payment'
+    	etl_inc['item'] = 'pta payments'
     comb1 = pd.merge(etl_inc, etl_exp, how = 'outer')
     df2 = comb1.sort_values('date', ignore_index=True)
     df2['balance'] = df2['amount'].cumsum()
