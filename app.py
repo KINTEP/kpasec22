@@ -302,10 +302,10 @@ def prepare_etlptacash_book(mode='pta'):
     con = create_engine(uri)
     if mode == 'etl':
     	etl_exp = pd.read_sql_query("SELECT date, item, totalcost from etl_expenses", con)
-    	etl_inc = pd.read_sql_query("SELECT date, amount, category from etl_income WHERE category=='revenue'", con)
+    	etl_inc = pd.read_sql_query("SELECT date, amount, category from etl_income WHERE category='revenue'", con)
     if mode == 'pta':
     	etl_exp = pd.read_sql_query("SELECT date, item, totalcost from pta_expenses", con)
-    	etl_inc = pd.read_sql_query("SELECT date, amount, category from pta_income WHERE category=='revenue'", con)
+    	etl_inc = pd.read_sql_query("SELECT date, amount, category from pta_income WHERE category='revenue'", con)
     etl_exp.rename(columns={'totalcost':'amount'}, inplace = True)
     etl_exp['amount'] = -1*etl_exp['amount']
     etl_exp['category'] = 'payment'
@@ -376,8 +376,8 @@ def combined_cash_book():
     pta_exp['category'] = 'pta_exp'
     pta_exp['main_cat'] = 'payment'
     comb1 = pd.merge(etl_exp, pta_exp, how = 'outer')
-    etl_inc = pd.read_sql_query("SELECT date, amount, category from etl_income WHERE category=='revenue'", con)
-    pta_inc = pd.read_sql_query("SELECT date, amount, category from pta_income WHERE category=='revenue'", con)
+    etl_inc = pd.read_sql_query("SELECT date, amount, category from etl_income WHERE category='revenue'", con)
+    pta_inc = pd.read_sql_query("SELECT date, amount, category from pta_income WHERE category='revenue'", con)
     etl_inc.rename(columns={'category':'main_cat'}, inplace = True)
     pta_inc.rename(columns={'category':'main_cat'}, inplace = True)
     pta_inc['category'] = 'pta_inc'
