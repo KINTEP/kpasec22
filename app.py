@@ -129,7 +129,12 @@ def login():
 		if user and bcrypt.check_password_hash(user.password, form.password.data):
 			login_user(user, remember=form.remember.data)
 			next_page = request.args.get('next')
-			return redirect(next_page) if next_page else redirect(url_for('account'))
+			if current_user.approval and current_user.function == 'Clerk':
+				return redirect(url_for('clerk_dashboard'))
+			if current_user.approval and current_user.function == 'Accountant':
+				return redirect(url_for('accountant_dashboard'))
+			else:
+				return redirect(next_page) if next_page else redirect(url_for('account'))
 		else:
 			flash("Login unsuccessful, please try again", "danger")
 	return render_template("user_login1.html", form=form)
@@ -851,7 +856,7 @@ class UserSignUpForm(FlaskForm):
     submit = SubmitField("Register")
 
     def validate_email(self, email):
-    	user = User.query.filter_by(email=email.data).first()
+    	user = User.query.filter_by(email=email.data.strip()).first()
     	if user:
     		raise ValidationError("The email is already in use, please choose a different one")
 
