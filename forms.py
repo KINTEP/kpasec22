@@ -35,7 +35,7 @@ class StudentLedgerForm(FlaskForm):
 	def validate_dob(self, dob):
 		today = datetime.utcnow()
 		today = dt.date(year=today.year, month=today.month, day=today.day)
-		dob1 = dt.date(year=dob.data.year, month=dob.data.month, day=purchase_date.data.day)
+		dob1 = dt.date(year=dob.data.year, month=dob.data.month, day=dob.data.day)
 		if dob1 > today:
 			raise ValidationError(f"Date cant't be further than {today}")
 
