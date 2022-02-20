@@ -52,11 +52,9 @@ class ToDoForm(FlaskForm):
 
 
 class StudentPaymentsForm(FlaskForm):
-	date = DateField("Date" ,validators=[DataRequired()])
 	etl_amount = DecimalField("ETL", validators=[InputRequired(), NumberRange(min=0, max=3000)])
 	pta_amount = DecimalField("PTA", validators=[InputRequired(), NumberRange(min=0, max=3000)])
 	semester = SelectField("Semester", choices = ["","SEM1", "SEM2	"], validators=[DataRequired()])
-	mode_of_payment = SelectField("Payment Mode", choices = ['Cash', 'Cheque', 'Momo'], validators=[DataRequired()])
 	submit = SubmitField("Receive")
 
 class ExpensesForm(FlaskForm):

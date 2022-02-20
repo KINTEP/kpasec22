@@ -614,17 +614,16 @@ def search_ledgers():
 def pay_search_result(name, dob, phone, idx, class1):
 	if current_user.is_authenticated and current_user.approval:
 		form = StudentPaymentsForm()
-		token = form.csrf_token
+		
 		name = decrypt_text(name)
 		dob = dob
 		phone = decrypt_text(phone)
 		idx = idx
-		if request.method == 'POST':
-			pta = request.form.get('pta')
-			etl = request.form.get('etl')
-			pta1 = request.form.get('pta1')
-			etl1 = request.form.get('etl1')
-			semester = request.form.get('semester')
+
+		if form.validate_on_submit():
+			pta = form.pta_amount.data
+			etl = form.etl_amount.data
+			semester = form.semester.data
 			mode = 'cash'
 
 			tx_id = generate_receipt_no()
@@ -686,7 +685,7 @@ def pay_search_result(name, dob, phone, idx, class1):
 			return redirect(url_for('receipt', num=tx_id, name=name, etl_amount=etl, pta_amount=pta, contact=contact, class1=class1))
 				
 		return render_template("pay_search_results.html", class1=class1, fullname=name, date_of_birth=dob, 
-			parent_contact=phone, token=token)
+			parent_contact=phone, form=form)
 	else:
 		abort(404)
 

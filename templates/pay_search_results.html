@@ -1,5 +1,6 @@
 
 {% extends "bootstrap.html" %}
+{% from 'macro.html' import render_field %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -277,7 +278,8 @@ span a{
 
    	<div class="class2">
    		<form method="POST" enctype="multipart/form-data">
- 
+ 		{{form.csrf_token}}
+ 		{{form.hidden_tag()}}
   
    			<h4 style="margin-left: 38%;padding-top: 3%;">Student-Bio</h4>
    		<center>
@@ -332,24 +334,22 @@ span a{
                 <center>
 
                <div class="ssem">
-   		   		<select name="semester">
-   		   			<option>SEM1</option>
-   		   			<option>SEM2</option>
-   		   		</select><br>
+               	{{render_field(form.semester)}}
+   		   		{{form.semester}}
+   		   		<br>
    		   	</div> 	
 
    		   	<div id="pta1" class="pta">
-   		   		
-   		   		<input type="text" name="pta" placeholder="Enter P.T.A Amount" class="caten">
+   		   		{{render_field(form.pta_amount)}}
+   		   		{{form.pta_amount(placeholder="Enter P.T.A Amount" , class="caten")}}
    		   	</div>
 
-   		   	<div id="etl1" class="etl">		
-   		   	
-   		   		<input type="text" name="etl" placeholder="Enter E.T.L Amount" class="caten">
+   		   	<div id="etl1" class="etl">	
+   		   		{{render_field(form.etl_amount)}}	
+   		  		{{form.etl_amount(placeholder="Enter E.T.L Amount" , class="caten")}}
    		   	</div>
 
-
-   		   	<input type="submit" name="Receive" class="rec" value="Receive">
+   		   		{{form.submit(class="rec")}}
 
    		   	</center>
    		   	
