@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, url_for, redirect, request, send_file, session, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField,IntegerField, PasswordField, BooleanField, SelectField, DateField, ValidationError
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, SelectField, DateField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, InputRequired 
 from datetime import datetime
 from flask_bcrypt import Bcrypt

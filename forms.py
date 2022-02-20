@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField,IntegerField, PasswordField, BooleanField, SelectField, DateField, ValidationError
+from wtforms import StringField, SubmitField, TextAreaField,DecimalField, PasswordField, BooleanField, SelectField, DateField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, InputRequired 
 from datetime import datetime
 from helpers import inside
@@ -46,8 +46,8 @@ class ToDoForm(FlaskForm):
 
 class StudentPaymentsForm(FlaskForm):
 	date = DateField("Date" ,validators=[DataRequired()])
-	etl_amount = IntegerField("ETL", validators=[InputRequired(), NumberRange(min=0, max=3000)])
-	pta_amount = IntegerField("PTA", validators=[InputRequired(), NumberRange(min=0, max=3000)])
+	etl_amount = DecimalField("ETL", validators=[InputRequired(), NumberRange(min=0, max=3000)])
+	pta_amount = DecimalField("PTA", validators=[InputRequired(), NumberRange(min=0, max=3000)])
 	semester = SelectField("Semester", choices = ["","SEM1", "SEM2	"], validators=[DataRequired()])
 	mode_of_payment = SelectField("Payment Mode", choices = ['Cash', 'Cheque', 'Momo'], validators=[DataRequired()])
 	submit = SubmitField("Receive")
@@ -56,9 +56,9 @@ class ExpensesForm(FlaskForm):
 	purchase_date = DateField("Purchase Date", validators=[DataRequired()])
 	item = StringField("Item", validators=[DataRequired(), Length(max=20)])
 	purpose = StringField("Purpose", validators=[DataRequired(), Length(max=50)])
-	unitcost = IntegerField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	quantity = IntegerField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	totalcost = IntegerField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
+	unitcost = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
+	quantity = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
+	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
 	submit = SubmitField("Debit")
 		
 	def validate_item(self, item):
@@ -88,9 +88,9 @@ class ETLExpensesForm(FlaskForm):
 	purchase_date = DateField("Purchase Date", validators=[DataRequired()])
 	item = StringField("Item", validators=[DataRequired(), Length(max=20)])
 	purpose = StringField("Purpose", validators=[DataRequired(), Length(max=50)])
-	unitcost = IntegerField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	quantity = IntegerField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	totalcost = IntegerField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
+	unitcost = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
+	quantity = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
+	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
 	submit = SubmitField("Debit")
 		
 	def validate_item(self, item):
@@ -120,9 +120,9 @@ class PTAExpensesForm(FlaskForm):
 	purchase_date = DateField("Purchase Date", validators=[DataRequired()])
 	item = StringField("Item", validators=[DataRequired(), Length(max=20)])
 	purpose = StringField("Purpose", validators=[DataRequired(), Length(max=50)])
-	unitcost = IntegerField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	quantity = IntegerField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	totalcost = IntegerField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
+	unitcost = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
+	quantity = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
+	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
 	submit = SubmitField("Debit")
 		
 	def validate_item(self, item):
@@ -170,8 +170,8 @@ class ChargeForm(FlaskForm):
     	choices = ['','SEM1', 'SEM2'])
     begin_date = DateField("Start Date", validators= [DataRequired()])
     end_date = DateField("End Date", validators= [DataRequired()])
-    pta = IntegerField("PTA Levy", validators=[DataRequired()])
-    etl = IntegerField("ETL", validators=[DataRequired()])
+    pta = DecimalField("PTA Levy", validators=[DataRequired()])
+    etl = DecimalField("ETL", validators=[DataRequired()])
     submit = SubmitField("Get Started")
 
     def validate_begin_date(self, begin_date):
