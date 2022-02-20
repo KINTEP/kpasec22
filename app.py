@@ -824,13 +824,13 @@ def ledger_results(phone, dob):
 @login_required
 def delete_class(id):
 	if account_asses:
-    	cls1 = Classes.query.get_or_404(id)
-    	db.session.delete(cls1)
-    	db.session.commit()
-    	flash(f'The class {cls1.class1} has been deleted!', 'success')
-    	return redirect(url_for('student_classes'))
-    else:
-    	abort(404)
+		cls1 = Classes.query.get_or_404(id)
+		db.session.delete(cls1)
+		db.session.commit()
+		flash(f'The class {cls1.class1} has been deleted!', 'success')
+		return redirect(url_for('student_classes'))
+	else:
+		abort(404)
 
 
 
