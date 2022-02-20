@@ -914,7 +914,7 @@ class PTAIncome(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	clerk = db.Column(db.String(120), nullable=False)
-	amount = db.Column(db.Integer)
+	amount = db.Column(db.Float)
 	tx_id = db.Column(db.String(16))
 	semester = db.Column(db.String(10))
 	mode_of_payment = db.Column(db.String(20))
@@ -929,7 +929,7 @@ class ETLIncome(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	clerk = db.Column(db.String(120),nullable=False)
-	amount = db.Column(db.Integer)
+	amount = db.Column(db.Float)
 	tx_id = db.Column(db.String(16))
 	semester = db.Column(db.String(10), nullable = False)
 	mode_of_payment = db.Column(db.String(20))
@@ -943,9 +943,9 @@ class ETLIncome(db.Model):
 class StudentPayments(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
-	etl_amount = db.Column(db.Integer)
-	pta_amount = db.Column(db.Integer)
-	amount = db.Column(db.Integer)
+	etl_amount = db.Column(db.Float)
+	pta_amount = db.Column(db.Float)
+	amount = db.Column(db.Float)
 	tx_id = db.Column(db.String(16))
 	semester = db.Column(db.String(10), nullable = False)
 	mode_of_payment = db.Column(db.String(20))
@@ -963,10 +963,10 @@ class Expenses(db.Model):
 	purchase_date = db.Column(db.DateTime)
 	purpose = db.Column(db.String(120))
 	quantity = db.Column(db.Integer)
-	unitcost = db.Column(db.Integer)
-	totalcost = db.Column(db.Integer)
-	elt_expense = db.Column(db.Integer)
-	pta_expense = db.Column(db.Integer)
+	unitcost = db.Column(db.Float)
+	totalcost = db.Column(db.Float)
+	elt_expense = db.Column(db.Float)
+	pta_expense = db.Column(db.Float)
 	semester = db.Column(db.String(100))
 
 	def __repr__(self):
@@ -980,8 +980,8 @@ class PTAExpenses(db.Model):
 	purchase_date = db.Column(db.DateTime)
 	purpose = db.Column(db.String(120))
 	quantity = db.Column(db.Integer)
-	unitcost = db.Column(db.Integer)
-	totalcost = db.Column(db.Integer)
+	unitcost = db.Column(db.Float)
+	totalcost = db.Column(db.Float)
 	semester = db.Column(db.String(100))
 
 	def __repr__(self):
@@ -996,8 +996,8 @@ class ETLExpenses(db.Model):
 	purchase_date = db.Column(db.DateTime)
 	purpose = db.Column(db.String(120))
 	quantity = db.Column(db.Integer)
-	unitcost = db.Column(db.Integer)
-	totalcost = db.Column(db.Integer)
+	unitcost = db.Column(db.Float)
+	totalcost = db.Column(db.Float)
 	semester = db.Column(db.String(100))
 
 	def __repr__(self):
@@ -1009,9 +1009,9 @@ class Charges(db.Model):
 	begin_date = db.Column(db.DateTime)
 	end_date = db.Column(db.DateTime)
 	account = db.Column(db.String(120), nullable=False)
-	etl = db.Column(db.Integer, unique=False, nullable=False)
-	pta = db.Column(db.Integer, unique=False, nullable=False)
-	total = db.Column(db.Integer, unique=False, nullable=False)
+	etl = db.Column(db.Float, unique=False, nullable=False)
+	pta = db.Column(db.Float, unique=False, nullable=False)
+	total = db.Column(db.Float, unique=False, nullable=False)
 	semester = db.Column(db.String(10), nullable = False)
 
 	def __repr__(self):
