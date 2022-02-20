@@ -79,15 +79,28 @@ def currencyFormat(value):
 def load_user(user_id):
 	return User.query.get(int(user_id))
 
-@app.route("/")
+
+
+@app.route("/", methods = ['GET', 'POST'])
 def home():
-    return render_template("homepage1.html")
+	if request.method == 'POST':
+		if current_user.is_authenticated:
+			if current_user.function == 'Clerk':
+				return redirect(url_for('clerk_dashboard'))
+			if current_user.function == 'Accountant':
+				return redirect(url_for('accountant_dashboard'))
+		else:
+			return redirect(url_for('login'))
+	return render_template("homepage1.html")
 
 
 @app.route("/register_user", methods = ['GET', 'POST'])
 def register_user():
 	if current_user.is_authenticated:
-		return redirect(url_for('home'))
+		if current_user.function == 'Clerk':
+			return redirect(url_for('clerk_dashboard'))
+		if current_user.function == 'Accountant':
+			return redirect(url_for('accountant_dashboard'))
 	form = UserSignUpForm()
 	if form.validate_on_submit():
 		print('validate')
