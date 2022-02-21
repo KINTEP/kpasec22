@@ -896,12 +896,12 @@ class StudentSignUp(FlaskForm):
     			raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 class UserSignUpForm(FlaskForm):
-    username = StringField("Full Name", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired(), Email()])
-    password = PasswordField("Password", validators=[DataRequired(), Length(min=8, max=20)])
-    confirm_password = PasswordField("Comfirm Password", validators = [DataRequired(), EqualTo('password')])
-    function = SelectField("Role", choices = ['','Accountant', 'Clerk'], validators=[DataRequired()])
-    submit = SubmitField("Register")
+	username = StringField("Full Name", validators=[DataRequired()])
+	email = StringField("Email", validators=[DataRequired(), Email()])
+	password = PasswordField("Password", validators=[DataRequired(), Length(min=8, max=20)])
+	confirm_password = PasswordField("Comfirm Password", validators = [DataRequired(), EqualTo('password')])
+	function = SelectField("Role", choices = ['','Accountant', 'Clerk'], validators=[DataRequired()])
+	submit = SubmitField("Register")
 
     def validate_email(self, email):
     	user = User.query.filter_by(email=email.data.strip()).first()
@@ -909,9 +909,9 @@ class UserSignUpForm(FlaskForm):
     		raise ValidationError("The email is already in use, please choose a different one")
 
     def validate_username(self, username):
-		for char in purpose.data:
-			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+    	for char in purpose.data:
+    		if inside(ch=char) == False:
+    			raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 
 class UserLogInForm(FlaskForm):
