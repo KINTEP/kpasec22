@@ -885,15 +885,15 @@ class StudentSignUp(FlaskForm):
     		if inside(ch=char) == False:
     			raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
-	def validate_parent_contact(self, parent_contact):
-		for char in parent_contact.data:
-			if inside2(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+    def validate_parent_contact(self, parent_contact):
+    	for char in parent_contact.data:
+    		if inside2(ch=char) == False:
+    			raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
-	def validate_phone(self, phone):
-		for char in phone.data:
-			if inside2(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+    def validate_phone(self, phone):
+    	for char in phone.data:
+    		if inside2(ch=char) == False:
+    			raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 class UserSignUpForm(FlaskForm):
     username = StringField("Full Name", validators=[DataRequired()])
