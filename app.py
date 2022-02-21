@@ -23,7 +23,7 @@ from sqlalchemy import or_, and_, func
 import sqlite3
 import pandas as pd
 import os
-from helpers import generate_student_id, generate_receipt_no, promote_student, date_transform, inside, encrypt_text, decrypt_text
+from helpers import generate_student_id, generate_receipt_no, promote_student, date_transform, inside, inside2, encrypt_text, decrypt_text
 from forms import (ClientSignUpForm, ClientLogInForm, ToDoForm, StudentPaymentsForm, ExpensesForm, PTAExpensesForm, ETLExpensesForm, ReportsForm, ChargeForm, SearchForm, StudentLedgerForm)
 from logging import FileHandler, WARNING
 from sqlalchemy import create_engine
