@@ -881,9 +881,9 @@ class StudentSignUp(FlaskForm):
     		raise ValidationError(f"Date cant't be further than {today}")
 
     def validate_name(self, name):
-		for char in name.data:
-			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+    	for char in name.data:
+    		if inside(ch=char) == False:
+    			raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 	def validate_parent_contact(self, parent_contact):
 		for char in parent_contact.data:
