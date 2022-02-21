@@ -81,28 +81,20 @@ def load_user(user_id):
 
 
 def clerk_asses():
-	if current_user.approval:
-		if current_user.function == 'Clerk':
-			return True
-		if current_user.function == 'Accountant':
-			return False
-		if current_user.is_admin:
-			return True
+	if current_user.is_authenticated and  current_user.approval and current_user.function == 'Clerk':
+		return True
+	if current_user.is_authenticated and current_user.approval and current_user.is_admin:
+		return True
 	else:
 		return False
 
 def account_asses():
-	if current_user.approval:
-		if current_user.function == 'Accountant':
-			return True
-		if current_user.function == 'Clerk':
-			return False
-		if current_user.is_admin:
-			return True
+	if current_user.is_authenticated and  current_user.approval and current_user.function == 'Accountant':
+		return True
+	if current_user.is_authenticated and current_user.approval and current_user.is_admin:
+		return True
 	else:
 		return False
-
-
 
 @app.route("/", methods = ['GET', 'POST'])
 def home():
@@ -370,10 +362,8 @@ def prepare_etlptacash_book(mode='pta'):
 
 
 def query_cash_book(start, end, df):
-	end1 = pd.to_datetime(end)
-	start1 = pd.to_datetime(start)
-	new1 = df[(df['date'] >= start1) & (df['date'] <= end1)]
-	return new1
+    new1 = df[(df['date'] >= start) & (df['date'] <= end)]
+    return new1
 
 
 @app.route("/accountant_dashboard/cash_book_report1/<start>,<end>, <cat>")
@@ -779,7 +769,7 @@ def gen_expenses():
 @app.route("/accountant_dashboard/total_etl_income")
 @login_required
 def total_etl_income():
-	if account_asses == True:
+	if account_asses:
 		incomes = ETLIncome.query.all()
 		return render_template("total_etl_income.html", incomes=incomes)
 	else:
