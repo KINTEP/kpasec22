@@ -81,20 +81,16 @@ def load_user(user_id):
 
 
 def clerk_asses():
-	if current_user.is_authenticated and  current_user.approval and current_user.function == 'Clerk':
-		return True
-	if current_user.is_authenticated and current_user.approval and current_user.is_admin:
-		return True
+	if current_user.approval:
+		if current_user.function == 'Clerk':
+			return True
+		if current_user.function == 'Accountant':
+			return False
+		if current_user.is_admin:
+			return True
 	else:
 		return False
 
-def account_asses():
-	if current_user.is_authenticated and  current_user.approval and current_user.function == 'Accountant':
-		return True
-	if current_user.is_authenticated and current_user.approval and current_user.is_admin:
-		return True
-	else:
-		return False
 
 @app.route("/", methods = ['GET', 'POST'])
 def home():
