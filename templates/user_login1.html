@@ -184,9 +184,9 @@ body{
 	<script type="text/javascript">
 
 		const togglePassword = document.querySelector('#togglePassword');
-		const togglePassword = document.querySelector('#id_password');
+		const password = document.querySelector('#id_password');
 		const togglePassword.addEventListener('click',function (e) {
-		const type =password.getAttribute('type')==='password'?'text':'password';
+		const type =password.getAttribute('type') === 'password'?'text':'password';
 		password.setAttribute('type',type);
 		this.classList.toggle('fa-eye-slash');
 		});
