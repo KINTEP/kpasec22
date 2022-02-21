@@ -23,7 +23,7 @@ from sqlalchemy import or_, and_, func
 import sqlite3
 import pandas as pd
 import os
-from helpers import generate_student_id, generate_receipt_no, promote_student, date_transform, inside, encrypt_text, decrypt_text
+from helpers import generate_student_id, generate_receipt_no, promote_student, date_transform, inside,inside2, encrypt_text, decrypt_text
 from forms import (ClientSignUpForm, ClientLogInForm, ToDoForm, StudentPaymentsForm, ExpensesForm, PTAExpensesForm, ETLExpensesForm, ReportsForm, ChargeForm, SearchForm, StudentLedgerForm)
 from logging import FileHandler, WARNING
 from sqlalchemy import create_engine
@@ -362,7 +362,9 @@ def prepare_etlptacash_book(mode='pta'):
 
 
 def query_cash_book(start, end, df):
-    new1 = df[(df['date'] >= start) & (df['date'] <= end)]
+	end1 = pd.to_datetime(end)
+	start1 = pd.to_datetime(start)
+    new1 = df[(df['date'] >= start1) & (df['date'] <= end1)]
     return new1
 
 
@@ -769,7 +771,7 @@ def gen_expenses():
 @app.route("/accountant_dashboard/total_etl_income")
 @login_required
 def total_etl_income():
-	if account_asses:
+	if account_asses == True:
 		incomes = ETLIncome.query.all()
 		return render_template("total_etl_income.html", incomes=incomes)
 	else:
@@ -880,6 +882,21 @@ class StudentSignUp(FlaskForm):
     	if date_admitted1 > today:
     		raise ValidationError(f"Date cant't be further than {today}")
 
+    def validate_name(self, name):
+		for char in name.data:
+			if inside(ch=char) == False:
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+
+	def validate_parent_contact(self, parent_contact):
+		for char in parent_contact.data:
+			if inside2(ch=char) == False:
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+
+	def validate_phone(self, phone):
+		for char in phone.data:
+			if inside2(ch=char) == False:
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+
 class UserSignUpForm(FlaskForm):
     username = StringField("Full Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
@@ -892,6 +909,11 @@ class UserSignUpForm(FlaskForm):
     	user = User.query.filter_by(email=email.data.strip()).first()
     	if user:
     		raise ValidationError("The email is already in use, please choose a different one")
+
+    def validate_username(self, username):
+		for char in username.data:
+			if inside(ch=char) == False:
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 
 class UserLogInForm(FlaskForm):
