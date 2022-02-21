@@ -769,7 +769,7 @@ def gen_expenses():
 @app.route("/accountant_dashboard/total_etl_income")
 @login_required
 def total_etl_income():
-	if account_asses:
+	if account_asses == True:
 		incomes = ETLIncome.query.all()
 		return render_template("total_etl_income.html", incomes=incomes)
 	else:
