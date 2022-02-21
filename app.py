@@ -23,7 +23,7 @@ from sqlalchemy import or_, and_, func
 import sqlite3
 import pandas as pd
 import os
-from helpers import generate_student_id, generate_receipt_no, promote_student, date_transform, inside,inside2, encrypt_text, decrypt_text
+from helpers import generate_student_id, generate_receipt_no, promote_student, date_transform, inside, encrypt_text, decrypt_text
 from forms import (ClientSignUpForm, ClientLogInForm, ToDoForm, StudentPaymentsForm, ExpensesForm, PTAExpensesForm, ETLExpensesForm, ReportsForm, ChargeForm, SearchForm, StudentLedgerForm)
 from logging import FileHandler, WARNING
 from sqlalchemy import create_engine
@@ -769,7 +769,7 @@ def gen_expenses():
 @app.route("/accountant_dashboard/total_etl_income")
 @login_required
 def total_etl_income():
-	if account_asses == True:
+	if account_asses:
 		incomes = ETLIncome.query.all()
 		return render_template("total_etl_income.html", incomes=incomes)
 	else:
@@ -909,7 +909,7 @@ class UserSignUpForm(FlaskForm):
     		raise ValidationError("The email is already in use, please choose a different one")
 
     def validate_username(self, username):
-		for char in username.data:
+		for char in purpose.data:
 			if inside(ch=char) == False:
 				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
