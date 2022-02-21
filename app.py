@@ -746,12 +746,9 @@ def receipt(num, name, etl_amount, pta_amount, contact, class1):
 		name = decrypt_text(name)
 		contact = decrypt_text(contact)
 		today = dt.datetime.now()
-		etl_words = n2w(int(etl_amount))
-		pta_words = n2w(int(pta_amount))
 		total = int(etl_amount) + int(pta_amount)
 		return render_template("receipt.html",day=today.day, month=today.month, year=today.year, 
-			num=num, name=name, etl_amount=etl_amount, pta_amount=pta_amount, 
-			etl_words=etl_words.upper(), pta_words=pta_words.upper(), total=total, 
+			num=num, name=name, etl_amount=etl_amount, pta_amount=pta_amount, total=total, 
 			contact=contact, class1=class1)
 	else:
 		abort(404)
