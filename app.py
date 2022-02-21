@@ -91,6 +91,18 @@ def clerk_asses():
 	else:
 		return False
 
+def account_asses():
+	if current_user.approval:
+		if current_user.function == 'Accountant':
+			return True
+		if current_user.function == 'Clerk':
+			return False
+		if current_user.is_admin:
+			return True
+	else:
+		return False
+
+
 
 @app.route("/", methods = ['GET', 'POST'])
 def home():
@@ -360,8 +372,8 @@ def prepare_etlptacash_book(mode='pta'):
 def query_cash_book(start, end, df):
 	end1 = pd.to_datetime(end)
 	start1 = pd.to_datetime(start)
-    new1 = df[(df['date'] >= start1) & (df['date'] <= end1)]
-    return new1
+	new1 = df[(df['date'] >= start1) & (df['date'] <= end1)]
+	return new1
 
 
 @app.route("/accountant_dashboard/cash_book_report1/<start>,<end>, <cat>")
