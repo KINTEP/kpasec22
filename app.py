@@ -908,10 +908,10 @@ class UserSignUpForm(FlaskForm):
 		if user:
 			raise ValidationError("The email is already in use, please choose a different one")
 
-    def validate_username(self, username):
-    	for char in purpose.data:
-    		if inside(ch=char) == False:
-    			raise ValidationError('Invalid character, only numbers and alpabets allowed')
+	def validate_username(self, username):
+		for char in username.data:
+			if inside(ch=char) == False:
+				raise ValidationError('Invalid character, only numbers and alpabets allowed')
 
 
 class UserLogInForm(FlaskForm):
