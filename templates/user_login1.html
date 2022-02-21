@@ -6,6 +6,8 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 	<title>user login</title>
 </head>
 <style type="text/css">
@@ -161,7 +163,9 @@ body{
 			<br>
 			<label class="lab">Password</label><br>
 			{{render_field(form.password)}}
-			{{form.password(style="padding-left:2%;",class='inn')}}<br>
+			{{form.password(style="padding-left:2%;",class='inn',id='id_password')}}
+			<i class="far fa-eye" id="togglePassword" style="margin-left:-30px;cursor: pointer;"></i>
+			<br>
 
 
 			{{form.remember()}} 
@@ -175,6 +179,20 @@ body{
 
 		<span><img src="{{url_for('static', filename='images/dot.png')}}" alt="there is no image" class="mag"> Don't have account?<a href="{{url_for('register_user')}}" style="text-decoration: none;"> Register</a></span><br><br><br><br>
 	</div>
+
+   <script src="../js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript">
+
+		const togglePassword = document.querySelector('#togglePassword');
+		const togglePassword = document.querySelector('#id_password');
+		const togglePassword.addEventListener('click',function (e) {
+		const type =password.getAttribute('type')==='password'?'text':'password';
+		password.setAttribute('type',type);
+		this.classList.toggle('fa-eye-slash');
+		});
+
+	</script>
+	
 
 </body>
 </html>
