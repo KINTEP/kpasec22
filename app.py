@@ -135,9 +135,9 @@ def register_user():
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
 	if current_user.is_authenticated:
-		if clerk_asses:
+		if clerk_access():
 			return redirect(url_for('clerk_dashboard'))
-		if account_asses:
+		if account_access():
 			return redirect(url_for('accountant_dashboard'))
 	form = UserLogInForm()
 	if form.validate_on_submit():
