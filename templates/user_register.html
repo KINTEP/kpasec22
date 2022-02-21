@@ -173,7 +173,7 @@ body{
 			<label>Password</label><br>
 			{{render_field(form.password)}}
 			{{form.password(style="padding-left:2%;",id='id_passwordd')}}
-			<i class="far fa-eye" id="togglePassword" style="margin-left:-30px;cursor: pointer;"></i>
+			<i class="far fa-eye" id="togglePasswordd" style="margin-left:-30px;cursor: pointer;"></i>
 			<br>
 			<label>Confirm Password</label><br>
 			{{render_field(form.confirm_password)}}
@@ -196,12 +196,27 @@ body{
 
 		const togglePassword = document.querySelector('#togglePassword');
 		const password = document.querySelector('#id_password');
-		const password = document.querySelector('#id_passwordd');
+
 
 
 		togglePassword.addEventListener('click',function (e) {
 		const type =password.getAttribute('type') === 'password'?'text':'password';
 		password.setAttribute('type',type);
+		this.classList.toggle('fa-eye-slash');
+		});
+
+	</script>
+
+		<script type="text/javascript">
+
+		const togglePasswordd = document.querySelector('#togglePasswordd');
+		const passwordd = document.querySelector('#id_passwordd');
+		
+
+
+		togglePassword.addEventListener('click',function (e) {
+		const type =passwordd.getAttribute('type') === 'passwordd'?'text':'passwordd';
+		passwordd.setAttribute('type',type);
 		this.classList.toggle('fa-eye-slash');
 		});
 
