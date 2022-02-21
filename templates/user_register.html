@@ -192,6 +192,26 @@ body{
 
 
 	<script src="../js/jquery-3.6.0.min.js"></script>
+
+
+
+		<script type="text/javascript">
+
+		const togglePasswordd = document.querySelector('#togglePasswordd');
+		const passwordd = document.querySelector('#id_passwordd');
+		
+
+
+		togglePasswordd.addEventListener('click',function (e) {
+		const type =passwordd.getAttribute('type') === 'password'?'text':'password';
+		passwordd.setAttribute('type',type);
+		this.classList.toggle('fa-eye-slash');
+		});
+
+	</script>
+
+
+
 	<script type="text/javascript">
 
 		const togglePassword = document.querySelector('#togglePassword');
@@ -207,20 +227,7 @@ body{
 
 	</script>
 
-		<script type="text/javascript">
 
-		const togglePasswordd = document.querySelector('#togglePasswordd');
-		const passwordd = document.querySelector('#id_passwordd');
-		
-
-
-		togglePasswordd.addEventListener('click',function (e) {
-		const type =passwordd.getAttribute('type') === 'passwordd'?'text':'passwordd';
-		passwordd.setAttribute('type',type);
-		this.classList.toggle('fa-eye-slash');
-		});
-
-	</script>
 
 </body>
 </html>
