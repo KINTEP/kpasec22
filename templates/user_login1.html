@@ -161,12 +161,37 @@ body{
 			{{form.hidden_tag()}}
 			{{form.csrf_token}}
 			<label class="lab">Email</label><br>
-			{{render_field(form.email (class='error'))}}
-			{{form.email(style="padding-left:2%;",  class='inn')}}
+			
+			{{form.email(style="padding-left:2%;",  class='inn', id = 'pas1')}}
+			<br>
+			{% if form.email.errors %}
+			{% for err in form.email.errors %}
+				<div id="err1" style="display:none;">{{err}}</div>
+				<script type="text/javascript">
+					var fname = document.getElementById('pas1')
+					var err = document.getElementById('err1')
+					fname.setCustomValidity(err.innerHTML)
+					fname.reportValidity()
+				</script>
+			{% endfor %}
+			{% endif %}
 			<br>
 			<label class="lab">Password</label><br>
-			{{render_field(form.password)}}
-			{{form.password(style="padding-left:2%;",class='inn',id='id_password')}}
+			
+			{{form.password(style="padding-left:2%;",class='inn',id='id_password')}}<br>
+
+			{% if form.password.errors %}
+			{% for err in form.password.errors %}
+				<div id="err2" style="display:none;">{{err}}</div>
+				<script type="text/javascript">
+					var fname = document.getElementById('id_password')
+					var err = document.getElementById('err2')
+					fname.setCustomValidity(err.innerHTML)
+					fname.reportValidity()
+				</script>
+			{% endfor %}
+			{% endif %}
+			<br>
 			<i class="far fa-eye" id="togglePassword" style="margin-left:-30px;cursor: pointer;"></i>
 			<br>
 
