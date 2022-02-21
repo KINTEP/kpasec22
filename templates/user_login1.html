@@ -20,6 +20,9 @@ body{
 	overflow-y: scroll;
 	background-attachment: fixed;
 }
+.error{
+	color: red;
+}
 
 *{
 	margin-top: 0;
@@ -158,7 +161,7 @@ body{
 			{{form.hidden_tag()}}
 			{{form.csrf_token}}
 			<label class="lab">Email</label><br>
-			{{render_field(form.email)}}
+			{{render_field(form.email (class='error'))}}
 			{{form.email(style="padding-left:2%;",  class='inn')}}
 			<br>
 			<label class="lab">Password</label><br>

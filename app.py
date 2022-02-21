@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, url_for, redirect, request, send_file, session, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, SelectField, DateField, ValidationError
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, EmailField, SelectField, DateField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, InputRequired 
 from datetime import datetime
 from flask_bcrypt import Bcrypt
@@ -883,21 +883,21 @@ class StudentSignUp(FlaskForm):
     def validate_name(self, name):
     	for char in name.data:
     		if inside(ch=char) == False:
-    			raise ValidationError('Invalid character, only numbers and alpabets allowed')
+    			raise ValidationError(f'Character {char} is not allowed')
 
     def validate_parent_contact(self, parent_contact):
     	for char in parent_contact.data:
     		if inside2(ch=char) == False:
-    			raise ValidationError('Invalid character, only numbers and alpabets allowed')
+    			raise ValidationError(f'Character {char} is not allowed')
 
     def validate_phone(self, phone):
     	for char in phone.data:
     		if inside2(ch=char) == False:
-    			raise ValidationError('Invalid character, only numbers and alpabets allowed')
+    			raise ValidationError(f'Character {char} is not allowed')
 
 class UserSignUpForm(FlaskForm):
 	username = StringField("Full Name", validators=[DataRequired()])
-	email = StringField("Email", validators=[DataRequired(), Email()])
+	email = EmailField("Email", validators=[DataRequired(), Email()])
 	password = PasswordField("Password", validators=[DataRequired(), Length(min=8, max=20)])
 	confirm_password = PasswordField("Comfirm Password", validators = [DataRequired(), EqualTo('password')])
 	function = SelectField("Role", choices = ['','Accountant', 'Clerk'], validators=[DataRequired()])
@@ -911,11 +911,11 @@ class UserSignUpForm(FlaskForm):
 	def validate_username(self, username):
 		for char in username.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+				raise ValidationError(f'Character {char} is not allowed')
 
 
 class UserLogInForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     remember = BooleanField("Remember me")
     submit = SubmitField("Login")
@@ -924,7 +924,7 @@ class UserLogInForm(FlaskForm):
     	characters = ['=', '.','<','>', '-', '_', '/', '?', '!', '&', '\\', '$']
     	for char in characters:
     		if char in password.data:
-    			raise ValidationError(f"{char} are not acceppted")
+    			raise ValidationError(f'Character {char} is not allowed')
 
 
 

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField,DecimalField, PasswordField,IntegerField,  BooleanField, SelectField, DateField, ValidationError
+from wtforms import StringField, EmailField ,SubmitField, TextAreaField,DecimalField, PasswordField,IntegerField,  BooleanField, SelectField, DateField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, InputRequired 
 from datetime import datetime
 from helpers import inside, inside2
@@ -9,7 +9,7 @@ import datetime as dt
 
 class ClientSignUpForm(FlaskForm):
     company_name = StringField("Name", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8, max=20)])
     confirm_password = PasswordField("Comfirm Password", 
     	validators = [DataRequired(), EqualTo('password')])
@@ -40,7 +40,7 @@ class StudentLedgerForm(FlaskForm):
 			raise ValidationError(f"Date cant't be further than {today}")
 
 class ClientLogInForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     remember = BooleanField("Remember me")
     submit = SubmitField("Log In")
@@ -69,12 +69,12 @@ class ExpensesForm(FlaskForm):
 	def validate_item(self, item):
 		for char in item.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+				raise ValidationError(f'Character {char} is not allowed')
 			
 	def validate_purpose(self, purpose):
 		for char in purpose.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+				raise ValidationError(f'Character {char} is not allowed')
 
 	def validate_totalcost(self, totalcost):
 		if totalcost.data != self.quantity.data * self.unitcost.data:
@@ -101,12 +101,12 @@ class ETLExpensesForm(FlaskForm):
 	def validate_item(self, item):
 		for char in item.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+				raise ValidationError(f'Character {char} is not allowed')
 			
 	def validate_purpose(self, purpose):
 		for char in purpose.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+				raise ValidationError(f'Character {char} is not allowed')
 
 	def validate_totalcost(self, totalcost):
 		if totalcost.data != self.quantity.data * self.unitcost.data:
@@ -133,12 +133,12 @@ class PTAExpensesForm(FlaskForm):
 	def validate_item(self, item):
 		for char in item.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+				raise ValidationError(f'Character {char} is not allowed')
 			
 	def validate_purpose(self, purpose):
 		for char in purpose.data:
 			if inside(ch=char) == False:
-				raise ValidationError('Invalid character, only numbers and alpabets allowed')
+				raise ValidationError(f'Character {char} is not allowed')
 
 	def validate_totalcost(self, totalcost):
 		if totalcost.data != self.quantity.data * self.unitcost.data:
@@ -200,4 +200,4 @@ class SearchForm(FlaskForm):
     def validate_parent_contact(self, parent_contact):
     	for char in parent_contact.data:
     		if inside2(ch=char) == False:
-    			raise ValidationError('Invalid character, only numbers')
+    			raise ValidationError(f'Character {char} is not allowed')
