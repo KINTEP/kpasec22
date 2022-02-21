@@ -680,7 +680,7 @@ def pay_search_result(name, dob, phone, idx, class1):
 			#balance2 = int(obtain_cash_book_balances(PTACashBook))
 
 			if etl and not pta:
-				amount = int(etl)
+				amount = float(etl)
 				pta = 0
 				pmt_data = StudentPayments(etl_amount=etl, pta_amount=0, semester=semester, mode_of_payment=mode, student_id=idx, amount=amount, tx_id=tx_id)
 				etl_data = ETLIncome(clerk=current_user.username,amount=etl, tx_id=tx_id, semester=semester, mode_of_payment=mode, student_id=idx)
@@ -693,7 +693,7 @@ def pay_search_result(name, dob, phone, idx, class1):
 				
 
 			if pta and not etl:
-				amount = int(pta)
+				amount = float(pta)
 				etl = 0
 				pmt_data = StudentPayments(etl_amount=0, pta_amount=pta, semester=semester, mode_of_payment=mode, student_id=idx, amount=amount, tx_id=tx_id)
 				pta_data = PTAIncome(clerk=current_user.username,amount=pta, tx_id=tx_id, semester=semester, mode_of_payment=mode, student_id=idx)
@@ -706,7 +706,7 @@ def pay_search_result(name, dob, phone, idx, class1):
 				
 
 			if pta and etl:
-				amount = int(pta) + int(etl)
+				amount = float(pta) + float(etl)
 				pmt_data = StudentPayments(etl_amount=etl, pta_amount=pta, semester=semester, mode_of_payment=mode, student_id=idx, amount=amount, tx_id=tx_id)
 				pta_data = PTAIncome(clerk=current_user.username, amount=pta, tx_id=tx_id, semester=semester, mode_of_payment=mode, student_id=idx)
 				etl_data = ETLIncome(clerk=current_user.username, amount=etl, tx_id=tx_id, semester=semester, mode_of_payment=mode, student_id=idx)
@@ -746,7 +746,7 @@ def receipt(num, name, etl_amount, pta_amount, contact, class1):
 		name = decrypt_text(name)
 		contact = decrypt_text(contact)
 		today = dt.datetime.now()
-		total = int(etl_amount) + int(pta_amount)
+		total = float(etl_amount) + float(pta_amount)
 		return render_template("receipt.html",day=today.day, month=today.month, year=today.year, 
 			num=num, name=name, etl_amount=etl_amount, pta_amount=pta_amount, total=total, 
 			contact=contact, class1=class1)
