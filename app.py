@@ -362,6 +362,8 @@ def prepare_etlptacash_book(mode='pta'):
 
 
 def query_cash_book(start, end, df):
+	start = pd.to_datetime(start)
+	end = pd.to_datetime(end)
     new1 = df[(df['date'] >= start) & (df['date'] <= end)]
     return new1
 
