@@ -254,9 +254,9 @@ table{
    				{% for cat in category %}
    					{% if cat != 'revenue' %}
    				<tr>
-   					<td class="dat1">{{date[loop.index]}}</td>
+   					<td class="dat1">{{date[loop.index-1]}}</td>
    					<td  class="dat2">Charge</td>
-   					<td  class="dat3 bg-danger co">{{etls[loop.index] | currencyFormat }}</td>
+   					<td  class="dat3 bg-danger co">{{etls[loop.index-1] | currencyFormat }}</td>
    					<td class="dat4 bg-success"></td>
    					{% if cum1[loop.index-1] < 1 %}
    					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat }}</td>
@@ -266,10 +266,10 @@ table{
    				</tr>
    					{% else %}
    				<tr>
-   					<td class="dat1">{{date[loop.index]}}</td>
+   					<td class="dat1">{{date[loop.index-1]}}</td>
    					<td  class="dat2">E.T.L</td>
    					<td  class="dat3">---</td>
-   					<td class="dat4">{{etls[loop.index] | currencyFormat}}</td>
+   					<td class="dat4">{{etls[loop.index-1] | currencyFormat}}</td>
    					<td class="dat5">{{cum1[loop.index-1] | currencyFormat}}</td>
    				</tr>
    					{% endif %}
@@ -294,18 +294,18 @@ table{
    				{% for cat in category %}
    				   {% if cat == 'charge' %}
    				<tr>
-   					<td class="dat1">{{date[loop.index]}}</td>
+   					<td class="dat1">{{date[loop.index-1]}}</td>
    					<td  class="dat2">Charge</td>
-   					<td  class="dat3 bg-danger co">{{ptas[loop.index] | currencyFormat }}</td>
+   					<td  class="dat3 bg-danger co">{{ptas[loop.index-1] | currencyFormat }}</td>
    					<td class="dat4 bg-success "></td>
    					<td class="dat5 bg-danger co">{{cum2[loop.index-1] | currencyFormat }}</td>
    				</tr>
    				    {% else %}
    				<tr>
-   					<td class="dat1">{{date[loop.index]}}</td>
+   					<td class="dat1">{{date[loop.index-1]}}</td>
    					<td  class="dat2">P.T.A</td>
    					<td  class="dat3">---</td>
-   					<td class="dat4">{{ptas[loop.index] | currencyFormat}}</td>
+   					<td class="dat4">{{ptas[loop.index-1] | currencyFormat}}</td>
    					<td class="dat5">{{cum2[loop.index-1] | currencyFormat}}</td>
    				</tr>
    				    {% endif %}

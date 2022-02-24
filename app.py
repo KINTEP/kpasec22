@@ -838,7 +838,7 @@ def ledger_results(phone, dob):
 			cum1 = cumsum(etls)
 			cum2 = cumsum(ptas)
 			return render_template("ledger_results1.html", student=student, cum1=cum1, cum2=cum2,
-			 pta_charge=pta_charge, etl_charge=etl_charge,etls=etls, ptas=ptas)
+			 pta_charge=pta_charge, etl_charge=etl_charge,etls=etls, ptas=ptas, date=date)
 		else:
 			flash("Student not found!", "danger")
 			return redirect(url_for('search_ledgers'))
