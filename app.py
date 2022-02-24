@@ -365,22 +365,23 @@ def query_cash_book(start, end, df):
 	new1 = df[(df['date'] >= start) & (df['date'] <= end)]
 	return new1
 
+
 def student_ledg(date, id1):
 	con = create_engine(uri)
 	date = pd.to_datetime(date)
-    q1 = pd.read_sql_query(f"SELECT student_payments.date, fullname, etl_amount, pta_amount, tx_id, category from student INNER JOIN student_payments ON student_payments.student_id = student.id WHERE student.id_number = '{id1}'", con)
-    q2 = pd.read_sql_query("SELECT begin_date, etl, pta FROM charges", con)
-    q3 = q2[q2['begin_date'] >= date]
-    q3['category'] = 'charge'
-    q3.rename(columns={'etl':'etl_amount', 'pta':'pta_amount', 'begin_date':'date'}, inplace = True)
-    q3['etl_amount'] = -1*q3['etl_amount']
-    q3['pta_amount'] = -1*q3['pta_amount']
-    comb1 = pd.merge(q3, q1, how = 'outer')
-    comb1['etl_total'] = comb1['etl_amount'].cumsum()
-    comb1['pta_total'] = comb1['pta_amount'].cumsum()
-    df2 = comb1.sort_values('date', ignore_index=True)
-    df2.fillna(0, inplace=True)
-    return df2
+	q1 = pd.read_sql_query(f"SELECT student_payments.date, fullname, etl_amount, pta_amount, tx_id, category from student INNER JOIN student_payments ON student_payments.student_id = student.id WHERE student.id_number = '{id1}'", con)
+	q2 = pd.read_sql_query("SELECT begin_date, etl, pta FROM charges", con)
+	q3 = q2[q2['begin_date'] >= date]
+	q3['category'] = 'charge'
+	q3.rename(columns={'etl':'etl_amount', 'pta':'pta_amount', 'begin_date':'date'}, inplace = True)
+	q3['etl_amount'] = -1*q3['etl_amount']
+	q3['pta_amount'] = -1*q3['pta_amount']
+	comb1 = pd.merge(q3, q1, how = 'outer')
+	comb1['etl_total'] = comb1['etl_amount'].cumsum()
+	comb1['pta_total'] = comb1['pta_amount'].cumsum()
+	df2 = comb1.sort_values('date', ignore_index=True)
+	df2.fillna(0, inplace=True)
+	return df2
 
 
 @app.route("/accountant_dashboard/cash_book_report1/<start>,<end>, <cat>")
