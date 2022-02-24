@@ -220,25 +220,14 @@ table{
    			   <th>Parents Contact</th>
    			   <td>{{student.parent_contact}}</td>
    			</tr>
-   			{% if charge == 0%}
    			<tr>
    			   <th>P.T.A charges</th>
-   			   <td>{{0 | currencyFormat }}</td>
+   			   <td>{{pta_charge | currencyFormat }}</td>
    			</tr>
    			<tr>
    			   <th>E.T.L charges</th>
-   			   <td>{{0 | currencyFormat }}</td>
+   			   <td>{{etl_charge | currencyFormat }}</td>
    			</tr>
-   			{% else %}
-   			<tr>
-   			   <th>P.T.A charges</th>
-   			   <td>{{charge.pta | currencyFormat }}</td>
-   			</tr>
-   			<tr>
-   			   <th>E.T.L charges</th>
-   			   <td>{{charge.etl | currencyFormat }}</td>
-   			</tr>
-   			{% endif %}
    			<tr>
    			   <th>P.T.A Balance</th>
    			   <td>{{cum2[-1] | currencyFormat}}</td>
@@ -262,12 +251,12 @@ table{
    					<th  class="dat4">Credit</th>
    					<th  class="dat5">Balance</th>
    				</tr>
-   				{% for pmt in etls %}
-   					{% if pmt.category != 'revenue' %}
+   				{% for cat in category %}
+   					{% if cat != 'revenue' %}
    				<tr>
-   					<td class="dat1">{{pmt.date.date()}}</td>
+   					<td class="dat1">{{date[loop.index]}}</td>
    					<td  class="dat2">Charge</td>
-   					<td  class="dat3 bg-danger co">{{pmt.amount | currencyFormat }}</td>
+   					<td  class="dat3 bg-danger co">{{etls[loop.index] | currencyFormat }}</td>
    					<td class="dat4 bg-success"></td>
    					{% if cum1[loop.index-1] < 1 %}
    					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat }}</td>
@@ -277,10 +266,10 @@ table{
    				</tr>
    					{% else %}
    				<tr>
-   					<td class="dat1">{{pmt.date.date()}}</td>
+   					<td class="dat1">{{date[loop.index]}}</td>
    					<td  class="dat2">E.T.L</td>
    					<td  class="dat3">---</td>
-   					<td class="dat4">{{pmt.amount | currencyFormat}}</td>
+   					<td class="dat4">{{etls[loop.index] | currencyFormat}}</td>
    					<td class="dat5">{{cum1[loop.index-1] | currencyFormat}}</td>
    				</tr>
    					{% endif %}
@@ -302,21 +291,21 @@ table{
    					<th  class="dat4">Credit</th>
    					<th  class="dat5">Balance</th>
    				</tr>
-   				{% for pmt in ptas %}
-   				   {% if pmt.category == 'charge' %}
+   				{% for cat in category %}
+   				   {% if cat == 'charge' %}
    				<tr>
-   					<td class="dat1">{{pmt.date.date()}}</td>
+   					<td class="dat1">{{date[loop.index]}}</td>
    					<td  class="dat2">Charge</td>
-   					<td  class="dat3 bg-danger co">{{pmt.amount | currencyFormat }}</td>
+   					<td  class="dat3 bg-danger co">{{ptas[loop.index] | currencyFormat }}</td>
    					<td class="dat4 bg-success "></td>
    					<td class="dat5 bg-danger co">{{cum2[loop.index-1] | currencyFormat }}</td>
    				</tr>
    				    {% else %}
    				<tr>
-   					<td class="dat1">{{pmt.date.date()}}</td>
+   					<td class="dat1">{{date[loop.index]}}</td>
    					<td  class="dat2">P.T.A</td>
    					<td  class="dat3">---</td>
-   					<td class="dat4">{{pmt.amount | currencyFormat}}</td>
+   					<td class="dat4">{{ptas[loop.index] | currencyFormat}}</td>
    					<td class="dat5">{{cum2[loop.index-1] | currencyFormat}}</td>
    				</tr>
    				    {% endif %}
