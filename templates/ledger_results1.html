@@ -220,6 +220,16 @@ table{
    			   <th>Parents Contact</th>
    			   <td>{{student.parent_contact}}</td>
    			</tr>
+   			{% if charge == '0'%}
+   			<tr>
+   			   <th>P.T.A charges</th>
+   			   <td>{{0 | currencyFormat }}</td>
+   			</tr>
+   			<tr>
+   			   <th>E.T.L charges</th>
+   			   <td>{{0 | currencyFormat }}</td>
+   			</tr>
+   			{% else %}
    			<tr>
    			   <th>P.T.A charges</th>
    			   <td>{{charge.pta | currencyFormat }}</td>
@@ -228,6 +238,7 @@ table{
    			   <th>E.T.L charges</th>
    			   <td>{{charge.etl | currencyFormat }}</td>
    			</tr>
+   			{% endif %}
    			<tr>
    			   <th>P.T.A Balance</th>
    			   <td>{{cum2[-1] | currencyFormat}}</td>
