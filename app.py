@@ -803,7 +803,7 @@ def ledger_results(phone, dob):
 		student = Student.query.filter_by(id_number=idx).first()
 		if student:
 			charge = Charges.query.filter(Charges.begin_date >= student.date_admitted).all()
-			payments = db.session.query(StudentPayments).filter(and_(or_(StudentPayments.student_id==student.id,StudentPayments.category=='charge'), StudentPayments.date >= student.date)).all()
+			payments = db.session.query(StudentPayments).filter(and_(or_(StudentPayments.student_id==student.id,StudentPayments.category=='charge'), StudentPayments.date >= student.date_admitted)).all()
 			pmt2 = StudentPayments.query.filter_by(student_id=student.id)
 			etls = db.session.query(ETLIncome).filter(and_(or_(ETLIncome.student_id==student.id, ETLIncome.category=='charge'), ETLIncome.date >= student.date)).all()
 			ptas = db.session.query(PTAIncome).filter(and_(or_(PTAIncome.student_id==student.id, PTAIncome.category=='charge'), PTAIncome.date >= student.date)).all()
