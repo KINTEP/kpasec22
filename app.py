@@ -820,7 +820,7 @@ def ledger_results(phone, dob):
 		idx = generate_student_id(phone1, dob)
 		student = Student.query.filter_by(id_number=idx).first()
 		if student:
-			df2 = student_ledg(date = student.date_admitted)
+			df2 = student_ledg(date = student.date_admitted, id1=idx)
 			date = [str(i)[:10] for i in df2['date']]
 			ch1 = df2[df2['category'] == 'charge']
 			pta_charge = float(ch1['pta_amount'])
