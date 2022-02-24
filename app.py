@@ -823,7 +823,7 @@ def ledger_results(phone, dob):
 			df2 = student_ledg(date = student.date_admitted, id1=idx)
 			date = [str(i)[:10] for i in df2['date']]
 			ch1 = df2[df2['category'] == 'charge']
-			if ch1:
+			if len(ch1['pta_amount']) > 0:
 				pta_charge = float(list(ch1['pta_amount'])[-1])
 				etl_charge = float(list(ch1['etl_amount'])[-1])
 			else:
