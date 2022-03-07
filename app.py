@@ -90,6 +90,17 @@ def currencyFormat(value):
 		return "("+value2[1:]+")"
 
 
+@app.template_filter()
+def currencyFormat1(value):
+	value = float(value)
+	if value >= 0:
+		value1 = "{:,.2f}".format(value)
+		return value1 + " (CR)"
+	else:
+		value2 = "{:,.2f}".format(value)
+		return value2[1:]+ " (DR)"
+
+
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))

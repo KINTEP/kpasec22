@@ -222,20 +222,20 @@ table{
    			</tr>
    			<tr>
    			   <th>P.T.A charges</th>
-   			   <td>{{pta_charge | currencyFormat }}</td>
+   			   <td>{{pta_charge | currencyFormat1 }}</td>
    			</tr>
    			<tr>
    			   <th>E.T.L charges</th>
-   			   <td>{{etl_charge | currencyFormat }}</td>
+   			   <td>{{etl_charge | currencyFormat1  }}</td>
    			</tr>
    			<tr>
    			   <th>P.T.A Balance</th>
-   			   <td>{{cum2[-1] | currencyFormat}}</td>
+   			   <td>{{cum2[-1] | currencyFormat1 }}</td>
 
    			</tr>
    			<tr>
    			   <th>E.T.L Balance</th>
-   			   <td>{{cum1[-1] | currencyFormat}}</td>
+   			   <td>{{cum1[-1] | currencyFormat1 }}</td>
    			   
    			</tr>
    		</table>
@@ -256,12 +256,12 @@ table{
    				<tr>
    					<td class="dat1">{{date[loop.index-1]}}</td>
    					<td  class="dat2">Charge</td>
-   					<td  class="dat3 bg-danger co">{{etls[loop.index-1] | currencyFormat }}</td>
+   					<td  class="dat3 bg-danger co">{{etls[loop.index-1] | currencyFormat1 }}</td>
    					<td class="dat4 bg-success"></td>
    					{% if cum1[loop.index-1] < 1 %}
-   					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat }}</td>
+   					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat1 }}</td>
    					{% else %}
-   					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat }}</td>
+   					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat1 }}</td>
    					{% endif %}
    				</tr>
    					{% else %}
@@ -269,8 +269,8 @@ table{
    					<td class="dat1">{{date[loop.index-1]}}</td>
    					<td  class="dat2">E.T.L</td>
    					<td  class="dat3">---</td>
-   					<td class="dat4">{{etls[loop.index-1] | currencyFormat}}</td>
-   					<td class="dat5">{{cum1[loop.index-1] | currencyFormat}}</td>
+   					<td class="dat4">{{etls[loop.index-1] | currencyFormat1 }}</td>
+   					<td class="dat5">{{cum1[loop.index-1] | currencyFormat1 }}</td>
    				</tr>
    					{% endif %}
    				{% endfor %}
@@ -296,17 +296,17 @@ table{
    				<tr>
    					<td class="dat1">{{date[loop.index-1]}}</td>
    					<td  class="dat2">Charge</td>
-   					<td  class="dat3 bg-danger co">{{ptas[loop.index-1] | currencyFormat }}</td>
+   					<td  class="dat3 bg-danger co">{{ptas[loop.index-1] | currencyFormat1 }}</td>
    					<td class="dat4 bg-success "></td>
-   					<td class="dat5 bg-danger co">{{cum2[loop.index-1] | currencyFormat }}</td>
+   					<td class="dat5 bg-danger co">{{cum2[loop.index-1] | currencyFormat1 }}</td>
    				</tr>
    				    {% else %}
    				<tr>
    					<td class="dat1">{{date[loop.index-1]}}</td>
    					<td  class="dat2">P.T.A</td>
    					<td  class="dat3">---</td>
-   					<td class="dat4">{{ptas[loop.index-1] | currencyFormat}}</td>
-   					<td class="dat5">{{cum2[loop.index-1] | currencyFormat}}</td>
+   					<td class="dat4">{{ptas[loop.index-1] | currencyFormat1 }}</td>
+   					<td class="dat5">{{cum2[loop.index-1] | currencyFormat1 }}</td>
    				</tr>
    				    {% endif %}
    				{% endfor %}
