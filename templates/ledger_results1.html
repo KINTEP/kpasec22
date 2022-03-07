@@ -255,7 +255,7 @@ table{
    					{% if cat != 'revenue' %}
    				<tr>
    					<td class="dat1">{{date[loop.index-1]}}</td>
-   					<td  class="dat2">Form-{{student.class1[0]}} {{sems[loop.index-1]}}</td>
+   					<td  class="dat2">Form-{{student.class1[0]}} ({{sems[loop.index-1]}})</td>
    					<td  class="dat3 bg-danger co">{{etls[loop.index-1] | currencyFormat2 }}</td>
    					<td class="dat4 bg-success"></td>
    					{% if cum1[loop.index-1] < 1 %}
@@ -295,7 +295,7 @@ table{
    				   {% if cat == 'charge' %}
    				<tr>
    					<td class="dat1">{{date[loop.index-1]}}</td>
-   					<td  class="dat2">Form-{{student.class1[0]}} {{sems[loop.index-1]}}</td>
+   					<td  class="dat2">Form-{{student.class1[0]}} ({{sems[loop.index-1]}})</td>
    					<td  class="dat3 bg-danger co">{{ptas[loop.index-1] | currencyFormat2 }}</td>
    					<td class="dat4 bg-success "></td>
    					<td class="dat5 bg-danger co">{{cum2[loop.index-1] | currencyFormat1 }}</td>
