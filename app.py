@@ -315,10 +315,10 @@ def clerk_dashboard():
 
 		student = len(set([pmt.payer.id_number for pmt in payments if pmt.payer is not None]))
 
-		expenses = Expenses.query.filter(func.date(Expenses.date) == date).all()
-		expense = sum([exp.totalcost for exp in Expenses.query.all()])
+		#expenses = Expenses.query.filter(func.date(Expenses.date) == date).all()
+		#expense = sum([exp.totalcost for exp in Expenses.query.all()])
 		total = etl + pta
-		return render_template('clerk_dashboard11.html', form1=form1, form2=form2, expense=expense, 
+		return render_template('clerk_dashboard11.html', form1=form1, form2=form2,
 			etl=etl, pta=pta, total=total, student=student)
 	else:
 		abort(404)
