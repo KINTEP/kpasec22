@@ -150,7 +150,7 @@ def login():
 			if account_access():
 				return redirect(url_for('accountant_dashboard'))
 			else:
-				return redirect(next_page) if next_page else redirect(url_for('account'))
+				return redirect(next_page) if next_page else redirect(url_for('home'))
 		else:
 			flash("Login unsuccessful, please try again", "danger")
 	return render_template("user_login1.html", form=form)
