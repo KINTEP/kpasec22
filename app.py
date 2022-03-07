@@ -391,8 +391,8 @@ def query_cash_book(start, end, df):
 def student_ledg(date, id1):
 	con = create_engine(uri)
 	date = pd.to_datetime(date)
-	q1 = pd.read_sql_query(f"SELECT student_payments.date, fullname, etl_amount, pta_amount, tx_id, category from student INNER JOIN student_payments ON student_payments.student_id = student.id WHERE student.id_number = '{id1}'", con)
-	q2 = pd.read_sql_query("SELECT begin_date, etl, pta FROM charges", con)
+	q1 = pd.read_sql_query(f"SELECT student_payments.date, fullname, semester, etl_amount, pta_amount, tx_id, category from student INNER JOIN student_payments ON student_payments.student_id = student.id WHERE student.id_number = '{id1}'", con)
+	q2 = pd.read_sql_query("SELECT begin_date, etl, pta, semester FROM charges", con)
 	q3 = q2[q2['begin_date'] >= date]
 	q3['category'] = 'charge'
 	q3.rename(columns={'etl':'etl_amount', 'pta':'pta_amount', 'begin_date':'date'}, inplace = True)
@@ -853,13 +853,14 @@ def ledger_results(phone, dob):
 				etl_charge = 0
 			etls = list(df2['etl_amount'])
 			ptas = list(df2['pta_amount'])
+			sems = list(df2['semester'])
 			category = list(df2['category'])
 			pta = [i for i in ptas if i > 0]
 			etl = [i for i in etls if i > 0]
 			total = sum(etl) + sum(pta)
 			cum1 = cumsum(etls)
 			cum2 = cumsum(ptas)
-			return render_template("ledger_results1.html", student=student, cum1=cum1, cum2=cum2,
+			return render_template("ledger_results1.html", student=student, cum1=cum1, cum2=cum2,sems=sems,
 			 pta_charge=pta_charge, etl_charge=etl_charge,etls=etls, ptas=ptas, date=date, category=category)
 		else:
 			flash("Student not found!", "danger")
