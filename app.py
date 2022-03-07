@@ -89,6 +89,16 @@ def currencyFormat(value):
 		value2 = "{:,.2f}".format(value)
 		return "("+value2[1:]+")"
 
+@app.template_filter()
+def currencyFormat2(value):
+	value = float(value)
+	if value >= 0:
+		return "{:,.2f}".format(value)
+	else:
+		value2 = "{:,.2f}".format(value)
+		return value2[1:]
+
+
 
 @app.template_filter()
 def currencyFormat1(value):
