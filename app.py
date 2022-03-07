@@ -150,6 +150,7 @@ def login():
 			if account_access():
 				return redirect(url_for('accountant_dashboard'))
 			else:
+				flash("You need to be approved before you can access any page", 'warning')
 				return redirect(next_page) if next_page else redirect(url_for('home'))
 		else:
 			flash("Login unsuccessful, please try again", "danger")
