@@ -30,7 +30,7 @@ from sqlalchemy import create_engine
 import click
 from flask.cli import with_appcontext
 import re
-from sqlalchemy import create_engine
+
 
 
 
@@ -918,7 +918,7 @@ class UserSignUpForm(FlaskForm):
 	email = EmailField("Email", validators=[DataRequired(), Email()])
 	password = PasswordField("Password", validators=[DataRequired(), Length(min=8, max=20)])
 	confirm_password = PasswordField("Comfirm Password", validators = [DataRequired(), EqualTo('password')])
-	function = SelectField("Role", choices = ['','Accountant', 'Clerk'], validators=[DataRequired()])
+	function = SelectField("Role", choices = [('','Choose Role...'),('Accountant', 'Accountant'), ('Clerk','Clerk')], validators=[DataRequired()])
 	submit = SubmitField("Register")
 
 	def validate_email(self, email):

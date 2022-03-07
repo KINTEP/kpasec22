@@ -174,7 +174,8 @@ span a{
 			{{form.hidden_tag()}}
 			{{form.csrf_token}}
 			<label style="text-align:flex-start;color: #2471A3;">Semister</label><br>
-			{{form.semester()}}
+			{{form.semester.label()}}
+			{{form.semester(placeholder='Choose')}}
 			<br>
 			<label style="color:green">Start Date</label>
 			{{form.begin_date}}

@@ -54,7 +54,7 @@ class ToDoForm(FlaskForm):
 class StudentPaymentsForm(FlaskForm):
 	etl_amount = DecimalField("ETL", validators=[InputRequired(), NumberRange(min=0, max=3000)])
 	pta_amount = DecimalField("PTA", validators=[InputRequired(), NumberRange(min=0, max=3000)])
-	semester = SelectField("Semester", choices = ["","SEM1", "SEM2	"], validators=[DataRequired()])
+	semester = SelectField("Semester", choices = [('','Choose semester...'),("SEM1", 'SEM1'), ("SEM2",'SEM2')], validators=[DataRequired()])
 	submit = SubmitField("Receive")
 
 class ExpensesForm(FlaskForm):
@@ -153,8 +153,8 @@ class PTAExpensesForm(FlaskForm):
 
 
 class ReportsForm(FlaskForm):
-    report = SelectField("Choose A Report", validators=[DataRequired()], choices = ["",'Cash Book', 'Income & Expenditure', 'Expenditure Statement', 'Income Statement'])
-    filter_by = SelectField("Choose Category", choices = ['','PTA Levy', 'ETL', 'ETL & PTA Levy'])
+    report = SelectField("Choose A Report", validators=[DataRequired()], choices = ['Cash Book', 'Income & Expenditure', 'Expenditure Statement', 'Income Statement'])
+    filter_by = SelectField("Choose Category", choices = ['PTA Levy', 'ETL', 'ETL & PTA Levy'])
     start = DateField("Start", validators=[DataRequired()])
     end = DateField("End", validators=[DataRequired()])
     submit_rep = SubmitField("Generate")
@@ -172,7 +172,7 @@ class ReportsForm(FlaskForm):
 
 class ChargeForm(FlaskForm):
     semester = SelectField("Choose semester", validators=[DataRequired()], 
-    	choices = ['','SEM1', 'SEM2'])
+    	choices = [('','Choose semester...'),("SEM1", 'SEM1'), ("SEM2",'SEM2')])
     begin_date = DateField("Start Date", validators= [DataRequired()])
     end_date = DateField("End Date", validators= [DataRequired()])
     pta = DecimalField("PTA Levy", validators=[DataRequired()])
