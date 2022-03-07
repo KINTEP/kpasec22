@@ -886,7 +886,7 @@ class StudentSignUp(FlaskForm):
     name = StringField("Full Name", validators=[DataRequired()])
     date_of_birth = DateField("Date of Birth", validators=[DataRequired()])
     date_admitted = DateField("Date of Admission", validators=[DataRequired()])
-    class1 = QuerySelectField(query_factory=classquery, get_label = 'class1', allow_blank = True)
+    class1 = QuerySelectField(query_factory=classquery, get_label = 'class1', allow_blank = True, blank_text='Choose class...')
     parent_contact = StringField("Parent Contact", validators=[DataRequired(), Length(min=10, max=13)])
     phone = StringField("Student Phone #", validators = [Length(min=10, max=13)])
     register_submit = SubmitField("Register")
