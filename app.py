@@ -843,9 +843,18 @@ def account_daily_report():
 		payments = StudentPayments.query.filter(func.date(StudentPayments.date) == date).all()
 		etl = sum([pmt.etl_amount for pmt in payments if pmt.category != 'charge'])
 		pta = sum([pmt.pta_amount for pmt in payments if pmt.category != 'charge'])
-		return render_template("clerk_daily_report.html", payments=payments, etl=etl, pta=pta, date=date)
+		return render_template("account_daily_report.html", payments=payments, etl=etl, pta=pta, date=date)
 	else:
 		abort(404)
+
+@app.route("/accountant_dashboard/student_stats")
+@login_required
+def student_stats():
+	if account_access():
+		return render_template("student_stats.html")
+	else:
+		abort(404)
+
 
 @app.route("/accountant_dashboard/search_ledgers/ledger_results/<string:phone>, <string:dob>")
 @login_required
