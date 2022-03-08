@@ -617,7 +617,7 @@ def begin_sem():
 			db.session.add(pta_data)
 			db.session.commit()
 			flash("Successfully saved semester charges!", "success")
-			return redirect(url_for("begin_sem"))
+			return redirect(url_for("accountant_dashboard"))
 		return render_template("begin_sem.html", form=form)
 	else:
 		abort(404)
@@ -825,6 +825,19 @@ def total_pta_income():
 @login_required
 def clerk_daily_report():
 	if clerk_access():
+		today = datetime.utcnow()
+		date = dt.date(today.year, today.month, today.day)
+		payments = StudentPayments.query.filter(func.date(StudentPayments.date) == date).all()
+		etl = sum([pmt.etl_amount for pmt in payments if pmt.category != 'charge'])
+		pta = sum([pmt.pta_amount for pmt in payments if pmt.category != 'charge'])
+		return render_template("clerk_daily_report.html", payments=payments, etl=etl, pta=pta, date=date)
+	else:
+		abort(404)
+
+@app.route("/accountant_dashboard/account_daily_report")
+@login_required
+def account_daily_report():
+	if account_access():
 		today = datetime.utcnow()
 		date = dt.date(today.year, today.month, today.day)
 		payments = StudentPayments.query.filter(func.date(StudentPayments.date) == date).all()
