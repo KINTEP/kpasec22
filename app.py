@@ -834,6 +834,7 @@ def clerk_daily_report():
 	else:
 		abort(404)
 
+
 @app.route("/accountant_dashboard/account_daily_report")
 @login_required
 def account_daily_report():
@@ -846,6 +847,7 @@ def account_daily_report():
 		return render_template("account_daily_report.html", payments=payments, etl=etl, pta=pta, date=date)
 	else:
 		abort(404)
+
 
 @app.route("/accountant_dashboard/student_stats")
 @login_required
