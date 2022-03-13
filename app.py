@@ -41,7 +41,7 @@ if uri.startswith("postgres://"):
 
 app = Flask(__name__)
 
-
+local = 'sqlite:///kpasec.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 #app.config['SQLALCHEMY_BINDS'] = {"kpasec": "sqlite:///kpasec.db", "kpasecarchives":"sqlite:///kpasecarchives.db"}
 
@@ -914,7 +914,7 @@ def delete_class(id):
 class Classes(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
-	class1 = db.Column(db.String(10), unique=False, nullable=False)
+	class1 = db.Column(db.String(10), unique=True, nullable=False)
 	account = db.Column(db.String(120), nullable=False)
 
 	def __repr__(self):
@@ -1011,7 +1011,7 @@ class NewClassForm(FlaskForm):
 class User(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
-	username = db.Column(db.String(80), unique=False, nullable=False)
+	username = db.Column(db.String(80), nullable=False)
 	email = db.Column(db.String(120), unique=True, nullable=False)
 	password = db.Column(db.String(120), nullable=False)
 	is_admin = db.Column(db.Boolean,  default=False)
@@ -1030,9 +1030,9 @@ class Student(db.Model):
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	clerk = db.Column(db.String(120),nullable=False)
 	date_admitted = db.Column(db.DateTime)
-	fullname = db.Column(db.String(80), unique=False, nullable=False)
-	date_of_birth = db.Column(db.String(10), unique=True)
-	class1 = db.Column(db.String(10), unique=False, nullable=False)
+	fullname = db.Column(db.String(80), nullable=False)
+	date_of_birth = db.Column(db.String(10), nullable=False)
+	class1 = db.Column(db.String(10), nullable=False)
 	parent_contact = db.Column(db.String(12), nullable=False)
 	phone = db.Column(db.String(12))
 	id_number = db.Column(db.String(120), unique=True, nullable=False)
@@ -1144,9 +1144,9 @@ class Charges(db.Model):
 	begin_date = db.Column(db.DateTime)
 	end_date = db.Column(db.DateTime)
 	account = db.Column(db.String(120), nullable=False)
-	etl = db.Column(db.Float, unique=False, nullable=False)
-	pta = db.Column(db.Float, unique=False, nullable=False)
-	total = db.Column(db.Float, unique=False, nullable=False)
+	etl = db.Column(db.Float, nullable=False)
+	pta = db.Column(db.Float, nullable=False)
+	total = db.Column(db.Float, nullable=False)
 	semester = db.Column(db.String(10), nullable = False)
 
 	def __repr__(self):
@@ -1259,7 +1259,7 @@ app.cli.add_command(delete_tables)
 
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug = True)
 
 
 

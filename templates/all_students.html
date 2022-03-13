@@ -255,6 +255,7 @@ table tr td{
    				<th class="non">No.</th>
    				<th class="foom">Class</th>
    				<th class="fom">Name of Students</th>
+   				<th class="fom">Parent Contact</th>
    				<th class="fomm">Date of Birth</th>
    			</tr>
    			{% for student in students %}
@@ -262,6 +263,7 @@ table tr td{
    				<td>{{loop.index}}</td>
    				<td class="fom">{{student.class1}}</td>
    				<td>{{student.fullname}}</td>
+   				<td>{{student.parent_contact}}</td>
    				<td>{{student.date_of_birth}}</td>
    			</tr>
    			{% endfor %}
