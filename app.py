@@ -1201,7 +1201,7 @@ def obtain_cash_book_balances(database):
 
 class MyModelView(ModelView):
 	def is_accessible(self):
-		if current_user.is_authenticated and current_user.approval and current_user.is_admin:
+		if current_user.is_authenticated:# and current_user.approval and current_user.is_admin:
 			return True
 		else:
 			return False
