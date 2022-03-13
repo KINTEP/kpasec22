@@ -173,9 +173,8 @@ span a{
    		<form method="POST" action="" id="student_data" class="fff" enctype="multipart/form-data">
 			{{form.hidden_tag()}}
 			{{form.csrf_token}}
-			<label style="text-align:flex-start;color: #2471A3;">Semister</label><br>
-			{{form.semester.label()}}
-			{{form.semester(placeholder='Choose')}}
+			<label style="text-align:flex-start;color: #2471A3;">Semester</label><br>
+			{{form.semester()}}
 			<br>
 			<label style="color:green">Start Date</label>
 			{{form.begin_date}}
