@@ -921,7 +921,7 @@ def total_pta_income():
 def pta_cash_receipt(start, end):
 	if account_access():
 		start1, end1 = date_transform(start, end)
-		incomes = PTAIncome.query.filter_by(category = 'revenue').filter(PTAIncome.date.between(start1, end1)).order_by(PTAIncome.category.desc()).all()
+		incomes = PTAIncome.query.filter_by(category = 'revenue').filter(PTAIncome.date.between(start1, end1)).order_by(PTAIncome.category).all()
 		cash = sum([i.amount for i in incomes if i.mode_of_payment != 'Cheque'])
 		cheq = sum([i.amount for i in incomes if i.mode_of_payment == 'Cheque'])
 		dues = sum([i.amount for i in incomes if i.type1 == 'dues'])
@@ -936,7 +936,7 @@ def pta_cash_receipt(start, end):
 def etl_cash_receipt(start, end):
 	if account_access():
 		start1, end1 = date_transform(start, end)
-		incomes = ETLIncome.query.filter_by(category = 'revenue').filter(ETLIncome.date.between(start1, end1)).order_by(ETLIncome.category.desc()).all()
+		incomes = ETLIncome.query.filter_by(category = 'revenue').filter(ETLIncome.date.between(start1, end1)).order_by(ETLIncome.category).all()
 		cash = sum([i.amount for i in incomes if i.mode_of_payment == 'Cash'])
 		cheq = sum([i.amount for i in incomes if i.mode_of_payment == 'Cheque'])
 		tot = cash + cheq
@@ -949,7 +949,7 @@ def etl_cash_receipt(start, end):
 def etl_payment_cash_book(start, end):
 	if account_access():
 		start1, end1 = date_transform(start, end)
-		expenses = ETLExpenses.query.filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category.desc()).all()
+		expenses = ETLExpenses.query.filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category).all()
 		cash = sum([i.totalcost for i in expenses if i.mode == 'Cash'])
 		bank = sum([i.totalcost for i in expenses if i.mode == 'Bank'])
 		tot = cash + bank
@@ -963,7 +963,7 @@ def etl_payment_cash_book(start, end):
 def pta_payment_cash_book(start, end):
 	if account_access():
 		start1, end1 = date_transform(start, end)
-		expenses = PTAExpenses.query.filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category.desc()).all()
+		expenses = PTAExpenses.query.filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category).all()
 		cash = sum([i.totalcost for i in expenses if i.mode == 'Cash'])
 		bank = sum([i.totalcost for i in expenses if i.mode == 'Bank'])
 		tot = cash + bank
@@ -982,11 +982,11 @@ def etl_income_and_expenditure(start, end):
 		bf = 200
 		profit = 34029
 		inc_tot = dues + bf + profit
-		cust = ETLExpenses.query.filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category.desc()).all()
+		cust = ETLExpenses.query.filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category).all()
 		set1 = list(set([i.category for i in cust]))
-		dbs = [ETLExpenses.query.filter_by(category=i).filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category.desc()).all() for i in set1]
+		dbs = [ETLExpenses.query.filter_by(category=i).filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category).all() for i in set1]
 		dict1 = {k:v for k,v in zip(set1, dbs)}
-		tx = db.session.query(ETLExpenses.category.desc(), func.sum(ETLExpenses.totalcost)).filter(ETLExpenses.date.between(start1, end1)).group_by(ETLExpenses.category).all()
+		tx = db.session.query(ETLExpenses.category, func.sum(ETLExpenses.totalcost)).filter(ETLExpenses.date.between(start1, end1)).group_by(ETLExpenses.category).all()
 		dict2 =  {d1:k1 for d1, k1 in tx}
 		surplus = inc_tot - sum([i for i in dict2.values()])
 		return render_template("etl_income_and_expenditure.html", dues=dues, bf=bf, profit=profit, 
@@ -1009,11 +1009,11 @@ def pta_income_and_expenditure(start, end):
 		bf = inc0 + prf0 - exp0
 		profit = 34029
 		inc_tot = dues + bf + profit
-		cust = PTAExpenses.query.filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category.desc()).all()
+		cust = PTAExpenses.query.filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category).all()
 		set1 = list(set([i.category for i in cust]))
-		dbs = [PTAExpenses.query.filter_by(category=i).filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category.desc()).all() for i in set1]
+		dbs = [PTAExpenses.query.filter_by(category=i).filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category).all() for i in set1]
 		dict1 = {k:v for k,v in zip(set1, dbs)}
-		tx = db.session.query(PTAExpenses.category.desc(), func.sum(PTAExpenses.totalcost)).filter(PTAExpenses.date.between(start1, end1)).group_by(PTAExpenses.category).all()
+		tx = db.session.query(PTAExpenses.category, func.sum(PTAExpenses.totalcost)).filter(PTAExpenses.date.between(start1, end1)).group_by(PTAExpenses.category).all()
 		dict2 =  {d1:k1 for d1, k1 in tx}
 		surplus = inc_tot - sum([i for i in dict2.values()])
 
