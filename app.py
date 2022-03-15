@@ -280,6 +280,24 @@ def promote_all_students():
 		abort(404)
 
 
+@app.route("/accountant_dashboard/promote_students")
+@login_required
+def promote_students():
+	if account_access():
+		students = Student.query.all()
+		for stud in students:
+			new_class = promote_student(stud.class1)
+			if new_class:
+				stud.class1 = new_class
+			else:
+				pass
+		db.session.commit()
+		data1 = {'data': 'successfully'}
+		return data1
+	else:
+		abort(404)
+
+
 @app.route("/accountant_dashboard/semester/charges")
 @login_required
 def charges():
@@ -338,6 +356,12 @@ def clerk_dashboard():
 			pta1 = PTAIncome(clerk=current_user.username,name=name,tx_id=receipt, amount=amount, mode_of_payment=mode, semester=semester, type1='donation')
 			db.session.add(pta1)
 			db.session.commit()
+
+			tx_id = encrypt_text(str(receipt))
+			name = encrypt_text(name)
+
+			#flash(f"Payment successfully made!", "success")
+			return redirect(url_for('receipt2', num=tx_id, name=name, amount=amount))
 			flash(f"Donation received from {name}", 'success')
 		if form2.data['register_submit'] and form2.validate_on_submit():
 			name = form2.data.get("name").strip()
@@ -709,6 +733,8 @@ def accountant_dashboard():
 				return redirect(url_for('pta_expenses'))
 			if todo.data.get('task') == "Begin Semester":
 				return redirect(url_for('begin_sem'))
+			if todo.data.get('task') ==	'Promote Student':
+				return redirect(url_for('promote_all_students'))
 
 		return render_template("accountant_dashboard11.html", todo=todo, form1=form1, studs=studs, income=pta+etl, pta=pta, etl=etl,
 			expense=expense, form2=form2)
@@ -844,6 +870,20 @@ def receipt(num, name, etl_amount, pta_amount, contact, class1):
 		return render_template("receipt.html",day=today.day, month=today.month, year=today.year, 
 			num=num, name=name, etl_amount=etl_amount, pta_amount=pta_amount, total=total, 
 			contact=contact, class1=class1)
+	else:
+		abort(404)
+
+
+@app.route("/clerk_dashboard/receipt2/<num>, <name>, <amount>")
+@login_required
+def receipt2(num, name, amount):
+	if clerk_access():
+		num = decrypt_text(num)
+		name = decrypt_text(name)
+		amount = amount
+		today = dt.datetime.now()
+		return render_template("receipt2.html",day=today.day, month=today.month, year=today.year, 
+			num=num, name=name, amount=amount)
 	else:
 		abort(404)
 
@@ -1085,6 +1125,11 @@ def delete_expense_category(id):
 		abort(404)
 
 
+@app.route("/api_ajax")
+@login_required
+def api_ajax():
+	data = {'data1':'success'}
+	return data
 
 
 class Classes(db.Model):
@@ -1372,15 +1417,15 @@ class Charges(db.Model):
 		return f'User: {self.total}'
 
 
-#class OtherBusiness(db.Model):
-#	id = db.Column(db.Integer, primary_key=True)
-#	date0 = db.Column(db.DateTime, default=dt.datetime.utcnow())
-#	date = db.Column(db.DateTime, nullable=False)
-#	detail = db.Column(db.String(120), nullable=False)
-#	amount = db.Column(db.Float, nullable=False)
-#
-#	def __repr__(self):
-#		return f'User: {self.detail}'
+class OtherBusiness(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	date0 = db.Column(db.DateTime, default=dt.datetime.utcnow())
+	date = db.Column(db.DateTime, nullable=False)
+	detail = db.Column(db.String(120), nullable=False)
+	amount = db.Column(db.Float, nullable=False)
+
+	def __repr__(self):
+		return f'User: {self.detail}'
 
 #current_sem = 'SEM1'#Charges.query.all()[-1].semester
 
@@ -1437,13 +1482,13 @@ class MyModelView(ModelView):
 admin = Admin(app, template_mode='bootstrap4', name = 'Kpasec PTA')
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Classes, db.session))
-#admin.add_view(MyModelView(StudentPayments, db.session))
+admin.add_view(MyModelView(Student, db.session))
 #admin.add_view(MyModelView(Expenses, db.session))
 #admin.add_view(MyModelView(PTAIncome, db.session))
 
 
 if __name__ == '__main__':
-	app.run(debug = False)
+	app.run()
 
 
 

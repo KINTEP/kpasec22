@@ -47,7 +47,7 @@ class ClientLogInForm(FlaskForm):
 
 
 class ToDoForm(FlaskForm):
-    task = SelectField("Choose A Task", choices = ['Make E.T.L Expenses','Make P.T.A Expenses', 'Begin Semester'],  validators=[DataRequired()])
+    task = SelectField("Choose A Task", choices = ['Make E.T.L Expenses','Make P.T.A Expenses', 'Begin Semester', 'Promote Student'],  validators=[DataRequired()])
     submit_do = SubmitField("Proceed")
 
 

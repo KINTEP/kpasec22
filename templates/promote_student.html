@@ -662,8 +662,9 @@ span a{
 			        <li class="nav-item">
 			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}"id="nav1" style="color:black;">Home</a>
 			        </li>
-			        
-			        
+			        <li class="nav-item">
+			        		<a class="nav-link active" role='button' aria-current="page" style="color:black;" onclick="" id="button">Promote</a>
+			        </li>
 			      </ul>
 
 			      <span class="navbar-text" >
@@ -690,13 +691,42 @@ span a{
 </div><br>
 
 	<div class="col"></div>
-
-
-
 </div>
 
 <script src="../js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	function alert1() 
+		{
+			alert('Hello Sir Than')
+		/*
+			var item1 = document.getElementById('cont3')
+			item1.innerHTML = ''
+			item1.innerHTML += `
+			<center>
+<button class="btn btn-primary" type="button" disabled>
+  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  Loading... Please wait 
+</button> </center>`*/
 
+		// body...
+		}
+</script>
+<script>
+$(document).ready(function(){
+  $("#button").click(function(){
+    $.ajax({url: "/accountant_dashboard/promote_students", success: function(result){
+    	res1 = result['data']
+    	if (res1 == 'successfully'){
+    		swal("All students "+res1+" Promoted!", "", "success"); 
+    	}
+    	else{
+    		swal(res1+"!", "", "warning"); 
+    	}
+      //$("#div1").html(result);
+    }});
+  });
+});
+</script>
 <script >
 	/*
       $("#nav1").click(function () {
