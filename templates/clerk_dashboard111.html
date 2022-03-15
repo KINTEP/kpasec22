@@ -90,6 +90,7 @@ body{
 	background-size: cover;
 	background-repeat: no-repeat;
 	overflow-y: scroll;
+	overflow-x: hidden;
 	background-attachment: fixed;
 }
 
@@ -137,7 +138,7 @@ span a{
 	}
 	.nn{
 		text-decoration: none;
-		margin-left: 5%;
+		margin-left: 1%;
 	}
 
 	.second ul li{
@@ -1007,12 +1008,14 @@ span a{
 
 
        $("#nav22").click(function () {
-       $("#navdo").css("display", "block");
+ 
+
+       $("#cont2").css("display", "none");
        $("#cont1").css("display","none");
        $("#cont3").css("display","none");
        $("#cont4").css("display","none");
        $("#cont5").css("display","none");
-       $("#cont2").css("display","none");
+       $("#navdo").css("display","block");
 
        
       });
@@ -1023,6 +1026,7 @@ span a{
        $("#cont1").css("display","none");
        $("#cont4").css("display","none");
        $("#cont5").css("display","none");
+       $("#navdo").css("display","none");
       
        
       });
@@ -1033,6 +1037,7 @@ span a{
        $("#cont4").css("display","block");
        $("#cont3").css("display","none");
        $("#cont5").css("display","none");
+       $("#navdo").css("display","none");
        
       });
 
@@ -1042,6 +1047,7 @@ span a{
        $("#cont5").css("display","block");
        $("#cont4").css("display","none");
        $("#cont3").css("display","none");
+       $("#navdo").css("display","none");
 
       });
 

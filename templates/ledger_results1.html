@@ -18,6 +18,7 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	overflow-y: scroll;
+	overflow-x: hidden;
 	background-attachment: fixed;
    }
 
@@ -62,7 +63,7 @@
 }
 .nn{
    text-decoration: none;
-   margin-left: 20%;
+   margin-left: 1%;
 }
 
 .navbar .n:hover{
@@ -295,21 +296,36 @@ table{
    			</tr>
    			<tr>
    			   <th>P.T.A charges</th>
+ 			   		{% if pta_charge %}
    			   <td>{{pta_charge | currencyFormat1 }}</td>
+   			   {% else %}
+   			   <td></td>
+   			   {% endif %}
    			</tr>
    			<tr>
    			   <th>E.T.L charges</th>
+   			   {% if etl_charge %}
    			   <td>{{etl_charge | currencyFormat1  }}</td>
+   			   {% else %}
+   			   <td></td>
+   			   {% endif %}
    			</tr>
    			<tr>
    			   <th>P.T.A Balance</th>
+   			   {% if cum2 | length > 1%}
    			   <td>{{cum2[-1] | currencyFormat1 }}</td>
+   			   {% else %}
+   			   <td></td>
+   			   {% endif %}
 
    			</tr>
    			<tr>
    			   <th>E.T.L Balance</th>
+   			   {% if cum1 | length > 1%}
    			   <td>{{cum1[-1] | currencyFormat1 }}</td>
-   			   
+   			   {% else %}
+   			   <td></td>
+   			   {% endif %}
    			</tr>
    		</table>
    		</div><br>
@@ -324,6 +340,15 @@ table{
    					<th  class="dat4">Credit</th>
    					<th  class="dat5">Balance</th>
    				</tr>
+   				{% if category|length < 1%}
+   				<tr>
+   					<td class="dat1">Date</td>
+   					<td  class="dat2">Details</td>
+   					<td  class="dat3">Debit</td>
+   					<td  class="dat4">Credit</td>
+   					<td  class="dat5">Balance</td>
+   				</tr>
+   				{% else %}
    				{% for cat in category %}
    					{% if cat != 'revenue' %}
    				<tr>
@@ -347,7 +372,7 @@ table{
    				</tr>
    					{% endif %}
    				{% endfor %}
-   				
+   				{% endif %}
    			</table><br>
 
    		</div>
@@ -364,6 +389,15 @@ table{
    					<th  class="dat4">Credit</th>
    					<th  class="dat5">Balance</th>
    				</tr>
+   				{% if category | length < 1%}
+   				<tr>
+   					<td class="dat1">Date</td>
+   					<td  class="dat2">Details</td>
+   					<td  class="dat3">Debit</td>
+   					<td  class="dat4">Credit</td>
+   					<td  class="dat5">Balance</td>
+   				</tr>
+   				{% else %}
    				{% for cat in category %}
    				   {% if cat == 'charge' %}
    				<tr>
@@ -383,7 +417,7 @@ table{
    				</tr>
    				    {% endif %}
    				{% endfor %}
-   				
+   				{% endif %}
    			</table><br>
 
    		</div>
