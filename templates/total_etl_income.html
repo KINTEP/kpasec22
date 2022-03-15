@@ -25,18 +25,89 @@ body{
 	
 }
 
+.navbar {
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.dropdown {
+  float: left;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: black;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #ABB2B9;
+  border-radius: 5px;
+}
+
+.navbar .kpa:hover{
+  background-color: #3498DB;
+}
+
+.navbar .nn:hover{
+  background-color: transparent;
+}
+.nn{
+   text-decoration: none;
+   margin-left: 20%;
+}
+
+.navbar .n:hover{
+  background-color: transparent;
+}
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
 span {
 	margin-right:0% ;
 	background: transparent;
-	width: 20.5%;
+	width: 27%;
 }
 span a{
-	margin-right: 2%;
+	margin-right: 4%;
 	padding-left: 5%;
 }
-
 .kpa{
-	margin-left: 2%;
+	margin-left: 3%;
+	background: transparent;
+	border-radius: 40px;
+}
+.kpa img{
+	height: 40px;
+	width: 40px;
 }
 
  .first ul li{
@@ -224,26 +295,25 @@ table tr td{
 
 <header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			    <a class="navbar-brand kpa" href="#">KPASEC P.T.A</a>
+			     <a class="navbar-brand kpa" href="#"><img src="{{url_for('static', filename='images/kpasec.png')}}"></a>
 			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 			      <span class="navbar-toggler-icon"></span>
 			    </button>
 			    
-			    	
-				<div class="collapse navbar-collapse" id="navbarText">
+			    <div class="collapse navbar-collapse" id="navbarText">
 			      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 			        <li class="nav-item">
-			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}" id="dash">Home</a>
-			        </li>
+			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}"id="nav1" style="color:black;">Home</a>
+			        </li>    
 			      </ul>
 
 			      <span class="navbar-text" >
-			      	<a style="text-decoration:none;" href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
-			      	<a href="{{url_for('logout')}}">Logout</a>
+			      	<a href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
+			      	<a href="{{url_for('logout')}}" class="n">Logout</a>
 			      </span>
 			 
 			    </div>
-			</nav>
+		 </nav>
 
 	</header>
 

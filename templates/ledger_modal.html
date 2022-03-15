@@ -1,0 +1,39 @@
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <center><h5 class="modal-title fw-bold" id="staticBackdropLabel">Create New Expenses Category</h5></center>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <center>
+          <form id="myForm" name = 'form1' action="" method="POST" autocomplete="off">
+            {{form3.hidden_tag()}}
+            {{form3.csrf_token}}
+            {% if form3.phone.errors %}
+                {% for error in form3.phone.errors %}
+                 <span class="text-danger">{{error}}</span>
+                 <br>
+                {% endfor %}
+            {% endif %}
+            {{form3.phone(class='cls',placeholder="0541994034", style ='border-radius:1%;', id = 'category1')}}
+          <br>
+          {% if form3.dob.errors %}
+                {% for error in form3.dob.errors %}
+                 <span class="text-danger">{{error}}</span>
+                 <br>
+                {% endfor %}
+            {% endif %}
+            {{form3.dob(class='cls',placeholder="", style ='border-radius:1%;', id = 'category1')}}
+          <br>
+          {{form3.submit(style = 'margin-top:1%;', class='rounded-pill bg-success text-warning fw-bold', id = 'btn11')}}
+        </form>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+

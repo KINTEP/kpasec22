@@ -67,3 +67,9 @@ def promote_student(current_class):
         return str(index) + current_class[1]
     else:
         return False
+
+
+def sort_dict_values(dd2):
+    marklist = sorted(dd2.items(), key=lambda x:x[1])
+    sortdict = dict(marklist)
+    return sortdict

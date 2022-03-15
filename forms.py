@@ -54,6 +54,8 @@ class ToDoForm(FlaskForm):
 class StudentPaymentsForm(FlaskForm):
 	etl_amount = DecimalField("ETL", validators=[InputRequired(), NumberRange(min=0, max=3000)])
 	pta_amount = DecimalField("PTA", validators=[InputRequired(), NumberRange(min=0, max=3000)])
+	cheq_no = StringField('Cheq ID', validators = [Length(max=20)])
+	mode = SelectField('Mode of payment', choices = [('','Choose Payment mode...'), ("Cash", 'Cash'), ("Cheque",'Cheque')], validators=[DataRequired()])
 	semester = SelectField("Semester", choices = [('','Choose semester...'),("SEM1", 'SEM1'), ("SEM2",'SEM2')], validators=[DataRequired()])
 	submit = SubmitField("Receive")
 
@@ -89,78 +91,76 @@ class ExpensesForm(FlaskForm):
 			raise ValidationError(f"Date cant't be further than {today}")
 
 
-class ETLExpensesForm(FlaskForm):
-	purchase_date = DateField("Purchase Date", validators=[DataRequired()])
-	item = StringField("Item", validators=[DataRequired(), Length(max=20)])
-	purpose = StringField("Purpose", validators=[DataRequired(), Length(max=50)])
-	unitcost = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	quantity = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
-	submit = SubmitField("Debit")
-		
-	def validate_item(self, item):
-		for char in item.data:
-			if inside(ch=char) == False:
-				raise ValidationError(f'Character {char} is not allowed')
-			
-	def validate_purpose(self, purpose):
-		for char in purpose.data:
+class DonationForm(FlaskForm):
+	name = StringField("Name", validators=[DataRequired()])
+	amount = DecimalField("Amount", validators=[DataRequired(), NumberRange(min=1, max=300000)])
+	mode = SelectField("Mode of Payment", validators=[DataRequired()], choices = [('','Choose mode of payment...'),("Cash", 'Cash'), ("Momo",'Momo'), ('Cheque', 'Cheque')])
+	semester = SelectField("Semester", validators=[DataRequired()], choices = [('','Choose semester...'),("SEM1", 'SEM1'), ("SEM2",'SEM2')])
+	submit = SubmitField("Receive Cash")
+
+	def validate_name(self, name):
+		for char in name.data:
 			if inside(ch=char) == False:
 				raise ValidationError(f'Character {char} is not allowed')
 
-	def validate_totalcost(self, totalcost):
-		if totalcost.data != self.quantity.data * self.unitcost.data:
-			raise ValidationError(f"Totals cost should be {self.quantity.data * self.unitcost.data} NOT {totalcost.data}")
 
-	def validate_purchase_date(self, purchase_date):
-		today = datetime.utcnow()
-		today = dt.date(year=today.year, month=today.month, day=today.day)
-		purchase_date1 = dt.date(year=purchase_date.data.year, month=purchase_date.data.month, day=purchase_date.data.day)
-		if purchase_date1 > today:
-			raise ValidationError(f"Date cant't be further than {today}")
+class OtherBusinessForm(FlaskForm):
+	name = StringField("Name", validators=[DataRequired()])
+	date = DateField("Entry Date", validators = [DataRequired()])
+	detail = StringField("Details", validators = [DataRequired()])
+	amount = DecimalField("Amount", validators=[DataRequired(), NumberRange(min=1, max=300000)])
+	submit = SubmitField("Receive Cash")
 
-
-
-class PTAExpensesForm(FlaskForm):
-	purchase_date = DateField("Purchase Date", validators=[DataRequired()])
-	item = StringField("Item", validators=[DataRequired(), Length(max=20)])
-	purpose = StringField("Purpose", validators=[DataRequired(), Length(max=50)])
-	unitcost = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	quantity = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
-	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
-	submit = SubmitField("Debit")
-		
-	def validate_item(self, item):
-		for char in item.data:
-			if inside(ch=char) == False:
-				raise ValidationError(f'Character {char} is not allowed')
-			
-	def validate_purpose(self, purpose):
-		for char in purpose.data:
+	def validate_detail(self, detail):
+		for char in detail.data:
 			if inside(ch=char) == False:
 				raise ValidationError(f'Character {char} is not allowed')
 
-	def validate_totalcost(self, totalcost):
-		if totalcost.data != self.quantity.data * self.unitcost.data:
-			raise ValidationError(f"Totals cost should be {self.quantity.data * self.unitcost.data} NOT {totalcost.data}")
+	def validate_name(self, name):
+		for char in name.data:
+			if inside(ch=char) == False:
+				raise ValidationError(f'Character {char} is not allowed')
 
-	def validate_purchase_date(self, purchase_date):
-		today = datetime.utcnow()
-		today = dt.date(year=today.year, month=today.month, day=today.day)
-		purchase_date1 = dt.date(year=purchase_date.data.year, month=purchase_date.data.month, day=purchase_date.data.day)
-		if purchase_date1 > today:
-			raise ValidationError(f"Date cant't be further than {today}")
+#class ETLExpensesForm(FlaskForm):
+#	purchase_date = DateField("Purchase Date", validators=[DataRequired()])
+#	item = StringField("Item", validators=[DataRequired(), Length(max=20)])
+#	purpose = StringField("Purpose", validators=[DataRequired(), Length(max=50)])
+#	unitcost = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
+#	quantity = DecimalField("Quantity", validators=[DataRequired(), NumberRange(min=1, max=30000)])
+#	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=300000)])
+#	submit = SubmitField("Debit")
+#		
+#	def validate_item(self, item):
+#		for char in item.data:
+#			if inside(ch=char) == False:
+#				raise ValidationError(f'Character {char} is not allowed')
+#			
+#	def validate_purpose(self, purpose):
+#		for char in purpose.data:
+#			if inside(ch=char) == False:
+#				raise ValidationError(f'Character {char} is not allowed')
+#
+#	def validate_totalcost(self, totalcost):
+#		if totalcost.data != self.quantity.data * self.unitcost.data:
+#			raise ValidationError(f"Totals cost should be {self.quantity.data * self.unitcost.data} NOT {totalcost.data}")
+#
+#	def validate_purchase_date(self, purchase_date):
+#		today = datetime.utcnow()
+#		today = dt.date(year=today.year, month=today.month, day=today.day)
+#		purchase_date1 = dt.date(year=purchase_date.data.year, month=purchase_date.data.month, day=purchase_date.data.day)
+#		if purchase_date1 > today:
+#			raise ValidationError(f"Date cant't be further than {today}")
 
 
 class ReportsForm(FlaskForm):
-    report = SelectField("Choose A Report", validators=[DataRequired()], choices = ['Cash Book', 'Income & Expenditure', 'Expenditure Statement', 'Income Statement'])
+    report = SelectField("Choose A Report", validators=[DataRequired()], choices = ['Cash Book', 'Income & Expenditure', 'Expenditure Statement', 'Income Statement', 'INCOME & EXPENDITURE', 'CASH PAYMENT', 'CASH RECEIPT'])
     filter_by = SelectField("Choose Category", choices = ['PTA Levy', 'ETL', 'ETL & PTA Levy'])
     start = DateField("Start", validators=[DataRequired()])
     end = DateField("End", validators=[DataRequired()])
     submit_rep = SubmitField("Generate")
 
     def validate_end(self, end):
-    	if end.data <= self.start.data:
+    	if end.data < self.start.data:
     		raise ValidationError("Date must be latter than start date")
 
     def validate_start(self, start):

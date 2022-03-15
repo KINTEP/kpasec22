@@ -172,7 +172,7 @@ span a{
 		font-family: cursive;
 		margin-top: 10vh;
 		opacity: 0.7;
-		display: none;
+		display: ;
 		margin-left: 30%;
 	}
 
@@ -662,20 +662,7 @@ span a{
 			        <li class="nav-item">
 			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}"id="nav1" style="color:black;">Home</a>
 			        </li>
-			        <li class="nav-item d-flex" >
-		
-			        </li>
-
-			        <li class="nav-item d-flex">
-			          <a class="nav-link navv" href="#" id="nav2">Reports</a>
-			        </li>
-			        <li class="nav-item">
-			          <a class="nav-link " href="#" id="nav3">ToDo</a>
-			        </li>
-
-			        <li class="nav-item">
-			          <a class="nav-link " href="#" id="nav5" >Analytics</a>
-			        </li>
+			        
 			        
 			      </ul>
 
@@ -691,94 +678,16 @@ span a{
 	
 <div class="row ">
 
-
-
-	
-	<div class="class1" id="cont1" >
-		 <h3 style="text-align:center;margin-top: 3vh; font-style: oblique;">Accountant Dashboard</h3>
-
-		 <center>
-
-		 		<div class=" row ro1">
-		 	      <div class="col waa " >
-		 	        <a href="{{url_for('all_students')}}"><div class=" btn btn-success btn1" id="btn1">Student Stats<br><p>{{studs}}</p></div></a> 
-
-		 	         <a href="{{url_for('total_pta_income')}}"><div class=" btn btn-success btn2" id="btn2">PTA Income<br><p>GHC {{pta | currencyFormat}}</p></div></a>
-
-		 	         <a href="{{url_for('total_etl_income')}}"><div class=" btn btn-success btn3" id="btn3"> E.T.L Income<br><p>GHC {{etl | currencyFormat}}</p></div>	</a>	 	
-		         </div>
-		       </div>
-	
-		 
-
-		 <div class="row ro2">
-		 	 <div class="col waa " >
-		 	 <a href="{{url_for('account_daily_report')}}"><div class=" btn btn-success btn4" id="btn4">Daily<br>Report</div></a>
-		 	 <a href="{{url_for('search_ledgers')}}"><div class=" btn btn-success btn5" id="btn5">Generate<br>Student Ledger</div></a>
-
-		 	 <a href="{{url_for('gen_expenses')}}"><div class=" btn btn-success btn6" id="btn6">Expenses<br><p> GHC {{expense | currencyFormat}}</p></div></a>
-		 	
-		 </div>
-		 </div><br><br><br>
-		 </center>
-		 
-	   </div><br>
-
-
-
-    <div class="row cont2"  id="cont2">
-  	   
-  	<form method="POST" action="" id="student_data" class="fff">
-  		{{form2.hidden_tag()}}
-  		{{form2.csrf_token}}
-			<h3 style="text-align: center;">Accounting Report</h3>
-			<label>Choose A Report</label><br>
-			{{render_field(form2.report)}}
-			{{form2.report(style="width:70%;height:2.3em")}}
-			<br>
-			<label>Choose Category</label><br>
-			{{render_field(form2.filter_by)}}
-			{{form2.filter_by(style="width:70%;height:2.3em ")}}
-			<br>
-
-			<label>Start Date</label><br>
-			{{render_field(form2.start)}}
-			{{form2.start()}}
-			<br>
-			<label>End Date</label><br>
-			{{render_field(form2.end)}}
-			{{form2.end()}}<br>
-
-			{{form2.submit_rep(class='sub')}}
-			<br>
-		</form><br>
-			
-  </div><br><br>
-
-
- <div class="cont3" id="cont3">		
-
-		<form method="POST" action="" id="student_data" class="fff">
-			{{todo.hidden_tag()}}
-			{{todo.csrf_token}}
-			<h3 style="text-align: center;">Todo Task</h3>
-			<label>Choose A Task</label><br>
-			{{ todo.task(class='', style="width:70%;")}}
-			<br>
-			{{ todo.submit_do(class='sub')}}
-			<br><br>
-		</form><br><br>
+ <div class="cont3" id="cont3">
+ 	<center>
+ 		<div class="text-danger fw-bold text-lg" style="font-size: 30px;">
+ 		By clicking the <br><span class="text-warning">"PROMOTE STUDENTS"</span><br> button, all students will be promoted.
+ 		Please make sure the period for promoting students is due. <br>
+ 		<span class="text-success">Thank You!</span>
+ 		<br>
+ 		</div>
+ 	</center>
 </div><br>
-
-
-
-   <center>
-
-		<div class="cont5" id="cont5">
-			<h3>This is where analytics list will be</h3>
-		</div><br>
-
-  </center>
 
 	<div class="col"></div>
 
@@ -789,6 +698,7 @@ span a{
 <script src="../js/jquery-3.6.0.min.js"></script>
 
 <script >
+	/*
       $("#nav1").click(function () {
        $("#cont1").css("display", "block");
        $("#cont2").css("display","none");
@@ -835,7 +745,7 @@ span a{
        $("#cont3").css("display","none");
 
       });
-
+*/
    </script>
 
 </body>

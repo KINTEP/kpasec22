@@ -1,0 +1,205 @@
+
+{% extends "bootstrap.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Income Statement</title>
+	<script src="{{url_for('static', filename = 'js/table2excel.js')}}"></script>
+</head>
+<style type="text/css">
+body{
+
+	height: 100%;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: scroll;
+	background-attachment: fixed;
+}
+
+  span {
+	margin-right:0% ;
+	background: transparent;
+	width: 20.5%;
+  }
+  span a{
+	margin-right: 2%;
+	padding-left: 5%;
+  }
+
+
+
+*{
+	margin-top: 0;
+	padding: 0;
+	
+}
+
+	.kpa{
+		margin-left: 2%;
+	}
+	.narv{
+		background: white;
+		width: 80vw;
+		height: 100%;
+		border-radius: 5px;
+		margin-top: 5vh;
+		margin-left: 10vw;
+		opacity: 0.7;
+	}
+	.narv ul {
+		margin-left: 3%;
+	}
+	.narv ul input{
+		width: 6vw;
+	}
+
+	table tr th{
+		border: 0.3px solid black;
+	}
+	table tr td{
+		border: 0.3px solid black;
+	}
+	table{
+		width: 70vw;
+		margin-left: 5vw;
+		margin-top: -1vw;
+	}
+	@media(max-width: 900px){
+
+    body{
+
+	height: 100%;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: scroll;
+   }
+     .narv{
+		background: white;
+		width: 98%;
+		height: 100%;
+		border-radius: 5px;
+		margin-top: 5vh;
+		margin-left: 2%;
+		overflow-x: scroll;
+	}
+	table{
+		width: 92%;
+		margin-left: 2%;
+		margin-top: -2vh;
+	}
+	.narv ul {
+		margin-left: 0%;
+	}
+
+    .narv ul input{
+		width: 5em;
+	}
+
+	}
+	@media print{
+		input {
+			display: none;
+		}
+</style>
+<body>
+
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			    <a class="navbar-brand kpa" href="#">KPASEC P.T.A</a>
+			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			      <span class="navbar-toggler-icon"></span>
+			    </button>
+			    
+			    	
+				<div class="collapse navbar-collapse" id="navbarText">
+			      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			        <li class="nav-item">
+			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}" id="dash">Home</a>
+			        </li>
+			      </ul>
+
+			      <span class="navbar-text" >
+			      	<a style="text-decoration:none" href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
+			      	<a href="{{url_for('logout')}}">Logout</a>
+			      </span>
+			 
+			    </div>
+			</nav>
+
+	</header>
+
+	 <div class="narv">
+
+		<div class="income">
+		<h3 style="text-align: center;padding-top: 5vh;padding-bottom: 2vh;">ETL <br> Cash Receipt  <br> Dated <abbr style="font-family: cursive; color: red;font-size:18px">{{start}}</abbr>   to  <abbr style="font-family: cursive; color: red;font-size:18px">{{end}}</abbr> </h3>
+		
+	    </div>
+		<ul>
+			<input type="button" name="excel" value="EXCEL" onclick="exporttoexcell()">
+			<input type="button" name="print" value="PRINT" onclick="print_content()">
+		</ul>
+
+			<table id="table1">
+				<tr>
+   				<th class="non">No.</th>
+   				<th class="foom">Date</th>
+   				<th class="fom">Details</th>
+   				<th class="fomm">Rec #</th>
+   				<th class="foomm">Cheq #</th>
+   				<th class="foomm">Cash</th>
+   				<th class="foomm">Bank</th>
+   				<th class="foomm">Dues</th>
+
+   			</tr>
+				{% for income in incomes %}
+   			<tr>
+   				<td>{{loop.index}}</td>
+   				<td class="fom">{{income.date.date()}}</td>
+   				<td>{{income.etl_payer.fullname}}</td>
+   				{% if income.mode_of_payment == 'Cash'%}
+   				<td>{{income.tx_id}}</td>
+   				<td></td>
+   				<td>{{income.amount | currencyFormat}}</td>
+   				{% else %}
+   				<td></td>
+   				<td>{{income.tx_id}}</td>
+   				<td></td>
+   				<td>{{income.amount | currencyFormat}}</td>
+   				{% endif %}
+   				<td>{{income.amount | currencyFormat}}</td>
+   			</tr>
+   			 {% endfor %}
+   			 <tr>
+   			 	<td></td>
+   			 	<td></td>
+   			 	<td></td>
+   			 	<td></td>
+   			 	<td></td>
+   			 	<td>{{cash | currencyFormat }}</td>
+   			 	<td>{{cheq | currencyFormat }}</td>
+   			 	<td>{{tot | currencyFormat }}</td>
+   			 </tr>
+
+			</table><br><br>
+		</div><br><br>
+		
+
+
+</body>
+<script type="text/javascript">
+	function print_content() {
+		window.print()
+	}
+
+	function exporttoexcell() {
+		idx = document.getElementById("table1")
+		t2exc = new Table2Excel();
+		t2exc.export(idx)
+	}
+</script>
+</html>
+{% endblock %}

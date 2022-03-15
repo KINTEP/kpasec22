@@ -24,7 +24,9 @@ import sqlite3
 import pandas as pd
 import os
 from helpers import generate_student_id, generate_receipt_no, promote_student, date_transform, inside, inside2, encrypt_text, decrypt_text
-from forms import (ClientSignUpForm, ClientLogInForm, ToDoForm, StudentPaymentsForm, ExpensesForm, PTAExpensesForm, ETLExpensesForm, ReportsForm, ChargeForm, SearchForm, StudentLedgerForm)
+from forms import (DonationForm,ClientSignUpForm, ClientLogInForm, ToDoForm, StudentPaymentsForm, ExpensesForm, ReportsForm, ChargeForm, SearchForm, StudentLedgerForm)
+from wtforms import StringField, EmailField ,SubmitField, TextAreaField,DecimalField, PasswordField,IntegerField,  BooleanField, SelectField, DateField, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, InputRequired 
 from logging import FileHandler, WARNING
 from sqlalchemy import create_engine
 import click
@@ -191,26 +193,31 @@ def pta_expenses():
 	if account_access():
 		title = "Make PTA Expense"
 		form = PTAExpensesForm()
-		if form.validate_on_submit():
-			purchase_date = form.data.get('purchase_date')
-			item = form.data.get('item')
-			purpose = form.data.get('purpose')
+		form1 = NewExpenseCatForm()
+		if form1.data['exp_submit'] and form1.validate_on_submit():
+			category = form1.data.get('category')
+			new = ExpenseCategory(adder = current_user.username, category=category)
+			db.session.add(new)
+			db.session.commit()
+			return redirect(url_for('pta_expenses'))
+		if  form.data['submit'] and form.validate_on_submit():
+			detail = form.data.get('detail')
+			mode = form.data.get('mode')
 			totalcost = form.data.get('totalcost')
-			quantity = form.data.get('quantity')
-			unitcost = form.data.get('unitcost')
-			semester = current_sem
-			exp1 = Expenses(expensor=current_user.username,date = purchase_date, item=item, purchase_date=purchase_date, purpose=purpose, quantity=quantity,
-				unitcost=unitcost, totalcost=totalcost, semester=semester)
-			pta1 = PTAExpenses(expensor=current_user.username,item=item, purchase_date=purchase_date, purpose=purpose, quantity=quantity, unitcost=unitcost, 
-				totalcost=totalcost, semester=semester)
+			semester = form.data.get('semester')
+			category = form.data.get('category')
+			exp1 = Expenses(expensor=current_user.username,detail=detail, mode=mode, category=category.category, semester=semester, 
+				totalcost=totalcost)
+			pta1 = PTAExpenses(expensor=current_user.username,detail=detail, mode=mode, category=category.category, semester=semester, 
+				totalcost=totalcost)
 			
 			db.session.add(exp1)
 			db.session.add(pta1)
 			
 			db.session.commit()
-			flash("Data successfully saved", "success")
+			#flash("Data successfully saved", "success")
 			return redirect(url_for("gen_expenses"))
-		return render_template("pta_expenses_form.html", form=form, title=title)
+		return render_template("pta_expenses_form.html", form=form, title=title, form1=form1)
 	else:
 		abort(404)
 
@@ -221,29 +228,30 @@ def etl_expenses():
 	if account_access():
 		title = "Make ETL Expense"
 		form = ETLExpensesForm()
-		if form.validate_on_submit():
-			purchase_date = form.data.get('purchase_date')
-			item = form.data.get('item')
-			purpose = form.data.get('purpose')
+		form1 = NewExpenseCatForm()
+		if form1.data['exp_submit'] and form1.validate_on_submit():
+			category = form1.data.get('category')
+			new = ExpenseCategory(adder = current_user.username, category=category)
+			db.session.add(new)
+			db.session.commit()
+			#flash(f'{category} category added', 'success')
+		if form.data['submit'] and form.validate_on_submit():
+			detail = form.data.get('detail')
+			mode = form.data.get('mode')
 			totalcost = form.data.get('totalcost')
-			quantity = form.data.get('quantity')
-			unitcost = form.data.get('unitcost')
-			
-			semester = current_sem
+			semester = form.data.get('semester')
+			category = form.data.get('category')
 			#balance1 = int(obtain_cash_book_balances(ETLCashBook))
-
-			exp1 = Expenses(expensor=current_user.username,date = purchase_date, item=item, purchase_date=purchase_date, purpose=purpose, quantity=quantity,
-				unitcost=unitcost, totalcost=totalcost, semester=semester)
-			etl1 = ETLExpenses(expensor=current_user.username,item=item, purchase_date=purchase_date, purpose=purpose, quantity=quantity, unitcost=unitcost, 
-				totalcost=totalcost, semester=semester)
+			exp1 = Expenses(expensor=current_user.username,detail=detail, mode=mode, 
+				category=category.category, semester=semester, totalcost=totalcost)
+			etl1 = ETLExpenses(expensor=current_user.username,detail=detail, mode=mode, 
+				category=category.category, semester=semester, totalcost=totalcost)
 			db.session.add(exp1)
 			db.session.add(etl1)
 			db.session.commit()
-			
-
-			flash("Data successfully saved", "success")
-			return redirect(url_for("gen_expenses"))
-		return render_template("etl_expenses_form.html", form=form, title=title)
+			#flash("Data successfully saved", "success")
+			return redirect(url_for("etl_expenses"))
+		return render_template("etl_expenses_form.html", form=form, title=title, form1=form1)
 	else:
 		abort(404)
 
@@ -258,15 +266,16 @@ def account():
 @login_required
 def promote_all_students():
 	if account_access():
-		students = Student.query.all()
-		for stud in students:
-			new_class = promote_student(stud.class1)
-			if new_class:
-				stud.class1 = new_class
-			else:
-				pass
-		db.session.commit()
-		return "All students promoted!"
+		return render_template('promote_student.html')
+		#students = Student.query.all()
+		#for stud in students:
+		#	new_class = promote_student(stud.class1)
+		#	if new_class:
+		#		stud.class1 = new_class
+		#	else:
+		#		pass
+		#db.session.commit()
+		#return "All students promoted!"
 	else:
 		abort(404)
 
@@ -294,13 +303,42 @@ def charges():
 		abort(404)
 
 
+@app.route("/accountant_dashboard/expenses/add_expense_category", methods = ['GET', 'POST'])
+@login_required
+def add_expense_category():
+	if account_access():
+		categories = ExpenseCategory.query.all()
+		form = NewExpenseCatForm()
+		if form.validate_on_submit():
+			category = form.data.get('category')
+			new = ExpenseCategory(adder = current_user.username, category=category)
+			db.session.add(new)
+			db.session.commit()
+			flash(f"{category} added to expenses category", 'success')
+			return redirect(url_for('add_expense_category'))
+		return render_template("add_expense_category.html", form=form, categories=categories)
+	else:
+		abort(404)
+
+
 @app.route("/clerk_dashboard", methods=['GET', 'POST'])
 @login_required
 def clerk_dashboard():
 	if clerk_access():
 		form1 = SearchForm()
 		form2 = StudentSignUp()
-
+		form3 = DonationForm()
+		#DonationForm(name, amount, mode, semester)
+		if form3.data['submit'] and form3.validate_on_submit():
+			name = form3.data.get('name')
+			amount = form3.data.get('amount')
+			mode = form3.data.get('mode')
+			semester = form3.data.get('semester')
+			receipt = generate_receipt_no()
+			pta1 = PTAIncome(clerk=current_user.username,name=name,tx_id=receipt, amount=amount, mode_of_payment=mode, semester=semester, type1='donation')
+			db.session.add(pta1)
+			db.session.commit()
+			flash(f"Donation received from {name}", 'success')
 		if form2.data['register_submit'] and form2.validate_on_submit():
 			name = form2.data.get("name").strip()
 			class1 = form2.data.get("class1")
@@ -340,8 +378,8 @@ def clerk_dashboard():
 		#expenses = Expenses.query.filter(func.date(Expenses.date) == date).all()
 		#expense = sum([exp.totalcost for exp in Expenses.query.all()])
 		total = etl + pta
-		return render_template('clerk_dashboard11.html', form1=form1, form2=form2,
-			etl=etl, pta=pta, total=total, student=student)
+		return render_template('clerk_dashboard111.html', form1=form1, form2=form2,
+			etl=etl, pta=pta, total=total, student=student, form3=form3)
 	else:
 		abort(404)
 
@@ -638,6 +676,19 @@ def accountant_dashboard():
 			filter_by = form2.data.get("filter_by")
 			start = form2.data.get("start")
 			end = form2.data.get("end")
+			if report == 'INCOME & EXPENDITURE' and filter_by == 'ETL':
+				return redirect(url_for('etl_income_and_expenditure', start=start, end=end))
+			if report == 'INCOME & EXPENDITURE' and filter_by == 'PTA Levy':
+				return  redirect(url_for('pta_income_and_expenditure', start=start, end=end))
+			if report == 'CASH RECEIPT' and filter_by == 'ETL':
+				return  redirect(url_for('etl_cash_receipt', start=start, end=end))
+			if report == 'CASH RECEIPT' and filter_by == 'PTA Levy':
+				return  redirect(url_for('pta_cash_receipt', start=start, end=end))
+			if report == 'CASH PAYMENT' and filter_by == 'ETL':
+				return  redirect(url_for('etl_payment_cash_book', start=start, end=end))
+			if report == 'CASH PAYMENT' and filter_by == 'PTA Levy':
+				return  redirect(url_for('pta_payment_cash_book', start=start, end=end))
+			
 			if report == "Cash Book":
 				category = filter_by
 				#category = encrypt_text(plain_text=filter_by)
@@ -712,9 +763,12 @@ def pay_search_result(name, dob, phone, idx, class1):
 			pta = form.pta_amount.data
 			etl = form.etl_amount.data
 			semester = form.semester.data
-			mode = 'cash'
-
-			tx_id = generate_receipt_no()
+			cheq_no = form.cheq_no.data
+			mode = form.mode.data
+			if mode == 'Cash':
+				tx_id = generate_receipt_no()
+			else:
+				tx_id = cheq_no
 			
 			#balance1 = int(obtain_cash_book_balances(ETLCashBook))
 			#balance2 = int(obtain_cash_book_balances(PTACashBook))
@@ -769,7 +823,7 @@ def pay_search_result(name, dob, phone, idx, class1):
 			name = encrypt_text(name)
 			contact = encrypt_text(contact)
 
-			flash(f"Payment successfully made!", "success")
+			#flash(f"Payment successfully made!", "success")
 			return redirect(url_for('receipt', num=tx_id, name=name, etl_amount=etl, pta_amount=pta, contact=contact, class1=class1))
 				
 		return render_template("pay_search_results.html", class1=class1, fullname=name, date_of_birth=dob, 
@@ -821,16 +875,124 @@ def total_pta_income():
 	else:
 		abort(404)
 
+@app.route("/accountant_dashboard/pta_cash_receipt/<start>,<end>")
+@login_required
+def pta_cash_receipt(start, end):
+	if account_access():
+		start1, end1 = date_transform(start, end)
+		incomes = PTAIncome.query.filter_by(category = 'revenue').filter(PTAIncome.date.between(start1, end1)).order_by(PTAIncome.category.desc()).all()
+		cash = sum([i.amount for i in incomes if i.mode_of_payment != 'Cheque'])
+		cheq = sum([i.amount for i in incomes if i.mode_of_payment == 'Cheque'])
+		dues = sum([i.amount for i in incomes if i.type1 == 'dues'])
+		dona = sum([i.amount for i in incomes if i.type1 == 'donation'])
+		return render_template("pta_cash_receipt.html", incomes=incomes, cash=cash, cheq=cheq,dona=dona,dues=dues, start=start1, end=end)
+	else:
+		abort(404)
+
+
+@app.route("/accountant_dashboard/etl_cash_receipt/<start>,<end>")
+@login_required
+def etl_cash_receipt(start, end):
+	if account_access():
+		start1, end1 = date_transform(start, end)
+		incomes = ETLIncome.query.filter_by(category = 'revenue').filter(ETLIncome.date.between(start1, end1)).order_by(ETLIncome.category.desc()).all()
+		cash = sum([i.amount for i in incomes if i.mode_of_payment == 'Cash'])
+		cheq = sum([i.amount for i in incomes if i.mode_of_payment == 'Cheque'])
+		tot = cash + cheq
+		return render_template("etl_cash_receipt.html", incomes=incomes, cash=cash, cheq=cheq, tot = tot, start=start1, end=end)
+	else:
+		abort(404)
+
+@app.route("/accountant_dashboard/etl_payment_cash_book/<start>,<end>")
+@login_required
+def etl_payment_cash_book(start, end):
+	if account_access():
+		start1, end1 = date_transform(start, end)
+		expenses = ETLExpenses.query.filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category.desc()).all()
+		cash = sum([i.totalcost for i in expenses if i.mode == 'Cash'])
+		bank = sum([i.totalcost for i in expenses if i.mode == 'Bank'])
+		tot = cash + bank
+		return render_template("etl_payment_cash_book.html", expenses=expenses, cash=cash, bank=bank, tot=tot, start=start1, end=end)
+	else:
+		abort(404)
+
+
+@app.route("/accountant_dashboard/pta_payment_cash_book/<start>,<end>")
+@login_required
+def pta_payment_cash_book(start, end):
+	if account_access():
+		start1, end1 = date_transform(start, end)
+		expenses = PTAExpenses.query.filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category.desc()).all()
+		cash = sum([i.totalcost for i in expenses if i.mode == 'Cash'])
+		bank = sum([i.totalcost for i in expenses if i.mode == 'Bank'])
+		tot = cash + bank
+		return render_template("pta_payment_cash_book.html", expenses=expenses, cash=cash, bank=bank, tot = tot, start=start1, end=end)
+	else:
+		abort(404)
+
+
+@app.route("/accountant_dashboard/etl_income_and_expenditure/<start>, <end>")
+@login_required
+def etl_income_and_expenditure(start, end):
+	start1, end1 = date_transform(start,end)
+	if account_access():
+		dues = ETLIncome.query.filter(ETLIncome.date.between(start1, end1)).filter_by(category='revenue').all()
+		dues = sum([i.amount for i in dues])
+		bf = 200
+		profit = 34029
+		inc_tot = dues + bf + profit
+		cust = ETLExpenses.query.filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category.desc()).all()
+		set1 = list(set([i.category for i in cust]))
+		dbs = [ETLExpenses.query.filter_by(category=i).filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category.desc()).all() for i in set1]
+		dict1 = {k:v for k,v in zip(set1, dbs)}
+		tx = db.session.query(ETLExpenses.category.desc(), func.sum(ETLExpenses.totalcost)).filter(ETLExpenses.date.between(start1, end1)).group_by(ETLExpenses.category).all()
+		dict2 =  {d1:k1 for d1, k1 in tx}
+		surplus = inc_tot - sum([i for i in dict2.values()])
+		return render_template("etl_income_and_expenditure.html", dues=dues, bf=bf, profit=profit, 
+			start=start1, end=end, dict1=dict1, dict2=dict2, inc_tot=inc_tot, surplus=surplus)
+	else:
+		abort(404)
+
+@app.route("/accountant_dashboard/pta_income_and_expenditure/<start>, <end>")
+@login_required
+def pta_income_and_expenditure(start, end):
+	start1, end1 = date_transform(start,end)
+	if account_access():
+		dues = PTAIncome.query.filter(PTAIncome.date.between(start1, end1)).filter_by(category='revenue').all()
+		dues = sum([i.amount for i in dues])
+		dues0 = PTAIncome.query.filter(PTAIncome.date < start1).filter_by(category='revenue').all()
+		expe0 = PTAExpenses.query.filter(PTAExpenses.date < start1).filter_by(category='revenue').all()
+		inc0 = sum([i.amount for i in dues0])
+		exp0 = sum([i.totalcost for i in expe0])
+		prf0 = 0
+		bf = inc0 + prf0 - exp0
+		profit = 34029
+		inc_tot = dues + bf + profit
+		cust = PTAExpenses.query.filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category.desc()).all()
+		set1 = list(set([i.category for i in cust]))
+		dbs = [PTAExpenses.query.filter_by(category=i).filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category.desc()).all() for i in set1]
+		dict1 = {k:v for k,v in zip(set1, dbs)}
+		tx = db.session.query(PTAExpenses.category.desc(), func.sum(PTAExpenses.totalcost)).filter(PTAExpenses.date.between(start1, end1)).group_by(PTAExpenses.category).all()
+		dict2 =  {d1:k1 for d1, k1 in tx}
+		surplus = inc_tot - sum([i for i in dict2.values()])
+
+		return render_template("pta_income_and_expenditure.html", dues=dues, bf=bf, profit=profit, 
+			start=start1, end=end, dict1=dict1, dict2 = dict2, inc_tot=inc_tot, surplus=surplus)
+	else:
+		abort(404)
+
 @app.route("/clerk_dashboard/clerk_daily_report")
 @login_required
 def clerk_daily_report():
 	if clerk_access():
 		today = datetime.utcnow()
 		date = dt.date(today.year, today.month, today.day)
-		payments = StudentPayments.query.filter(func.date(StudentPayments.date) == date).all()
-		etl = sum([pmt.etl_amount for pmt in payments if pmt.category != 'charge'])
-		pta = sum([pmt.pta_amount for pmt in payments if pmt.category != 'charge'])
-		return render_template("clerk_daily_report.html", payments=payments, etl=etl, pta=pta, date=date)
+		#payments = StudentPayments.query.filter(func.date(StudentPayments.date) == date).all()
+		pta_payments = PTAIncome.query.filter(func.date(PTAIncome.date) == date).filter_by(category='revenue').all()
+		etl_payments = ETLIncome.query.filter(func.date(ETLIncome.date) == date).filter_by(category='revenue').all()
+		etl = sum([pmt.amount for pmt in etl_payments])
+		pta = sum([pmt.amount for pmt in pta_payments])
+		return render_template("clerk_daily_report.html", pta_payments=pta_payments,etl_payments=etl_payments ,etl=etl, pta=pta, date=date)
 	else:
 		abort(404)
 
@@ -841,10 +1003,12 @@ def account_daily_report():
 	if account_access():
 		today = datetime.utcnow()
 		date = dt.date(today.year, today.month, today.day)
-		payments = StudentPayments.query.filter(func.date(StudentPayments.date) == date).all()
-		etl = sum([pmt.etl_amount for pmt in payments if pmt.category != 'charge'])
-		pta = sum([pmt.pta_amount for pmt in payments if pmt.category != 'charge'])
-		return render_template("account_daily_report.html", payments=payments, etl=etl, pta=pta, date=date)
+		#payments = StudentPayments.query.filter(func.date(StudentPayments.date) == date).all()
+		pta_payments = PTAIncome.query.filter(func.date(PTAIncome.date) == date).filter_by(category='revenue').all()
+		etl_payments = ETLIncome.query.filter(func.date(ETLIncome.date) == date).filter_by(category='revenue').all()
+		etl = sum([pmt.amount for pmt in etl_payments])
+		pta = sum([pmt.amount for pmt in pta_payments])
+		return render_template("account_daily_report.html", pta_payments=pta_payments,etl_payments=etl_payments ,etl=etl, pta=pta, date=date)
 	else:
 		abort(404)
 
@@ -908,6 +1072,18 @@ def delete_class(id):
 
 
 
+@app.route("/accountant_dashboard/delete_expense_category/<int:id>", methods=['GET'])
+@login_required
+def delete_expense_category(id):
+	if account_access():
+		cls1 = ExpenseCategory.query.get_or_404(id)
+		db.session.delete(cls1)
+		db.session.commit()
+		flash(f'The class {cls1.category} has been deleted!', 'success')
+		return redirect(url_for('add_expense_category'))
+	else:
+		abort(404)
+
 
 
 
@@ -921,13 +1097,23 @@ class Classes(db.Model):
 		return f'User: {self.class1}'
 
 
+class ExpenseCategory(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	date = db.Column(db.DateTime, default = datetime.utcnow())
+	adder = db.Column(db.String(120))
+	category = db.Column(db.String(120), nullable=False)
 
+	def __repr__(self):
+		return f'User: {self.category}'
 
 
 #FORMS
 def classquery():
 	return Classes.query
 
+
+def expensequery():
+	return ExpenseCategory.query
 
 class StudentSignUp(FlaskForm):
     name = StringField("Full Name", validators=[DataRequired()])
@@ -1003,7 +1189,43 @@ class NewClassForm(FlaskForm):
 			raise ValidationError("Class already exist!")
 
 
+class NewExpenseCatForm(FlaskForm):
+	category = StringField("New Category Name", validators=[DataRequired(), Length(max	= 200)])
+	exp_submit = SubmitField("Create")
 
+	def validate_category(self, category):
+		cls1 = ExpenseCategory.query.filter_by(category=category.data).first()
+		if cls1:
+			raise ValidationError("Expense category already exist!")
+
+
+
+class ETLExpensesForm(FlaskForm):
+	detail = StringField("Item", validators=[DataRequired(), Length(max=120)])
+	mode = SelectField("Mode of Payment", validators=[DataRequired()], choices = [('','Choose mode...'),('Cash', 'Cash'), ('Bank','Bank')])
+	semester = SelectField("Semester", validators = [DataRequired()], choices = [('','Choose semester...'),('SEM1', 'SEM1'), ('SEM2','SEM2')])
+	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=3000000)])
+	category = QuerySelectField(query_factory=expensequery, get_label = 'category', allow_blank = False)
+	submit = SubmitField("Debit")
+
+	def validate_detail(self, detail):
+		for char in detail.data:
+			if inside(ch=char) == False:
+				raise ValidationError(f'Character {char} is not allowed')
+
+
+class PTAExpensesForm(FlaskForm):
+	detail = StringField("Item", validators=[DataRequired(), Length(max=120)])
+	mode = SelectField("Mode of Payment", validators=[DataRequired()], choices = [('','Choose mode...'),('Cash', 'Cash'), ('Bank','Bank')])
+	semester = SelectField("Semester", validators = [DataRequired()], choices = [('','Choose semester...'),('SEM1', 'SEM1'), ('SEM2','SEM2')])
+	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=3000000)])
+	category = QuerySelectField(query_factory=expensequery, get_label = 'category', allow_blank = False)
+	submit = SubmitField("Debit")
+
+	def validate_detail(self, detail):
+		for char in detail.data:
+			if inside(ch=char) == False:
+				raise ValidationError(f'Character {char} is not allowed')
 
 #DATABASES
 
@@ -1054,11 +1276,12 @@ class PTAIncome(db.Model):
 	semester = db.Column(db.String(10))
 	mode_of_payment = db.Column(db.String(20))
 	category = db.Column(db.String(20), default="revenue")
+	name = db.Column(db.String(120))
+	type1 = db.Column(db.String(20), default='dues')
 	student_id = db.Column(db.Integer, db.ForeignKey('student.id'))#Here we reference the table name
 
 	def __repr__(self):
 		return f'User: {self.student_id}'
-
 
 class ETLIncome(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -1068,6 +1291,7 @@ class ETLIncome(db.Model):
 	tx_id = db.Column(db.String(16))
 	semester = db.Column(db.String(10), nullable = False)
 	mode_of_payment = db.Column(db.String(20))
+	name = db.Column(db.String(120))
 	category = db.Column(db.String(20), default="revenue")
 	student_id = db.Column(db.Integer, db.ForeignKey('student.id'))#Here we reference the table name
 
@@ -1082,8 +1306,10 @@ class StudentPayments(db.Model):
 	pta_amount = db.Column(db.Float)
 	amount = db.Column(db.Float)
 	tx_id = db.Column(db.String(16))
-	semester = db.Column(db.String(10), nullable = False)
+	semester = db.Column(db.String(10))
 	mode_of_payment = db.Column(db.String(20))
+	name = db.Column(db.String(120))
+	type1 = db.Column(db.String(20), default='dues')
 	category = db.Column(db.String(20), default="revenue")
 	student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
 
@@ -1094,49 +1320,42 @@ class Expenses(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	expensor = db.Column(db.String(120), nullable=False)
-	item = db.Column(db.String(120))
-	purchase_date = db.Column(db.DateTime)
-	purpose = db.Column(db.String(120))
-	quantity = db.Column(db.Integer)
-	unitcost = db.Column(db.Float)
+	detail = db.Column(db.String(120))
+	category = db.Column(db.String(120))
+	mode = db.Column(db.String(120))
+	semester = db.Column(db.String(120))
 	totalcost = db.Column(db.Float)
-	elt_expense = db.Column(db.Float)
-	pta_expense = db.Column(db.Float)
-	semester = db.Column(db.String(100))
-
+	
 	def __repr__(self):
-		return f'User: {self.item}'
+		return f'User: {self.detail}'
+
 
 class PTAExpenses(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	expensor = db.Column(db.String(120), nullable=False)
-	item = db.Column(db.String(120))
-	purchase_date = db.Column(db.DateTime)
-	purpose = db.Column(db.String(120))
-	quantity = db.Column(db.Integer)
-	unitcost = db.Column(db.Float)
+	detail = db.Column(db.String(120))
+	category = db.Column(db.String(120))
+	mode = db.Column(db.String(120))
+	semester = db.Column(db.String(120))
 	totalcost = db.Column(db.Float)
-	semester = db.Column(db.String(100))
-
+	
 	def __repr__(self):
-		return f'User: {self.item}'
+		return f'User: {self.detail}'
 
 
 class ETLExpenses(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	expensor = db.Column(db.String(120), nullable=False)
-	item = db.Column(db.String(120))
-	purchase_date = db.Column(db.DateTime)
-	purpose = db.Column(db.String(120))
-	quantity = db.Column(db.Integer)
-	unitcost = db.Column(db.Float)
+	detail = db.Column(db.String(120))
+	category = db.Column(db.String(120))
+	mode = db.Column(db.String(20))
+	semester = db.Column(db.String(20))
 	totalcost = db.Column(db.Float)
-	semester = db.Column(db.String(100))
-
+	
 	def __repr__(self):
-		return f'User: {self.item}'
+		return f'User: {self.detail}'
 
 
 class Charges(db.Model):
@@ -1153,9 +1372,17 @@ class Charges(db.Model):
 		return f'User: {self.total}'
 
 
+#class OtherBusiness(db.Model):
+#	id = db.Column(db.Integer, primary_key=True)
+#	date0 = db.Column(db.DateTime, default=dt.datetime.utcnow())
+#	date = db.Column(db.DateTime, nullable=False)
+#	detail = db.Column(db.String(120), nullable=False)
+#	amount = db.Column(db.Float, nullable=False)
+#
+#	def __repr__(self):
+#		return f'User: {self.detail}'
 
-
-current_sem = 'SEM1'#Charges.query.all()[-1].semester
+#current_sem = 'SEM1'#Charges.query.all()[-1].semester
 
 
 
@@ -1209,57 +1436,14 @@ class MyModelView(ModelView):
 
 admin = Admin(app, template_mode='bootstrap4', name = 'Kpasec PTA')
 admin.add_view(MyModelView(User, db.session))
-#admin.add_view(MyModelView(Student, db.session))
+admin.add_view(MyModelView(Classes, db.session))
 #admin.add_view(MyModelView(StudentPayments, db.session))
 #admin.add_view(MyModelView(Expenses, db.session))
 #admin.add_view(MyModelView(PTAIncome, db.session))
 
-@click.command(name='create_db')
-@with_appcontext
-def create_db():
-	db.create_all()
-
-@click.command(name='drop_db')
-@with_appcontext
-def drop_db():
-	db.drop_all()
-
-@click.command(name='create_tables')
-@with_appcontext
-def create_tables():
-	User.__table__.create(db.engine)
-	PTAIncome.__table__.create(db.engine)
-	ETLIncome.__table__.create(db.engine)
-	PTAExpenses.__table__.create(db.engine)
-	ETLExpenses.__table__.create(db.engine)
-	Expenses.__table__.create(db.engine)
-	StudentPayments.__table__.create(db.engine)
-	Charges.__table__.create(db.engine)
-	Student.__table__.create(db.engine)
-
-@click.command(name='delete_tables')
-@with_appcontext
-def delete_tables():
-	User.__table__.drop(db.engine)
-	PTAIncome.__table__.drop(db.engine)
-	ETLIncome.__table__.drop(db.engine)
-	PTAExpenses.__table__.drop(db.engine)
-	ETLExpenses.__table__.drop(db.engine)
-	Expenses.__table__.drop(db.engine)
-	StudentPayments.__table__.drop(db.engine)
-	Charges.__table__.drop(db.engine)
-	Student.__table__.drop(db.engine)
-	
-
-
-app.cli.add_command(create_db)
-app.cli.add_command(drop_db)
-app.cli.add_command(create_tables)
-app.cli.add_command(delete_tables)
-
 
 if __name__ == '__main__':
-	app.run(debug = True)
+	app.run(debug = False)
 
 
 

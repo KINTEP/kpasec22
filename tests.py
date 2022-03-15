@@ -172,3 +172,47 @@ def reports():
 def download():
 	file = "downloads/file1.jpg"
 	return send_file(file, as_attachment = True)
+
+
+@click.command(name='create_db')
+@with_appcontext
+def create_db():
+	db.create_all()
+
+@click.command(name='drop_db')
+@with_appcontext
+def drop_db():
+	db.drop_all()
+
+@click.command(name='create_tables')
+@with_appcontext
+def create_tables():
+	User.__table__.create(db.engine)
+	PTAIncome.__table__.create(db.engine)
+	ETLIncome.__table__.create(db.engine)
+	PTAExpenses.__table__.create(db.engine)
+	ETLExpenses.__table__.create(db.engine)
+	Expenses.__table__.create(db.engine)
+	StudentPayments.__table__.create(db.engine)
+	Charges.__table__.create(db.engine)
+	Student.__table__.create(db.engine)
+
+@click.command(name='delete_tables')
+@with_appcontext
+def delete_tables():
+	User.__table__.drop(db.engine)
+	PTAIncome.__table__.drop(db.engine)
+	ETLIncome.__table__.drop(db.engine)
+	PTAExpenses.__table__.drop(db.engine)
+	ETLExpenses.__table__.drop(db.engine)
+	Expenses.__table__.drop(db.engine)
+	StudentPayments.__table__.drop(db.engine)
+	Charges.__table__.drop(db.engine)
+	Student.__table__.drop(db.engine)
+	
+
+
+app.cli.add_command(create_db)
+app.cli.add_command(drop_db)
+app.cli.add_command(create_tables)
+app.cli.add_command(delete_tables)
