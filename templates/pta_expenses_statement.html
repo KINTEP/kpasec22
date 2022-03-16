@@ -18,32 +18,30 @@
 	overflow-y: scroll;
 	background-attachment: fixed;
 }
-
-span {
-	margin-right:0% ;
-	background: transparent;
-	width: 20.5%;
-}
-span a{
-	margin-right: 2%;
-	padding-left: 5%;
-}
-
-.kpa{
-	margin-left: 2%;
-}
 	.narv{
 		background: white;
-		width: 70vw;
+		width: 70%;
 		height: 100%;
 		border-radius: 5px;
 		margin-top: 5vh;
 		margin-left: 16%;
 		opacity: 0.7;
-		margin-bottom: 2%;
+	}
+
+	span {
+	margin-right:0% ;
+	background: transparent;
+	width: 20.5%;
+     }
+     span a{
+	margin-right: 2%;
+	padding-left: 5%;
+     }
+	.kpa{
+		margin-left: 2%;
 	}
 	.narv ul {
-		margin-left: 3.4%;
+		margin-left: 2.5vw;
 	}
 	.narv ul input{
 		width: 5em;
@@ -56,7 +54,7 @@ span a{
 		border: 0.3px solid black;
 	}
 	table{
-		width: 60vw;
+		width:85%;
 		margin-left: 7%;
 		margin-top: -0.9em;
 	}
@@ -79,13 +77,15 @@ span a{
 		margin-top: 5vh;
 		margin-left: 1vw;
 		opacity: 0.7;
-		margin-bottom: 2%;
 		overflow-x: scroll;
 	}
+
+	
 	table{
 		width: 96%;
 		margin-top: -0.9em;
 		margin-left: 2%;
+		overflow-y: squish;
 	}
 	.narv ul {
 		margin-left: 0vw;
@@ -117,7 +117,7 @@ span a{
 			        <li class="nav-item">
 			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}" id="dash">Home</a>
 			        </li>
-			  
+			      
 			      </ul>
 
 			      <span class="navbar-text" >
@@ -133,23 +133,23 @@ span a{
 	 <div class="narv">
 
 		<div class="income">
-		<h3 style="text-align: center;padding-top: 5vh;padding-bottom: 2vh;font-family: sans-serif; ">P.T.A
-		Expenses <br>  Dated <abbr style="font-family:cursive;color: red; font-size: 24px"> {{start}}</abbr> to <abbr style="color:red;font-size:24px; font-family: cursive;"> {{end}}</abbr>
-	</h3>
+		<h3 style="text-align: center;padding-top: 5vh;padding-bottom: 2vh;">P.T.A
+		Expenses <br>  Dated <abbr style="font-family:cursive;color: red; font-size: 24px"> {{start}}</abbr> to <abbr style="color:red;font-size:24px;font-family: cursive;"> {{end}}</abbr>
+	   </h3>
 	    </div>
-		<ul>
+		<ul class="bot">
 			<input type="button" name="excel" value="EXCEL" onclick="exporttoexcell()">
 			<input type="button" name="print" value="PRINT" onclick="print_content()">
 		</ul>
 
-			<table id="table1">
+			<table class=" table-responsive" id="table1">
 				<tr>
 					<th>#.</th>
-					<th>Purchase Date</th>
-					<th>Item</th>
-					<th>Purpose</th>
-					<th>Quantity</th>
-					<th>Unit Cost</th>
+					<th>Date</th>
+					<th>Detail</th>
+					<th>Category</th>
+					<th>Mode</th>
+					<th>Semester</th>
 					<th>Amount</th>
 					<th>Balance</th>
 
@@ -157,11 +157,11 @@ span a{
 				{% for expense in expenses %}
 				<tr>
 					<td>{{loop.index}}</td>
-					<td>{{expense.purchase_date}}</td>
-					<td>{{expense.item}}</td>
-					<td>{{expense.purpose}}</td>
-					<td>{{expense.quantity}}</td>
-					<td>{{expense.unitcost | currencyFormat }}</td>
+					<td>{{expense.date}}</td>
+					<td>{{expense.detail}}</td>
+					<td>{{expense.category}}</td>
+					<td>{{expense.mode}}</td>
+					<td>{{expense.semester}}</td>
 					<td>{{expense.totalcost | currencyFormat }}</td>
 					<td>{{cum1[loop.index-1] | currencyFormat}}</td>
 				</tr>
@@ -178,7 +178,7 @@ span a{
 					
 				</tr>
 
-			</table><br>
+			</table><br><br>
 		</div><br>
 		
 

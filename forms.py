@@ -163,12 +163,12 @@ class ReportsForm(FlaskForm):
     	if end.data < self.start.data:
     		raise ValidationError("Date must be latter than start date")
 
-    def validate_start(self, start):
-    	today = datetime.utcnow()
-    	today = dt.date(year=today.year, month=today.month, day=today.day)
-    	start1 = dt.date(year=start.data.year, month=start.data.month, day=start.data.day)
-    	if start1 > today:
-    		raise ValidationError(f"Date is greater than {today}")
+    #def validate_start(self, start):
+    #	today = datetime.utcnow()
+    #	today = dt.date(year=today.year, month=today.month, day=today.day)
+    #	start1 = dt.date(year=start.data.year, month=start.data.month, day=start.data.day)
+    #	if start1 > today:
+    #		raise ValidationError(f"Date is greater than {today}")
 
 class ChargeForm(FlaskForm):
     semester = SelectField("Choose semester", validators=[DataRequired()], 

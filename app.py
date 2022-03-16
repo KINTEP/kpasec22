@@ -44,7 +44,7 @@ if uri.startswith("postgres://"):
 app = Flask(__name__)
 
 local = 'sqlite:///kpasec.db'
-#uri = local
+uri = local
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 #app.config['SQLALCHEMY_BINDS'] = {"kpasec": "sqlite:///kpasec.db", "kpasecarchives":"sqlite:///kpasecarchives.db"}
 
@@ -285,10 +285,12 @@ def promote_all_students():
 @login_required
 def promote_students():
 	if account_access():
-		students = Student.query.all()
+		students = Student.query.filter_by(status=True).all()
 		for stud in students:
 			new_class = promote_student(stud.class1)
 			if new_class:
+				if int(new_class[0]) == 3:
+					stud.status = False
 				stud.class1 = new_class
 			else:
 				pass
@@ -423,19 +425,19 @@ def all_students():
 def prepare_etlptacash_book(mode='pta'):
     con = create_engine(uri)
     if mode == 'etl':
-    	etl_exp = pd.read_sql_query("SELECT date, item, totalcost from etl_expenses", con)
+    	etl_exp = pd.read_sql_query("SELECT date, detail, totalcost from etl_expenses", con)
     	etl_inc = pd.read_sql_query("SELECT date, amount, category from etl_income WHERE category='revenue'", con)
     	etl_exp.rename(columns={'totalcost':'amount'}, inplace = True)
     	etl_exp['amount'] = -1*etl_exp['amount']
     	etl_exp['category'] = 'payment'
-    	etl_inc['item'] = 'etl payments'
+    	etl_inc['detail'] = 'etl payments'
     if mode == 'pta':
-    	etl_exp = pd.read_sql_query("SELECT date, item, totalcost from pta_expenses", con)
+    	etl_exp = pd.read_sql_query("SELECT date, detail, totalcost from pta_expenses", con)
     	etl_inc = pd.read_sql_query("SELECT date, amount, category from pta_income WHERE category='revenue'", con)
     	etl_exp.rename(columns={'totalcost':'amount'}, inplace = True)
     	etl_exp['amount'] = -1*etl_exp['amount']
     	etl_exp['category'] = 'payment'
-    	etl_inc['item'] = 'pta payments'
+    	etl_inc['detail'] = 'pta payments'
     comb1 = pd.merge(etl_inc, etl_exp, how = 'outer')
     df2 = comb1.sort_values('date', ignore_index=True)
     df2['balance'] = df2['amount'].cumsum()
@@ -445,8 +447,8 @@ def prepare_etlptacash_book(mode='pta'):
 
 
 def query_cash_book(start, end, df):
-	start = pd.to_datetime(start)
-	end = pd.to_datetime(end)
+	#start = pd.to_datetime(start)
+	#end = pd.to_datetime(end)
 	new1 = df[(df['date'] >= start) & (df['date'] <= end)]
 	return new1
 
@@ -482,7 +484,7 @@ def cash_book_report1(start, end, cat):
 			return redirect(url_for('combined_cash_bk', start=start,end=end, cat=cat))
 		balance = list(cbk['balance'])
 		date = [str(dat)[:10] for dat in cbk['date']]
-		details = list(cbk['item'])
+		details = list(cbk['detail'])
 		amount = list(cbk['amount'])
 		category = list(cbk['category'])
 		debit = sum([i for i in amount if i >= 0])
@@ -903,7 +905,8 @@ def gen_expenses():
 def total_etl_income():
 	if account_access():
 		incomes = ETLIncome.query.all()
-		return render_template("total_etl_income.html", incomes=incomes)
+		sum1 = sum([i.amount for i in incomes])
+		return render_template("total_etl_income.html", incomes=incomes, sum1=sum1)
 	else:
 		abort(404)
 
@@ -911,8 +914,9 @@ def total_etl_income():
 @login_required
 def total_pta_income():
 	if account_access():
-		incomes = PTAIncome.query.all()
-		return render_template("total_pta_income.html", incomes=incomes)
+		incomes = PTAIncome.query.filter_by(type1='dues').all()
+		sum1 = sum([i.amount for i in incomes])
+		return render_template("total_pta_income.html", incomes=incomes, sum1=sum1)
 	else:
 		abort(404)
 
@@ -976,11 +980,17 @@ def pta_payment_cash_book(start, end):
 @login_required
 def etl_income_and_expenditure(start, end):
 	start1, end1 = date_transform(start,end)
+	#start2 = start1 - dt.timedelta(1)
 	if account_access():
 		dues = ETLIncome.query.filter(ETLIncome.date.between(start1, end1)).filter_by(category='revenue').all()
 		dues = sum([i.amount for i in dues])
-		bf = 200
-		profit = 34029
+		dues0 = ETLIncome.query.filter(ETLIncome.date < start1).filter_by(category='revenue').all()
+		expe0 = ETLExpenses.query.filter(ETLExpenses.date < start1).all()
+		inc0 = sum([i.amount for i in dues0])
+		exp0 = sum([i.totalcost for i in expe0])
+		prf0 = 0
+		bf = inc0 + prf0 - exp0
+		profit = 0
 		inc_tot = dues + bf + profit
 		cust = ETLExpenses.query.filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category).all()
 		set1 = list(set([i.category for i in cust]))
@@ -998,16 +1008,17 @@ def etl_income_and_expenditure(start, end):
 @login_required
 def pta_income_and_expenditure(start, end):
 	start1, end1 = date_transform(start,end)
+	#start2 = start1 - dt.timedelta(1)
 	if account_access():
 		dues = PTAIncome.query.filter(PTAIncome.date.between(start1, end1)).filter_by(category='revenue').all()
 		dues = sum([i.amount for i in dues])
 		dues0 = PTAIncome.query.filter(PTAIncome.date < start1).filter_by(category='revenue').all()
-		expe0 = PTAExpenses.query.filter(PTAExpenses.date < start1).filter_by(category='revenue').all()
+		expe0 = PTAExpenses.query.filter(PTAExpenses.date < start1).all()
 		inc0 = sum([i.amount for i in dues0])
 		exp0 = sum([i.totalcost for i in expe0])
 		prf0 = 0
 		bf = inc0 + prf0 - exp0
-		profit = 34029
+		profit = 0
 		inc_tot = dues + bf + profit
 		cust = PTAExpenses.query.filter(PTAExpenses.date.between(start1, end1)).order_by(PTAExpenses.category).all()
 		set1 = list(set([i.category for i in cust]))
@@ -1489,7 +1500,7 @@ admin.add_view(MyModelView(Student, db.session))
 
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug = True)
 
 
 

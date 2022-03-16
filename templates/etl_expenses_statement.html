@@ -145,11 +145,11 @@
 			<table class=" table-responsive" id="table1">
 				<tr>
 					<th>#.</th>
-					<th>Purchase Date</th>
-					<th>Item</th>
-					<th>Purpose</th>
-					<th>Quantity</th>
-					<th>Unit Cost</th>
+					<th>Date</th>
+					<th>Detail</th>
+					<th>Category</th>
+					<th>Mode</th>
+					<th>Semester</th>
 					<th>Amount</th>
 					<th>Balance</th>
 
@@ -157,11 +157,11 @@
 				{% for expense in expenses %}
 				<tr>
 					<td>{{loop.index}}</td>
-					<td>{{expense.purchase_date}}</td>
-					<td>{{expense.item}}</td>
-					<td>{{expense.purpose}}</td>
-					<td>{{expense.quantity}}</td>
-					<td>{{expense.unitcost | currencyFormat }}</td>
+					<td>{{expense.date}}</td>
+					<td>{{expense.detail}}</td>
+					<td>{{expense.category}}</td>
+					<td>{{expense.mode}}</td>
+					<td>{{expense.semester}}</td>
 					<td>{{expense.totalcost | currencyFormat }}</td>
 					<td>{{cum1[loop.index-1] | currencyFormat}}</td>
 				</tr>

@@ -32,6 +32,14 @@ def date_transform(start1,end1):
     end = dt.date(year=end.year, month=end.month, day=end.day)
     return start, end
 
+def date_transform2(start1,end1):
+    #start = dt.datetime.strptime(start1, "%Y-%m-%d").date()
+    start = dt.date(year=start1.year, month=start1.month, day=start1.day)
+    end =  end1 + dt.timedelta(1)
+    end = dt.date(year=end.year, month=end.month, day=end.day)
+    return start, end
+
+
 def generate_receipt_no():
     today = dt.datetime.now()
     if today.month == 1 and today.day == 1:

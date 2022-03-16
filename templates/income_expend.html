@@ -241,8 +241,8 @@ span a{
 				<tr>
 					<td>{{len1 + loop.index}}</td>
 					<td>{{expense.date.date()}}</td>
-					<td>Expense</td>
-					<td>{{expense.item}}</td>
+					<td>{{expense.category}}</td>
+					<td>{{expense.detail}}</td>
 					<td>{{expense.totalcost | currencyFormat }}</td>
 					<td></td>
 					<td>{{cums[len1 + loop.index - 1] | currencyFormat }}</td>
