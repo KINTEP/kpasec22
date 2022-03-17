@@ -9,22 +9,22 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<title></title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
 	<title>Student Ledger</title>
 </head>
 <style type="text/css">
-   body{
+body{
 
 	height: 100%;
-	width: 100%;
 	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
 	background-size: cover;
 	background-repeat: no-repeat;
 	overflow: hidden;
 	background-attachment: fixed;
+}
 
-    }
 
-   .navbar {
+.navbar {
   background-color: #333;
 }
 
@@ -51,11 +51,6 @@
   margin: 0;
 }
 
-.nn{
-		text-decoration: none;
-		margin-left: 1%;
-	}
-
 .navbar a:hover, .dropdown:hover .dropbtn {
   background-color: #ABB2B9;
   border-radius: 5px;
@@ -67,6 +62,10 @@
 
 .navbar .nn:hover{
   background-color: transparent;
+}
+.nn{
+   text-decoration: none;
+   margin-left: 1%;
 }
 
 .navbar .n:hover{
@@ -110,6 +109,7 @@ span a{
 	width: 40px;
 }
 
+
  .first ul li{
 		display: inline;
 		float: right;
@@ -132,12 +132,12 @@ span a{
 		margin-top: 2%;
 		opacity: 0.7;
 		display: block;
-		margin-left: 30%;
+		margin-left: 30vw;
 		margin-bottom: 2%;
 }
 
 .tttable .sub{
-	height: 2.1em;
+	height: 2.2em;
 	width: 13vw;
 	margin-top: 2vh;
 	background: #2E4053;
@@ -177,7 +177,7 @@ span a{
 }
 
 .tttable .sub{
-	height: 2.1em;
+	height: 2.2em;
 	width: 20vw;
 	margin-top: 2vh;
 	background: #2E4053;
@@ -189,15 +189,15 @@ span a{
 	width: 58vw;
 	height: 2.3em;
 	margin-bottom: 0vh;
-	margin-left: 5vw;
-}
-.fff label{
 	margin-left: 6vw;
 }
 .fff .select{
-	margin-left: 5vw;
+	margin-left: 6vw;
 	width: 58vw;
 	height: 2.3em;
+}
+.fff label{
+	margin-left: 6vw;
 }
 
 
@@ -221,10 +221,11 @@ span a{
 			        <li class="nav-item d-flex" >
 		
 			        </li>
-			        <li class="nav-item">
+			       <li class="nav-item">
 			          <a class="nav-link active btn" aria-current="page" id="dash" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create-category</a>
 			        </li>
 			      </ul>
+
 
 			      <span class="navbar-text" >
 			      	<a href="{{url_for('account')}}" class="nn">{{current_user.username}}</a>
@@ -234,39 +235,62 @@ span a{
 			    </div>
 		 </nav>
 	</header>
-	{% include 'expense_modal.html' %}
+	
+{% include 'expense_modal.html' %}
 	   	<div class="tttable" id="cont2">
    		<h3 class="topp" style="padding-top:4vh; text-align: center; font-family:sans-serif; ">{{title}} </h3>
-   	<form method="POST" action="" id="student_data" class="fff" onsubmit = 'click1()'>
+   		<form method="POST" action="" id="student_data" class="fff" onsubmit = 'click1()' >
 			{{form.hidden_tag()}}
-			<label style="color:#2471A3">Details</label><br>
+			<label style="color:green">Details</label><br>
 			{{render_field(form.detail)}}
 			{{form.detail()}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Category</label><br>
 			{{render_field(form.category)}}
-			{{form.category(class='select', placeholder='marker')}}<br>
+			{{form.category(class='select', )}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Mode of Payment</label><br>
 			{{render_field(form.mode)}}
-			{{form.mode(class='select', placeholder='teaching')}}<br>
+			{{form.mode(class='select', )}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Semester</label><br>
 			{{render_field(form.semester)}}
-			{{form.semester(class='select', placeholder='20')}}<br>
+			{{form.semester(class='select',)}}<br>
+			<label style="text-align:flex-start;color: #2471A3;">Quantity</label><br>
+			{{render_field(form.quantity)}}
+			{{form.quantity(class='cls', placeholder='5 boxes, 10 units')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Total Cost</label><br>
 			{{render_field(form.totalcost)}}
 			{{form.totalcost(class='cls', placeholder='5.00')}}<br>
 			
 			{{form.submit(class='sub')}}<br>
 		</form><br>
+
+
+
    	</div>
-
-
    	<script src="../js/jquery-3.6.0.min.js"></script>
    	<script type="text/javascript">
    		$('#category1').val('')
    	</script>
    	<script type="text/javascript">
    		function click1() {
+   			$('#cont2').css("display", "none")
    			swal("Saved!", "", "success");   		}
+   	</script>
+   	<script type="text/javascript">
+   		function click2() {
+   			$('#cont2').css("display", "none")
+   			$('#modal1').css("display", "none")
+   			swal("Saved!", "", "success");   		}
+   	</script>
+   	<script type="text/javascript">
+   		$('#dash').click(function() {
+   			$('#cont2').css("display", "none");
+   		})
+   	</script>
+   	<script type="text/javascript">
+   		$('#button2').click(function() {
+   			$('#cont2').css("display", "block");
+   			$('#modal1').css("display", "block");
+   		})
    	</script>
 </body>
 </html>

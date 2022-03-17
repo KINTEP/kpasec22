@@ -165,6 +165,18 @@ span a{
 		display: none;
 		margin-left: 30%;
 	}
+
+	.odaa{
+		background: white;
+		height: 100%;
+		width: 40%;
+		border-radius: 5px;
+		font-family: cursive;
+		margin-top: 2%;
+		opacity: 0.7;
+		display: none;
+		margin-left: 30%;
+	}
 	.cont3{
 		background: white;
 		height: 100%;
@@ -208,6 +220,9 @@ span a{
 	}
 	
 	.cont2{
+		display: none;
+	}
+	.odaa{
 		display: none;
 	}
 
@@ -308,6 +323,14 @@ span a{
   
    }
 
+   .odaa .fff{
+   	margin-top: 5%;
+   	font-style: oblique;
+   	font-family: monospace;
+  
+   }
+
+
    .cont3 .fff{
    	margin-top: 10vh;
    	font-style: oblique;
@@ -324,8 +347,18 @@ span a{
    	padding-left: 1%;
    }
 
+   .odaa input{
+   	height: 2.3em;
+   	width: 70%;
+   	margin-left: 15%;
+   	border-radius: 5px;
+   	border: 0.3px solid grey;
+   	padding-left: 1%;
+   }
+
     .cont2 select{
-   	width: 100%;
+    height: 2.3em;
+   	width: 70%;
    	margin-left: 15%;
    	background: transparent;
    	border-radius: 5px;
@@ -338,6 +371,12 @@ span a{
    	border-radius: 5px;
    }
    .cont2 label{
+   	width: 70%;
+   	margin-left: 15%;
+   	background: transparent;
+   }
+
+   .odaa label{
    	width: 70%;
    	margin-left: 15%;
    	background: transparent;
@@ -358,6 +397,16 @@ span a{
 	border-radius: 5px;
 }
 
+.odaa .sub{
+	height: 2.2em;
+	width: 15vw;
+	margin-top: 3%;
+	margin-left: 11vw;
+	background: #2E4053;
+	color: white;
+	border-radius: 5px;
+}
+
 
 .cont3 .sub{
 	height: 2.2em;
@@ -369,6 +418,13 @@ span a{
 	border-radius: 5px;
 }
 .cont2 form .dunu{
+	background: #D6DBDF;
+	height: 50vh;
+	margin-top: 5%;
+	opacity: 0.8;
+}
+
+.odaa form .dunu{
 	background: #D6DBDF;
 	height: 50vh;
 	margin-top: 5%;
@@ -491,6 +547,56 @@ span a{
 		display: none;
 		margin-left: 13vw;
   	}
+
+  	.cont2 select{
+   	width: 90%;
+   	margin-left: 5%;
+   	background: transparent;
+   	border-radius: 5px;
+   }
+
+
+  	.cont2 input{
+   	height: 2.3em;
+   	width: 90%;
+   	margin-left: 5%;
+   	border-radius: 5px;
+   	border: 0.3px solid grey;
+   	padding-left: 1%;
+   }
+
+   .cont2 label{
+   	width: 90%;
+   	margin-left: 5%;
+   	background: transparent;
+   }
+
+  .odaa input{
+   	height: 2.3em;
+   	width: 90%;
+   	margin-left: 5%;
+   	border-radius: 5px;
+   	border: 0.3px solid grey;
+   	padding-left: 1%;
+   }
+
+   .odaa label{
+   	width: 90%;
+   	margin-left: 5%;
+   	background: transparent;
+   }
+
+  	.odaa{
+  		background: white;
+		height: 100%;
+		width: 75vw;
+		border-radius: 5px;
+		font-family: cursive;
+		margin-top: 14vh;
+		opacity: 0.6;
+		display: none;
+		margin-left: 13vw;
+  	}
   	.cont3 h3{
 		padding-top: 6%;
 	}
@@ -569,6 +675,15 @@ span a{
 	background: #2E4053;
 	color: white;
 }
+
+.odaa .sub{
+	height: 2.3em;
+	width: 20vw;
+	margin-top: 4vh;
+	margin-left: 22vw;
+	background: #2E4053;
+	color: white;
+}
 .cont3 .sub{
 	height: 2.3em;
 	width: 20vw;
@@ -581,6 +696,43 @@ span a{
 
 
     @media(max-width: 500px){
+
+    	.cont2 input{
+   	height: 2.3em;
+   	width: 90%;
+   	margin-left: 5%;
+   	border-radius: 5px;
+   	border: 0.3px solid grey;
+   	padding-left: 1%;
+   }
+
+   .cont2 select{
+   	width: 90%;
+   	margin-left: 5%;
+   	background: transparent;
+   	border-radius: 5px;
+   }
+
+   .cont2 label{
+   	width: 90%;
+   	margin-left: 5%;
+   	background: transparent;
+   }
+
+   .odaa input{
+   	height: 2.3em;
+   	width: 90%;
+   	margin-left: 5%;
+   	border-radius: 5px;
+   	border: 0.3px solid grey;
+   	padding-left: 1%;
+   }
+
+   .odaa label{
+   	width: 90%;
+   	margin-left: 5%;
+   	background: transparent;
+   }
 
 
 .class1{
@@ -673,9 +825,12 @@ span a{
 			        <li class="nav-item">
 			          <a class="nav-link " href="#" id="nav3">ToDo</a>
 			        </li>
+			        <li class="nav-item">
+			          <a class="nav-link " href="#" id="other">External-income</a>
+			        </li>
 
 			        <li class="nav-item">
-			          <a class="nav-link " href="#" id="nav5" >Analytics</a>
+			          <a class="nav-link " href="{{url_for('all_students')}}" id="" >Students</a>
 			        </li>
 			        
 			      </ul>
@@ -702,7 +857,7 @@ span a{
 
 		 		<div class=" row ro1">
 		 	      <div class="col waa " >
-		 	        <a href="{{url_for('all_students')}}"><div class=" btn btn-success btn1" id="btn1">Student Stats<br><p>{{studs}}</p></div></a> 
+		 	        <a href="{{url_for('student_stats')}}"><div class=" btn btn-success btn1" id="btn1">Student Stats<br><p>{{studs}}</p></div></a> 
 
 		 	         <a href="{{url_for('total_pta_income')}}"><div class=" btn btn-success btn2" id="btn2">PTA Income<br><p>GHC {{pta | currencyFormat}}</p></div></a>
 
@@ -735,11 +890,11 @@ span a{
 			<h3 style="text-align: center;">Accounting Report</h3>
 			<label>Choose A Report</label><br>
 			{{render_field(form2.report)}}
-			{{form2.report(style="width:70%;height:2.3em")}}
+			{{form2.report()}}
 			<br>
 			<label>Choose Category</label><br>
 			{{render_field(form2.filter_by)}}
-			{{form2.filter_by(style="width:70%;height:2.3em ")}}
+			{{form2.filter_by()}}
 			<br>
 
 			<label>Start Date</label><br>
@@ -752,6 +907,33 @@ span a{
 
 			{{form2.submit_rep(class='sub')}}
 			<br>
+		</form><br>
+			
+  </div><br><br>
+
+
+
+  <div class="row odaa"  id="oda">
+  	   
+  	<form method="POST" action="" id="student_data" class="fff">
+			<h3 style="text-align: center;">External Income  </h3>
+			{{form3.hidden_tag()}}
+			{{form3.csrf_token}}
+			<label>Business Name</label><br>
+			{{form3.name(placeholder="Enter business name")}}
+			<label>Details </label><br>
+			{{form3.detail(placeholder="Brief description")}}
+			<br>
+			<label>Income period start</label><br>
+			{{form3.start_date()}}<br>
+			<label>Income period end</label><br>
+			{{form3.end_date()}}<br>
+			<label>Amount </label><br>
+			{{form3.amount(placeholder="Enter amount")}}
+			<br>
+			{{form3.other_submit(class="sub")}}
+			<br>
+
 		</form><br>
 			
   </div><br><br>
@@ -796,6 +978,7 @@ span a{
        $("#cont3").css("display","none");
        $("#cont4").css("display","none");
        $("#cont5").css("display","none");
+        $("#oda").css("display","none");
        
       });
 
@@ -805,6 +988,7 @@ span a{
        $("#cont3").css("display","none");
        $("#cont4").css("display","none");
        $("#cont5").css("display","none");
+       $("#oda").css("display","none");
 
        
       });
@@ -815,6 +999,7 @@ span a{
        $("#cont1").css("display","none");
        $("#cont4").css("display","none");
        $("#cont5").css("display","none");
+       $("#oda").css("display","none");
       
        
       });
@@ -825,6 +1010,7 @@ span a{
        $("#cont4").css("display","block");
        $("#cont3").css("display","none");
        $("#cont5").css("display","none");
+       $("#oda").css("display","none");
        
       });
 
@@ -834,6 +1020,17 @@ span a{
        $("#cont5").css("display","block");
        $("#cont4").css("display","none");
        $("#cont3").css("display","none");
+       $("#oda").css("display","none");
+
+      });
+
+      $("#other").click(function () {
+       $("#cont1").css("display", "none");
+       $("#cont2").css("display","none");
+       $("#cont5").css("display","none");
+       $("#cont4").css("display","none");
+       $("#cont3").css("display","none");
+       $("#oda").css("display","block");
 
       });
 

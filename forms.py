@@ -106,10 +106,11 @@ class DonationForm(FlaskForm):
 
 class OtherBusinessForm(FlaskForm):
 	name = StringField("Name", validators=[DataRequired()])
-	date = DateField("Entry Date", validators = [DataRequired()])
-	detail = StringField("Details", validators = [DataRequired()])
+	start_date = DateField("Start Date", validators = [DataRequired()])
+	end_date = DateField("End Date", validators = [DataRequired()])
+	detail = StringField("Details")
 	amount = DecimalField("Amount", validators=[DataRequired(), NumberRange(min=1, max=300000)])
-	submit = SubmitField("Receive Cash")
+	other_submit = SubmitField("Receive Cash")
 
 	def validate_detail(self, detail):
 		for char in detail.data:

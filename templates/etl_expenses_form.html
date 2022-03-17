@@ -253,6 +253,9 @@ span a{
 			<label style="text-align:flex-start;color: #2471A3;">Semester</label><br>
 			{{render_field(form.semester)}}
 			{{form.semester(class='select',)}}<br>
+			<label style="text-align:flex-start;color: #2471A3;">Quantity</label><br>
+			{{render_field(form.quantity)}}
+			{{form.quantity(class='cls', placeholder='5 boxes, 10 units')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Total Cost</label><br>
 			{{render_field(form.totalcost)}}
 			{{form.totalcost(class='cls', placeholder='5.00')}}<br>
@@ -269,7 +272,25 @@ span a{
    	</script>
    	<script type="text/javascript">
    		function click1() {
+   			$('#cont2').css("display", "none")
    			swal("Saved!", "", "success");   		}
+   	</script>
+   	<script type="text/javascript">
+   		function click2() {
+   			$('#cont2').css("display", "none")
+   			$('#modal1').css("display", "none")
+   			swal("Saved!", "", "success");   		}
+   	</script>
+   	<script type="text/javascript">
+   		$('#dash').click(function() {
+   			$('#cont2').css("display", "none");
+   		})
+   	</script>
+   	<script type="text/javascript">
+   		$('#button2').click(function() {
+   			$('#cont2').css("display", "block");
+   			$('#modal1').css("display", "block");
+   		})
    	</script>
 </body>
 </html>

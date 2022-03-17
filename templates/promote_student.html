@@ -166,7 +166,7 @@ span a{
 	}
 	.cont3{
 		background: white;
-		height: 100%;
+		height: 15em;
 		width: 40%;
 		border-radius: 5px;
 		font-family: cursive;
@@ -174,6 +174,14 @@ span a{
 		opacity: 0.7;
 		display: block;
 		margin-left: 30%;
+	}
+	.cont3 h3{
+		margin-top: 5%;
+	}
+
+	.cont3 p{
+		margin-top: 5%;
+		margin-left: 2%;
 	}
 
 	.cont5{
@@ -346,6 +354,33 @@ span a{
    	margin-left: 15%;
    	background: transparent;
    }
+
+   .cont3 .wed{
+	height: 2.2em;
+	padding-left: 3%;
+	padding-right: 3%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	margin-top: 3%;
+	background: #2E4053;
+	color: white;
+	border-radius: 5px;
+	text-decoration: none;
+}
+
+
+ .cont3 .wedd{
+	height: 2.2em;
+	padding-left: 2%;
+	padding-right: 2%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	margin-top: 3%;
+	background: #2E4053;
+	color: white;
+	border-radius: 5px;
+	text-decoration: none;
+}
 
 .cont2 .sub{
 	height: 2.2em;
@@ -526,6 +561,15 @@ span a{
 		margin-left: 13vw;
 	}
 
+	.cont3 .wed{
+	height: 2.2em;
+	width: 23%;
+	margin-top: 3%;
+	background: #2E4053;
+	color: white;
+	border-radius: 5px;
+}
+
 
   .btn{
   	width: 24vw;
@@ -671,9 +715,7 @@ span a{
 			        <li class="nav-item">
 			          <a class="nav-link active " aria-current="page" href="{{url_for('accountant_dashboard')}}"id="nav1" style="color:black;">Home</a>
 			        </li>
-			        <li class="nav-item">
-			        		<a class="nav-link active" role='button' aria-current="page" style="color:black;" onclick="" id="button">Promote</a>
-			        </li>
+			        
 			      </ul>
 
 			      <span class="navbar-text" >
@@ -689,14 +731,15 @@ span a{
 <div class="row ">
 
  <div class="cont3" id="cont3">
- 	<center>
- 		<div class="text-danger fw-bold text-lg" style="font-size: 30px;">
- 		By clicking the <br><span class="text-warning">"PROMOTE STUDENTS"</span><br> button, all students will be promoted.
- 		Please make sure the period for promoting students is due. <br>
- 		<span class="text-success">Thank You!</span>
- 		<br>
- 		</div>
- 	</center>
+ 	<form>
+ 		<center><h3>Promote Student Portal</h3></center>
+ 		<p>Hello Mr. {{current_user.username}}, you are about to promote all the students to next class. Please click the button just ones and wait for the alert</p>
+ 		<center><a href="{{url_for('accountant_dashboard')}}" class="wed">Cancel</a>
+ 		<a role="button" class="wedd" id="button">Promote</a>
+
+ 	  </center>
+ 	</form><br>
+
 </div><br>
 
 	<div class="col"></div>
@@ -725,8 +768,12 @@ $(document).ready(function(){
   $("#button").click(function(){
     $.ajax({url: "/accountant_dashboard/promote_students", success: function(result){
     	res1 = result['data']
+
     	if (res1 == 'successfully'){
-    		swal("All students "+res1+" Promoted!", "", "success"); 
+    		$("#cont3").css("display", "none");
+    		swal("All students "+res1+" Promoted!", "", "success");
+    		window.location.href = "{{url_for('accountant_dashboard')}}"
+
     	}
     	else{
     		swal(res1+"!", "", "warning"); 
@@ -736,56 +783,6 @@ $(document).ready(function(){
   });
 });
 </script>
-<script >
-	/*
-      $("#nav1").click(function () {
-       $("#cont1").css("display", "block");
-       $("#cont2").css("display","none");
-       $("#cont3").css("display","none");
-       $("#cont4").css("display","none");
-       $("#cont5").css("display","none");
-       
-      });
-
-     $("#nav2").click(function () {
-       $("#cont2").css("display", "block");
-       $("#cont1").css("display","none");
-       $("#cont3").css("display","none");
-       $("#cont4").css("display","none");
-       $("#cont5").css("display","none");
-
-       
-      });
-
-     $("#nav3").click(function () {
-       $("#cont2").css("display", "none");
-       $("#cont3").css("display","block");
-       $("#cont1").css("display","none");
-       $("#cont4").css("display","none");
-       $("#cont5").css("display","none");
-      
-       
-      });
-
-       $("#nav4").click(function () {
-       $("#cont1").css("display", "none");
-       $("#cont2").css("display","none");
-       $("#cont4").css("display","block");
-       $("#cont3").css("display","none");
-       $("#cont5").css("display","none");
-       
-      });
-
-      $("#nav5").click(function () {
-       $("#cont1").css("display", "none");
-       $("#cont2").css("display","none");
-       $("#cont5").css("display","block");
-       $("#cont4").css("display","none");
-       $("#cont3").css("display","none");
-
-      });
-*/
-   </script>
 
 </body>
 </html>

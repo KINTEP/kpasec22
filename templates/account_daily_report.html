@@ -130,7 +130,7 @@ span a{
 
 .prn{
 	margin-left: 20%;
-	background: black;
+	background:#AEB6BF;
 	width: 60%;
 	height: 3em;
 }
@@ -140,7 +140,7 @@ span a{
 	color: white;
 }
 .prn input{
-	width: 20%;
+	width: 10%;
 	margin-top: 1.5vh;
 }
 .topp{
@@ -284,7 +284,7 @@ table tr td{
 
 .prn{
 	margin-left: 0%;
-	background: black;
+	background:#AEB6BF;
 	width: 100%;
 	height: 3em;
 }
@@ -350,8 +350,8 @@ input {
     </ul>
   -->
     <div class="prn">
-    	<a href="#">Generate Daily Report</a>
-    	<span><input type="button" name="" value="Print" onclick="print_content()"></span>
+    	
+    	<span><a >Export File :</a><input type="button" name="" value="Print" onclick="print_content()"></span>
     </div>
     
    <center>
@@ -360,12 +360,12 @@ input {
    		<h4 class="topp" style="padding-top:4vh">Daily ETL Income for {{date}}</h4>
    		<table >
    			<tr>
-   				<th class="non">No.</th>
-   				<th class="foom">Class</th>
-   				<th class="fom">Students Name</th>
-   				<th>Receipt #</th>
-   				<th class="fomm">Date</th>
-   				<th class="foomm">Amount</th>
+   				<th class="bg-dark text-white non">No.</th>
+   				<th class="bg-dark text-white foom">Class</th>
+   				<th class="bg-dark text-white fom">Students Name</th>
+   				<th class="bg-dark text-white">Receipt #</th>
+   				<th class="bg-dark text-white fomm">Date</th>
+   				<th class="bg-dark text-white foomm">Amount</th>
 
    			</tr>
    			{% if etl_payments | length < 1 %}
@@ -398,8 +398,8 @@ input {
    				<td style="border:0px solid transparent;"></td>
    				<td style="border:0px solid transparent;"></td>
    				<td style="border:0px solid transparent;"></td>
-   				<th>Total</th>
-   				<td>{{etl | currencyFormat }}</td>
+   				<td class="bg-dark text-white fw-bold">Total</td>
+   				<td class="bg-dark text-white fw-bold">{{etl | currencyFormat }}</td>
 
    			</tr>
    		</table><br>
@@ -407,13 +407,13 @@ input {
    		<h3 class="topp" style="padding-top:4vh">Daily PTA Income for {{date}}</h3>
    		<table >
    			<tr>
-   				<th class="non">No.</th>
-   				<th class="foom">Class</th>
-   				<th class="fom">Name</th>
-   				<th>Receipt #</th>
-   				<th class="fomm">Date</th>
-   				<th class="foomm">Amount</th>
-   				<th class="foomm">Type</th>
+   				<th class="bg-dark text-white non">No.</th>
+   				<th class="bg-dark text-white foom">Class</th>
+   				<th class="bg-dark text-white fom">Name</th>
+   				<th class="bg-dark text-white">Receipt #</th>
+   				<th class="bg-dark text-white fomm">Date</th>
+   				<th class="bg-dark text-white foomm">Amount</th>
+   				<th class="bg-dark text-white foomm">Type</th>
    			</tr>
    			{% if pta_payments | length < 1 %}
    			<tr>
@@ -458,8 +458,8 @@ input {
    				<td style="border:0px solid transparent;"></td>
    				<td style="border:0px solid transparent;"></td>
    				<td style="border:0px solid transparent;"></td>
-   				<th>Total</th>
-   				<td>{{pta | currencyFormat }}</td>
+   				<td class="text-white fw-bold bg-dark">Total</td>
+   				<td class="text-white fw-bold bg-dark">{{pta | currencyFormat }}</td>
 
    			</tr>
    		</table><br><br>
