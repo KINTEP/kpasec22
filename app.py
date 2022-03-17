@@ -1168,31 +1168,32 @@ def account_daily_report():
 @app.route("/accountant_dashboard/student_stats")
 @login_required
 def student_stats():
-	cha = Charges.query.all()
-	if len(cha) < 0:
-		et_one, et_two, et_three,pt_one, pt_two, pt_three,etl, pta = [0 for i in range(8)]
-	cha = Charges.query.all()[-1]
-	start = cha.begin_date
-	end = cha.end_date
 	if account_access():
-		etl, pta = get_class_stats(start, end)
-		et_one, et_two, et_three = etl.get('1'), etl.get('2'), etl.get('3')
-		pt_one, pt_two, pt_three = pta.get('1'), pta.get('2'), pta.get('3')
-		if et_one is None:
-			et_one = 0
-		if et_two is None:
-			et_two = 0
-		if et_three is None:
-			et_three = 0
-		if pt_one is None:
-			pt_one = 0
-		if pt_two is None:
-			pt_two = 0
-		if pt_three is None:
-			pt_three = 0
-		one,two,three = et_one + pt_one,et_two + pt_two, et_three + pt_three
-		pta, etl = pt_one+pt_two+pt_three, et_one+et_three+et_two
-		tot = pta + etl
+		cha = Charges.query.all()
+		if len(cha) < 0:
+			et_one, et_two, et_three,pt_one, pt_two, pt_three,etl, pta = [0 for i in range(8)]
+		else:
+			cha = Charges.query.all()[-1]
+			start = cha.begin_date
+			end = cha.end_date
+			etl, pta = get_class_stats(start, end)
+			et_one, et_two, et_three = etl.get('1'), etl.get('2'), etl.get('3')
+			pt_one, pt_two, pt_three = pta.get('1'), pta.get('2'), pta.get('3')
+			if et_one is None:
+				et_one = 0
+			if et_two is None:
+				et_two = 0
+			if et_three is None:
+				et_three = 0
+			if pt_one is None:
+				pt_one = 0
+			if pt_two is None:
+				pt_two = 0
+			if pt_three is None:
+				pt_three = 0
+			one,two,three = et_one + pt_one,et_two + pt_two, et_three + pt_three
+			pta, etl = pt_one+pt_two+pt_three, et_one+et_three+et_two
+			tot = pta + etl
 		return render_template("student_stats.html", et_one=et_one, et_two=et_two, et_three=et_three,
 			pt_one=pt_one, pt_two=pt_two, pt_three=pt_three,pta=pta,etl=etl,one=one,two=two,three=three,tot=tot)
 	else:
