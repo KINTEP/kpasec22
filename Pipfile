@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+absl-py = "==1.0.0"
+flask = "*"
+flask-admin = "*"
+flask-bcrypt = "*"
+flask-login = "*"
+flask-sqlalchemy = "*"
+flask-wtf = "*"
+cryptography = "*"
+firebase-admin = "*"
+numpy = "*"
+pandas = "*"
+wtforms-sqlalchemy = "*"
+wtforms = {extras = ["email"], version = "*"}
+psycopg2 = "*"
+pipreqs = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

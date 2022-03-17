@@ -17,7 +17,7 @@ from flask_admin.contrib.sqla import ModelView
 #import gspread
 import string
 from cryptography.fernet import Fernet
-from num2words import num2words as n2w
+#from num2words import num2words as n2w
 from wtforms_sqlalchemy.fields import QuerySelectField
 #from flask_migrate import Migrate
 from sqlalchemy import or_, and_, func
@@ -45,7 +45,7 @@ if uri.startswith("postgres://"):
 app = Flask(__name__)
 
 local = 'sqlite:///kpasec.db'
-uri = local
+uri = uri
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 #app.config['SQLALCHEMY_BINDS'] = {"kpasec": "sqlite:///kpasec.db", "kpasecarchives":"sqlite:///kpasecarchives.db"}
 
@@ -1655,7 +1655,7 @@ admin.add_view(MyModelView(Charges, db.session))
 
 
 if __name__ == '__main__':
-	app.run(debug = True)
+	app.run()
 
 
 
