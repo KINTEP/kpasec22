@@ -19,6 +19,7 @@ wtforms-sqlalchemy = "*"
 wtforms = {extras = ["email"], version = "*"}
 psycopg2 = "*"
 pipreqs = "*"
+gunicorn = "*"
 
 [dev-packages]
 
