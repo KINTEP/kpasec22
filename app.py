@@ -1171,13 +1171,14 @@ def student_stats():
 	if account_access():
 		cha = Charges.query.all()
 		if len(cha) < 1:
-			start = dt.date(year=2020, month=1, day=1)
-			end = datetime.utcnow().date()
-			#et_one, et_two, et_three,pt_one, pt_two, pt_three,etl, pta = [0 for i in range(8)]
-		else:
+			#start = dt.date(year=2020, month=1, day=1)
+			#end = datetime.utcnow().date()
+			et_one, et_two, et_three,pt_one, pt_two, pt_three,etl, pta,one,two,three,tot = [0 for i in range(12)]
+			return render_template("student_stats.html", et_one=et_one, et_two=et_two, et_three=et_three,
+			pt_one=pt_one, pt_two=pt_two, pt_three=pt_three,pta=pta,etl=etl,one=one,two=two,three=three,tot=tot)
 			#cha = Charges.query.all()[-1]
-			start = cha[-1].begin_date
-			end = cha[-1].end_date
+		start = cha[-1].begin_date
+		end = cha[-1].end_date
 		etl, pta = get_class_stats(start, end)
 		et_one, et_two, et_three = etl.get('1'), etl.get('2'), etl.get('3')
 		pt_one, pt_two, pt_three = pta.get('1'), pta.get('2'), pta.get('3')
@@ -1631,7 +1632,7 @@ def obtain_cash_book_balances(database):
 
 class MyModelView(ModelView):
 	def is_accessible(self):
-		if current_user.is_authenticated and current_user.approval:# and current_user.is_admin:
+		if current_user.is_authenticated:# and current_user.approval:# and current_user.is_admin:
 			return True
 		else:
 			return False
