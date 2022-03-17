@@ -244,7 +244,14 @@ span a{
 
 	.box{
 		height: 2.2em;
-		width: 90%;
+		width: 92%;
+		border-radius: 3px;
+		border: solid 1px black;
+	}
+
+	.boxx{
+		height: 2.2em;
+		width: 92%;
 		border-radius: 3px;
 		border: solid 1px black;
 	}
@@ -291,10 +298,21 @@ span a{
 
 
 	.box{
-		height: 2.2em;
+		height: 26%;
 		width: 100%;
 		border-radius: 3px;
 		border: solid 1px black;
+		word-wrap: break-word;
+
+	}
+
+	.boxx{
+		height: 26%;
+		width: 100%;
+		border-radius: 3px;
+		border: solid 1px black;
+		word-wrap: break-word;
+		overflow-y: scroll;
 	}
 	.class2 .rec{
 		background:#34495E ;
@@ -366,7 +384,7 @@ span a{
    		 <div class="row ro1" style="width: 100%; " >
    		 	<div class="col col1">
    		 		<label>Student Name</label><br>
-                <div class="box">{{fullname}} </div>
+                <div class="boxx">{{fullname}} </div>
                 <label>Parents Contact</label><br>
                 <div class="box"> {{parent_contact}}</div>
                 

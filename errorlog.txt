@@ -1097,3 +1097,135 @@ sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to serve
 connection to server at "ec2-44-192-245-97.compute-1.amazonaws.com" (44.192.245.97), port 5432 failed: FATAL:  no pg_hba.conf entry for host "102.176.94.136", user "rcrcittfbiapfa", database "da8kfqt02ehgca", SSL off
 
 (Background on this error at: https://sqlalche.me/e/14/e3q8)
+Exception on /clerk_dashboard [GET]
+Traceback (most recent call last):
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\base.py", line 3256, in _wrap_pool_connect
+    return fn()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 310, in connect
+    return _ConnectionFairy._checkout(self)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 868, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 476, in checkout
+    rec = pool._do_get()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\impl.py", line 146, in _do_get
+    self._dec_overflow()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\impl.py", line 143, in _do_get
+    return self._create_connection()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 256, in _create_connection
+    return _ConnectionRecord(self)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 371, in __init__
+    self.__connect()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 666, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 661, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\create.py", line 590, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\default.py", line 597, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\psycopg2\__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "ec2-44-192-245-97.compute-1.amazonaws.com" (44.192.245.97), port 5432 failed: FATAL:  password authentication failed for user "rcrcittfbiapfa"
+connection to server at "ec2-44-192-245-97.compute-1.amazonaws.com" (44.192.245.97), port 5432 failed: FATAL:  no pg_hba.conf entry for host "102.176.94.136", user "rcrcittfbiapfa", database "da8kfqt02ehgca", SSL off
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\flask\app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\flask\app.py", line 1518, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\flask\app.py", line 1516, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\flask\app.py", line 1502, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\flask_login\utils.py", line 270, in decorated_view
+    elif not current_user.is_authenticated:
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\werkzeug\local.py", line 436, in __get__
+    obj = instance._get_current_object()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\werkzeug\local.py", line 565, in _get_current_object
+    return self.__local()  # type: ignore
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\flask_login\utils.py", line 26, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\flask_login\utils.py", line 346, in _get_user
+    current_app.login_manager._load_user()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\flask_login\login_manager.py", line 318, in _load_user
+    user = self._user_callback(user_id)
+  File "C:\Users\user\Desktop\kpasec22\app.py", line 132, in load_user
+    return User.query.get(int(user_id))
+  File "<string>", line 2, in get
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\deprecations.py", line 401, in warned
+    return fn(*args, **kwargs)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\orm\query.py", line 943, in get
+    return self._get_impl(ident, loading.load_on_pk_identity)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\orm\query.py", line 947, in _get_impl
+    return self.session._get_impl(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\orm\session.py", line 2892, in _get_impl
+    return db_load_fn(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\orm\loading.py", line 530, in load_on_pk_identity
+    session.execute(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\orm\session.py", line 1691, in execute
+    conn = self._connection_for_bind(bind)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\orm\session.py", line 1532, in _connection_for_bind
+    return self._transaction._connection_for_bind(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\orm\session.py", line 747, in _connection_for_bind
+    conn = bind.connect()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\base.py", line 3210, in connect
+    return self._connection_cls(self, close_with_result=close_with_result)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\base.py", line 96, in __init__
+    else engine.raw_connection()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\base.py", line 3289, in raw_connection
+    return self._wrap_pool_connect(self.pool.connect, _connection)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\base.py", line 3259, in _wrap_pool_connect
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\base.py", line 2106, in _handle_dbapi_exception_noconnection
+    util.raise_(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\base.py", line 3256, in _wrap_pool_connect
+    return fn()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 310, in connect
+    return _ConnectionFairy._checkout(self)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 868, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 476, in checkout
+    rec = pool._do_get()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\impl.py", line 146, in _do_get
+    self._dec_overflow()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\impl.py", line 143, in _do_get
+    return self._create_connection()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 256, in _create_connection
+    return _ConnectionRecord(self)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 371, in __init__
+    self.__connect()
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 666, in __connect
+    pool.logger.debug("Error on connect(): %s", e)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\util\compat.py", line 207, in raise_
+    raise exception
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\pool\base.py", line 661, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\create.py", line 590, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\sqlalchemy\engine\default.py", line 597, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+  File "C:\Users\user\.virtualenvs\kpasec22-pTKp68im\lib\site-packages\psycopg2\__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "ec2-44-192-245-97.compute-1.amazonaws.com" (44.192.245.97), port 5432 failed: FATAL:  password authentication failed for user "rcrcittfbiapfa"
+connection to server at "ec2-44-192-245-97.compute-1.amazonaws.com" (44.192.245.97), port 5432 failed: FATAL:  no pg_hba.conf entry for host "102.176.94.136", user "rcrcittfbiapfa", database "da8kfqt02ehgca", SSL off
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)

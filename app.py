@@ -1168,6 +1168,9 @@ def account_daily_report():
 @app.route("/accountant_dashboard/student_stats")
 @login_required
 def student_stats():
+	cha = Charges.query.all()
+	if len(cha) < 0:
+		et_one, et_two, et_three,pt_one, pt_two, pt_three,etl, pta = [0 for i in range(8)]
 	cha = Charges.query.all()[-1]
 	start = cha.begin_date
 	end = cha.end_date
