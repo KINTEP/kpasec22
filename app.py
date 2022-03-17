@@ -1171,10 +1171,13 @@ def student_stats():
 	if account_access():
 		cha = Charges.query.all()
 		if len(cha) < 1:
-			et_one, et_two, et_three,pt_one, pt_two, pt_three,etl, pta = [0 for i in range(8)]
-		cha = Charges.query.all()[-1]
-		start = cha.begin_date
-		end = cha.end_date
+			start = dt.date(year=2020, month=1, day=1)
+			end = datetime.utcnow().date()
+			#et_one, et_two, et_three,pt_one, pt_two, pt_three,etl, pta = [0 for i in range(8)]
+		else:
+			#cha = Charges.query.all()[-1]
+			start = cha[-1].begin_date
+			end = cha[-1].end_date
 		etl, pta = get_class_stats(start, end)
 		et_one, et_two, et_three = etl.get('1'), etl.get('2'), etl.get('3')
 		pt_one, pt_two, pt_three = pta.get('1'), pta.get('2'), pta.get('3')
