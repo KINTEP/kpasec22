@@ -60,10 +60,9 @@ def generate_receipt_no():
 
 
 
-def generate_student_id(contact, dob):
-    date_of_birth = str(dob)
-    date_of_birth = date_of_birth.replace("-","")
-    res = str(contact) + str(date_of_birth)
+def generate_student_id(contact, firstname):
+    firstname = str(firstname).lower()
+    res = str(contact) + firstname
     return res
 
 

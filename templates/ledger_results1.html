@@ -340,7 +340,7 @@ table{
    					<th  class="dat4">Credit</th>
    					<th  class="dat5">Balance</th>
    				</tr>
-   				{% if category|length < 1%}
+   				{% if etls |length < 1 %}
    				<tr>
    					<td class="dat1">Date</td>
    					<td  class="dat2">Details</td>
@@ -349,30 +349,36 @@ table{
    					<td  class="dat5">Balance</td>
    				</tr>
    				{% else %}
-   				{% for cat in category %}
-   					{% if cat != 'revenue' %}
-   				<tr>
-   					<td class="dat1">{{date[loop.index-1]}}</td>
-   					<td  class="dat2">Form-{{student.class1[0]}} ({{sems[loop.index-1]}})  charge</td>
-   					<td  class="dat3 bg-danger co">{{etls[loop.index-1] | currencyFormat2 }}</td>
-   					<td class="dat4 bg-success"></td>
-   					{% if cum1[loop.index-1] < 1 %}
-   					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat1 }}</td>
-   					{% else %}
-   					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat1 }}</td>
-   					{% endif %}
-   				</tr>
-   					{% else %}
-   				<tr>
-   					<td class="dat1">{{date[loop.index-1]}}</td>
-   					<td  class="dat2">E.T.L</td>
-   					<td  class="dat3">---</td>
-   					<td class="dat4">{{etls[loop.index-1] | currencyFormat2 }}</td>
-   					<td class="dat5">{{cum1[loop.index-1] | currencyFormat1 }}</td>
-   				</tr>
-   					{% endif %}
-   				{% endfor %}
+
+   				
+	   				{% for cat in category %}
+	   				{% if etls[loop.index-1] != 0 %}
+	   					{% if cat != 'revenue' %}
+	   					
+	   				<tr>
+	   					<td class="dat1">{{date[loop.index-1]}}</td>
+	   					<td  class="dat2">Form-{{student.class1[0]}} ({{sems[loop.index-1]}})  charge</td>
+	   					<td  class="dat3 bg-danger co">{{etls[loop.index-1] | currencyFormat2 }}</td>
+	   					<td class="dat4 bg-success"></td>
+	   					{% if cum1[loop.index-1] < 1 %}
+	   					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat1 }}</td>
+	   					{% else %}
+	   					<td class="dat5 bg-danger co">{{cum1[loop.index-1] | currencyFormat1 }}</td>
+	   					{% endif %}
+	   				</tr>
+	   					{% else %}
+	   				<tr>
+	   					<td class="dat1">{{date[loop.index-1]}}</td>
+	   					<td  class="dat2">E.T.L</td>
+	   					<td  class="dat3">---</td>
+	   					<td class="dat4">{{etls[loop.index-1] | currencyFormat2 }}</td>
+	   					<td class="dat5">{{cum1[loop.index-1] | currencyFormat1 }}</td>
+	   				</tr>{% endif %}
+
+	   					{% endif %}
+	   				{% endfor %}
    				{% endif %}
+   				
    			</table><br>
 
    		</div>
@@ -398,7 +404,9 @@ table{
    					<td  class="dat5">Balance</td>
    				</tr>
    				{% else %}
+   				
    				{% for cat in category %}
+   				{% if ptas[loop.index-1] != 0 %}
    				   {% if cat == 'charge' %}
    				<tr>
    					<td class="dat1">{{date[loop.index-1]}}</td>
@@ -415,6 +423,7 @@ table{
    					<td class="dat4">{{ptas[loop.index-1] | currencyFormat2 }}</td>
    					<td class="dat5">{{cum2[loop.index-1] | currencyFormat1 }}</td>
    				</tr>
+   				    {% endif %}
    				    {% endif %}
    				{% endfor %}
    				{% endif %}

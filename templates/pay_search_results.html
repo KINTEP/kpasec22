@@ -353,7 +353,7 @@ span a{
 			 
 			    </div>
 		 </nav>
-<div class="flash">
+<div class="flash" style="margin-left: 10%; margin-right: 10%; margin-top: 1%; margin-bottom: 1%;">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -375,7 +375,7 @@ span a{
    	
 
    	<div class="class2">
-   		<form method="POST" enctype="multipart/form-data" onsubmit="click1()" id="form-id">
+   		<form method="POST" enctype="multipart/form-data" onsubmit="" id="form-id">
  		{{form.csrf_token}}
  		{{form.hidden_tag()}}
   

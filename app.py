@@ -45,7 +45,7 @@ if uri.startswith("postgres://"):
 app = Flask(__name__)
 
 local = 'sqlite:///kpasec.db'
-uri = uri
+uri = local
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 #app.config['SQLALCHEMY_BINDS'] = {"kpasec": "sqlite:///kpasec.db", "kpasecarchives":"sqlite:///kpasecarchives.db"}
 
@@ -236,7 +236,7 @@ def pta_expenses():
 			else:
 				dx = q1[-1].id
 			add_pta_expense(id=dx, clerk=current_user.username, detail=detail, semester=semester, mode=mode, category=category.category, quantity=quantity, totalcost=totalcost)
-			#flash("Data successfully saved", "success")
+			flash("Data successfully saved", "success")
 			#return redirect(url_for("gen_expenses"))
 		return render_template("pta_expenses_form.html", form=form, title=title, form1=form1)
 	else:
@@ -249,15 +249,21 @@ def etl_expenses():
 	if account_access():
 		title = "Make ETL Expense"
 		form = ETLExpensesForm()
+		#if request.method == 'POST':
+		#	print(form.validate())
+			
 		form1 = NewExpenseCatForm()
+		#print(form1.validate())
 		if form1.data['exp_submit'] and form1.validate_on_submit():
 			category = form1.data.get('category')
+			print(category)
 			new = ExpenseCategory(adder = current_user.username, category=category)
 			db.session.add(new)
 			db.session.commit()
 			#flash(f'{category} category added', 'success')
-		if form.data['submit'] and form.validate_on_submit():
+		if form.data['submit1'] and form.validate_on_submit():
 			detail = form.data.get('detail')
+			print(detail)
 			mode = form.data.get('mode')
 			totalcost = form.data.get('totalcost')
 			semester = form.data.get('semester')
@@ -277,7 +283,7 @@ def etl_expenses():
 			else:
 				dx = q1[-1].id
 			add_etl_expense(id=dx, clerk=current_user.username, detail=detail, semester=semester, mode=mode, category=category.category, quantity=quantity, totalcost=totalcost)
-			#flash("Data successfully saved", "success")
+			flash("Data successfully saved", "success")
 			return redirect(url_for("etl_expenses"))
 		return render_template("etl_expenses_form.html", form=form, title=title, form1=form1)
 	else:
@@ -378,7 +384,7 @@ def clerk_dashboard():
 		form3 = DonationForm()
 		#DonationForm(name, amount, mode, semester)
 		if form3.data['submit'] and form3.validate_on_submit():
-			name = form3.data.get('name')
+			name = form3.data.get("name")
 			amount = form3.data.get('amount')
 			mode = form3.data.get('mode')
 			semester = form3.data.get('semester')
@@ -387,26 +393,32 @@ def clerk_dashboard():
 			db.session.add(pta1)
 			db.session.commit()
 			pttaa = PTAIncome.query.all()
-			if len(ptta)<1:
+			if len(pttaa)<1:
 				dx = 1
 			else:
-				dx = ptta[-1].id
-			add_pta_payment(id=dx, clerk=current_user.username, payer=name,amount=amount, tx_id=receipt, semester=semester, mode=mode, category='revenue', name=name, type1='donation')
+				dx = pttaa[-1].id
+			try:
+				add_pta_payment(id=dx, clerk=current_user.username, payer=name,amount=str(amount), tx_id=receipt, semester=semester, mode=mode, category='revenue', name=name, type1='donation')
+			except:
+				pass
 			tx_id = encrypt_text(str(receipt))
 			name = encrypt_text(name)
 
-			#flash(f"Payment successfully made!", "success")
+			flash(f"Payment successfully made!", "success")
 			return redirect(url_for('receipt2', num=tx_id, name=name, amount=amount))
 			flash(f"Donation received from {name}", 'success')
 		if form2.data['register_submit'] and form2.validate_on_submit():
-			name = form2.data.get("name").strip()
+			firstname = form2.data.get('firstname').strip()
+			lastname = form2.data.get('lastname').strip()
+			othername = form2.data.get('othername').strip()
 			class1 = form2.data.get("class1")
 			dob = form2.data.get("date_of_birth")
 			date_ad = form2.data.get("date_admitted")
 			phone = form2.data.get("parent_contact")
 			phone1 = form2.data.get("phone")
-			idx = generate_student_id(phone, dob)
-			stud = Student(clerk=current_user.username,date=date_ad,fullname=name, phone=phone1, date_of_birth=dob, class1=class1.class1, parent_contact=phone, id_number=idx, date_admitted=date_ad)
+			fullname = firstname + " " + lastname + " " + othername
+			idx = generate_student_id(phone, firstname)
+			stud = Student(clerk=current_user.username,date=date_ad,fullname=fullname, firstname=firstname, lastname=lastname, othername=othername,phone=phone1, date_of_birth=dob, class1=class1.class1, parent_contact=phone, id_number=idx, date_admitted=date_ad)
 			db.session.add(stud)
 			db.session.commit()
 			st1 = Student.query.all()
@@ -414,15 +426,15 @@ def clerk_dashboard():
 				dx = 1
 			else:
 				dx = st1[-1].id
-			add_student(id=dx, clerk=current_user.username, date_ad=date_ad, dob=dob,fullname=name, class1=class1.class1, p_phone=phone, phone=phone1, idx=idx)
-			flash(f"{name} successfully registered!", "success")
+			add_student(id=dx, clerk=current_user.username, date_ad=date_ad, dob=dob,fullname=fullname, class1=class1.class1, p_phone=phone, phone=phone1, idx=idx)
+			flash(f"{fullname} successfully registered!", "success")
 			return redirect(url_for('clerk_dashboard'))
 
 
 		if form1.data['search_submit'] and form1.validate_on_submit():
 			phone = form1.data.get('parent_contact')
-			dob = form1.data.get('date_of_birth')
-			stud_id = generate_student_id(contact=phone, dob=dob)
+			firstname = form1.data.get('firstname')
+			stud_id = generate_student_id(contact=phone, firstname=firstname)
 			student = Student.query.filter_by(id_number=stud_id).first()
 			if student:
 				name = encrypt_text(student.fullname)
@@ -512,7 +524,8 @@ def get_class_stats(start, end):
 
 def student_ledg(date, id1):
 	con = create_engine(uri)
-	date = pd.to_datetime(date)
+	#date = pd.to_datetime(date)
+	date = str(date)
 	q1 = pd.read_sql_query(f"SELECT student_payments.date, fullname, semester, etl_amount, pta_amount, tx_id, category from student INNER JOIN student_payments ON student_payments.student_id = student.id WHERE student.id_number = '{id1}'", con)
 	q2 = pd.read_sql_query("SELECT begin_date, etl, pta, semester FROM charges", con)
 	q3 = q2[q2['begin_date'] >= date]
@@ -846,10 +859,12 @@ def search_ledgers():
 		form = StudentLedgerForm()
 		if form.validate_on_submit():
 			phone = form.data.get("phone")
-			dob = form.data.get("dob")
-			dob1 = dt.date(day=dob.day, month=dob.month, year=dob.year)
+			firstname = form.data.get("firstname").strip().lower()
+			#dob1 = dt.date(day=dob.day, month=dob.month, year=dob.year)
 			phone = encrypt_text(str(phone))
-			return redirect(url_for('ledger_results', phone=phone, dob=dob1))
+			session['phone1'] = phone
+			session['firstname'] = firstname
+			return redirect(url_for('ledger_results'))
 		return render_template("search_ledger.html", form=form)
 	else:
 		abort(404)
@@ -903,8 +918,12 @@ def pay_search_result(name, dob, phone, idx, class1):
 				etl = 0
 				pmt_data = StudentPayments(etl_amount=0, pta_amount=pta, semester=semester, mode_of_payment=mode, student_id=idx, amount=amount, tx_id=tx_id)
 				pta_data = PTAIncome(clerk=current_user.username,amount=pta, tx_id=tx_id, semester=semester, mode_of_payment=mode, student_id=idx)
-				id1 = StudentPayments.query.all()[-1].id
-				id2 = PTAIncome.query.all()[-1].id
+				try:
+					id1 = StudentPayments.query.all()[-1].id
+					id2 = PTAIncome.query.all()[-1].id
+				except:
+					id1 = 1
+					id2 = 1
 				#ptacash = PTACashBook(amount=pta, category="revenue", semester=semester, balance = balance2, income_id=id2+1)
 				
 				db.session.add(pta_data)
@@ -952,7 +971,7 @@ def pay_search_result(name, dob, phone, idx, class1):
 			name = encrypt_text(name)
 			contact = encrypt_text(contact)
 
-			#flash(f"Payment successfully made!", "success")
+			flash(f"Payment successfully made!", "success")
 			return redirect(url_for('receipt', num=tx_id, name=name, etl_amount=etl, pta_amount=pta, contact=contact, class1=class1))
 				
 		return render_template("pay_search_results.html", class1=class1, fullname=name, date_of_birth=dob, 
@@ -1091,6 +1110,8 @@ def etl_income_and_expenditure(start, end):
 		#prf0 = 0#sum([i.amount for i in OtherBusiness.query.filter(OtherBusiness.end_date < start1).all()])
 		bf = inc0  - exp0
 		#profit = 0#sum([i.amount for i in OtherBusiness.query.filter(OtherBusiness.end_date.between(start1, end1)).all()])
+		if not dues:
+			dues = 0
 		inc_tot = dues + bf
 		cust = ETLExpenses.query.filter(ETLExpenses.date.between(start1, end1)).order_by(ETLExpenses.category).all()
 		set1 = list(set([i.category for i in cust]))
@@ -1117,6 +1138,10 @@ def pta_income_and_expenditure(start, end):
 		inc0 = sum([i.amount for i in dues0])
 		exp0 = sum([i.totalcost for i in expe0])
 		prf0 = sum([i.amount for i in OtherBusiness.query.filter(OtherBusiness.end_date < start1).all()])
+		if not dues:
+			dues = 0
+		if not prf0:
+			prf0 = 0
 		bf = inc0 + prf0 - exp0
 		profit = sum([i.amount for i in OtherBusiness.query.filter(OtherBusiness.end_date.between(start1, end1)).all()])
 		inc_tot = dues + bf + profit
@@ -1170,6 +1195,7 @@ def account_daily_report():
 def student_stats():
 	if account_access():
 		cha = Charges.query.all()
+		print(cha)
 		if len(cha) < 1:
 			#start = dt.date(year=2020, month=1, day=1)
 			#end = datetime.utcnow().date()
@@ -1179,6 +1205,12 @@ def student_stats():
 			#cha = Charges.query.all()[-1]
 		start = cha[-1].begin_date
 		end = cha[-1].end_date
+		etl_inc = ETLIncome.query.filter_by(category='revenue').all()
+		pta_inc = PTAIncome.query.filter_by(category='revenue').filter_by(type1='dues').all()
+		if len(etl_inc) < 1 and len(pta_inc) < 1:
+			et_one, et_two, et_three,pt_one, pt_two, pt_three,etl, pta,one,two,three,tot = [0 for i in range(12)]
+			return render_template("student_stats.html", et_one=et_one, et_two=et_two, et_three=et_three,
+			pt_one=pt_one, pt_two=pt_two, pt_three=pt_three,pta=pta,etl=etl,one=one,two=two,three=three,tot=tot)
 		etl, pta = get_class_stats(start, end)
 		et_one, et_two, et_three = etl.get('1'), etl.get('2'), etl.get('3')
 		pt_one, pt_two, pt_three = pta.get('1'), pta.get('2'), pta.get('3')
@@ -1197,18 +1229,25 @@ def student_stats():
 		one,two,three = et_one + pt_one,et_two + pt_two, et_three + pt_three
 		pta, etl = pt_one+pt_two+pt_three, et_one+et_three+et_two
 		tot = pta + etl
+		#print(tot)
+		print(get_class_stats(start, end))
+		print(start)
+		print(end)
+		#print(etl)
 		return render_template("student_stats.html", et_one=et_one, et_two=et_two, et_three=et_three,
 			pt_one=pt_one, pt_two=pt_two, pt_three=pt_three,pta=pta,etl=etl,one=one,two=two,three=three,tot=tot)
 	else:
 		abort(404)
 
 
-@app.route("/accountant_dashboard/search_ledgers/ledger_results/<string:phone>, <string:dob>")
+@app.route("/accountant_dashboard/search_ledgers/ledger_results/")
 @login_required
-def ledger_results(phone, dob):
+def ledger_results():
 	if account_access():
+		phone = session.get('phone1')
+		firstname = session.get('firstname')
 		phone1 = '0' + decrypt_text(phone)
-		idx = generate_student_id(phone1, dob)
+		idx = generate_student_id(phone1, firstname)
 		student = Student.query.filter_by(id_number=idx).first()
 		if student:
 			df2 = student_ledg(date = student.date_admitted, id1=idx)
@@ -1220,15 +1259,21 @@ def ledger_results(phone, dob):
 			else:
 				pta_charge = 0
 				etl_charge = 0
+			#etls = [i for i in df2['etl_amount'] if i != 0]
+			#ptas = [i for i in df2['pta_amount'] if i != 0]
 			etls = list(df2['etl_amount'])
 			ptas = list(df2['pta_amount'])
 			sems = list(df2['semester'])
 			category = list(df2['category'])
+			#etl_category = [i for i in df2['category'] if df2['etl_amount'] != 0]
 			pta = [i for i in ptas if i > 0]
 			etl = [i for i in etls if i > 0]
 			total = sum(etl) + sum(pta)
 			cum1 = cumsum(etls)
 			cum2 = cumsum(ptas)
+			print(len(category))
+			print(etls)
+			print(df2)
 			return render_template("ledger_results1.html", student=student, cum1=cum1, cum2=cum2,sems=sems,
 			 pta_charge=pta_charge, etl_charge=etl_charge,etls=etls, ptas=ptas, date=date, category=category)
 		else:
@@ -1272,6 +1317,22 @@ def api_ajax():
 	data = {'data1':'success'}
 	return data
 
+@app.route("/tests", methods=['GET', 'POST'])
+#@login_required
+def tests():
+	form = testForm()
+	if request.method == 'POST':
+		print("-----------------------------")
+		#print(dir(form.data.values()))
+		print(form.name1.data)
+		print(request.args.get('submit11'))
+	#if form.validate_on_submit():
+	if form.data['submit1'] and form.validate_on_submit():
+	#if request.method == 'POST':
+		print("Helloooo")
+		name = form.name1.data
+		print(name) 
+	return render_template('tests.html', form=form)
 
 class Classes(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -1287,13 +1348,17 @@ class ExpenseCategory(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	adder = db.Column(db.String(120))
-	category = db.Column(db.String(120), nullable=False)
+	category = db.Column(db.String(120), nullable=False, unique=True)
 
 	def __repr__(self):
 		return f'User: {self.category}'
 
 
 #FORMS
+class testForm(FlaskForm):
+	name1 = StringField('Name please', validators=[DataRequired()])
+	submit1 = SubmitField('Send')
+
 def classquery():
 	return Classes.query
 
@@ -1302,7 +1367,9 @@ def expensequery():
 	return ExpenseCategory.query
 
 class StudentSignUp(FlaskForm):
-    name = StringField("Full Name", validators=[DataRequired()])
+    firstname = StringField("First Name", validators=[DataRequired()])
+    lastname = StringField("Last Name", validators=[DataRequired()])
+    othername = StringField("Other Name", validators=[])
     date_of_birth = DateField("Date of Birth", validators=[DataRequired()])
     date_admitted = DateField("Date of Admission", validators=[DataRequired()])
     class1 = QuerySelectField(query_factory=classquery, get_label = 'class1', allow_blank = True)
@@ -1317,8 +1384,18 @@ class StudentSignUp(FlaskForm):
     	if date_admitted1 > today:
     		raise ValidationError(f"Date cant't be further than {today}")
 
-    def validate_name(self, name):
-    	for char in name.data:
+    def validate_firstname(self, firstname):
+    	for char in firstname.data:
+    		if inside(ch=char) == False:
+    			raise ValidationError(f'Character {char} is not allowed')
+
+    def validate_lastname(self, lastname):
+    	for char in lastname.data:
+    		if inside(ch=char) == False:
+    			raise ValidationError(f'Character {char} is not allowed')
+
+    def validate_othername(self, othername):
+    	for char in othername.data:
     		if inside(ch=char) == False:
     			raise ValidationError(f'Character {char} is not allowed')
 
@@ -1393,7 +1470,7 @@ class ETLExpensesForm(FlaskForm):
 	totalcost = DecimalField("Total Cost", validators=[DataRequired(), NumberRange(min=1, max=3000000)])
 	quantity = StringField("Quantity", validators=[DataRequired(), Length(min=1, max=120)])
 	category = QuerySelectField(query_factory=expensequery, get_label = 'category', allow_blank = False)
-	submit = SubmitField("Debit")
+	submit1 = SubmitField("Debit")
 
 	def validate_detail(self, detail):
 		for char in detail.data:
@@ -1450,6 +1527,9 @@ class Student(db.Model):
 	date = db.Column(db.DateTime, default = datetime.utcnow())
 	clerk = db.Column(db.String(120),nullable=False)
 	date_admitted = db.Column(db.DateTime)
+	firstname = db.Column(db.String(80), nullable=False)
+	lastname = db.Column(db.String(80), nullable=False)
+	othername = db.Column(db.String(80))
 	fullname = db.Column(db.String(80), nullable=False)
 	date_of_birth = db.Column(db.String(10), nullable=False)
 	class1 = db.Column(db.String(10), nullable=False)
@@ -1643,7 +1723,9 @@ admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Classes, db.session))
 admin.add_view(MyModelView(Student, db.session))
 admin.add_view(MyModelView(Charges, db.session))
-#admin.add_view(MyModelView(PTAIncome, db.session))
+admin.add_view(MyModelView(PTAIncome, db.session))
+admin.add_view(MyModelView(ETLIncome, db.session))
+admin.add_view(MyModelView(StudentPayments, db.session))
 
 #
 #for i in range(10000):
@@ -1662,7 +1744,7 @@ admin.add_view(MyModelView(Charges, db.session))
 
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug=True)
 
 
 

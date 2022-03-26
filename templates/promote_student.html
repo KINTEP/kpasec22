@@ -766,7 +766,8 @@ span a{
 <script>
 $(document).ready(function(){
   $("#button").click(function(){
-    $.ajax({url: "/accountant_dashboard/promote_students", success: function(result){
+    $.ajax({url: "/accountant_dashboard/promote_students", 
+    	success: function(result){
     	res1 = result['data']
 
     	if (res1 == 'successfully'){

@@ -234,7 +234,8 @@ span a{
 			 
 			    </div>
 		 </nav>
-		 <div class="flash">
+	</header>
+<div class="flash" style="margin-left: 30%; margin-right: 30%; margin-top: 1%; margin-bottom: 1%;">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -246,63 +247,132 @@ span a{
       {% endif %}
     {% endwith %}
   </div>
-	</header>
-	
 {% include 'expense_modal.html' %}
 	   	<div class="tttable" id="cont2">
    		<h3 class="topp" style="padding-top:4vh; text-align: center; font-family:sans-serif; ">{{title}} </h3>
-   		<form method="POST" action="" id="student_data" class="fff" onsubmit = 'click1()' >
+   		<form method="POST" action="" id="" 
+   		class="fff" onsubmit="">
 			{{form.hidden_tag()}}
 			<label style="color:green">Details</label><br>
 			{{render_field(form.detail)}}
-			{{form.detail()}}<br>
+			{{form.detail(id='detail1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Category</label><br>
 			{{render_field(form.category)}}
-			{{form.category(class='select', )}}<br>
+			{{form.category(class='select', id='category1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Mode of Payment</label><br>
 			{{render_field(form.mode)}}
-			{{form.mode(class='select', )}}<br>
+			{{form.mode(class='select', id='mode1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Semester</label><br>
 			{{render_field(form.semester)}}
-			{{form.semester(class='select',)}}<br>
+			{{form.semester(class='select', id='semester1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Quantity</label><br>
 			{{render_field(form.quantity)}}
-			{{form.quantity(class='cls', placeholder='5 boxes, 10 units')}}<br>
+			{{form.quantity(class='cls', placeholder='5 boxes, 10 units', id = 'quantity1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Total Cost</label><br>
 			{{render_field(form.totalcost)}}
-			{{form.totalcost(class='cls', placeholder='5.00')}}<br>
+			{{form.totalcost(class='cls', placeholder='5.00', id = 'totalcost1')}}<br>
 			
-			{{form.submit(class='sub')}}<br>
+			{{form.submit1(class='sub')}}<br>
 		</form><br>
 
 
 
    	</div>
+   	<script type="text/javascript">
+  function submitForm(form) {
+
+    swal({
+      title: "Are you here",
+      text: "Hello Sir!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((isOkay) => {
+      if (isOkay) {
+        form.submit();
+        window.location.reload(true)
+      }
+    })
+    return false;
+  }
+</script>
    	<script src="../js/jquery-3.6.0.min.js"></script>
    	<script type="text/javascript">
    		$('#category1').val('')
+   		$('#detail1').val('')
+   		$('#semester1').val('')
+   		$('#mode1').val('')
+   		$('#quantity1').val('')
+   		$('#totalcost1').val('')
    	</script>
    	<script type="text/javascript">
+   		
    		function click1() {
-   			$('#cont2').css("display", "none")
+   			//$('#cont2').css("display", "none")
    			swal("Saved!", "", "success");   		}
+   			
    	</script>
    	<script type="text/javascript">
+   		
    		function click2() {
-   			$('#cont2').css("display", "none")
+   			//$('#cont2').css("display", "none")
    			$('#modal1').css("display", "none")
    			swal("Saved!", "", "success");   		}
    	</script>
    	<script type="text/javascript">
+   		
    		$('#dash').click(function() {
-   			$('#cont2').css("display", "none");
+   			//$('#cont2').css("display", "none");
    		})
    	</script>
    	<script type="text/javascript">
+   		
    		$('#button2').click(function() {
-   			$('#cont2').css("display", "block");
+   			//$('#cont2').css("display", "block");
    			$('#modal1').css("display", "block");
    		})
+   	</script>
+
+   	<script type="text/javascript">
+   		
+   		function submitForm(form) {
+   			//$('#cont2').css("display", "none")
+   			swal({
+   				title:"Are you sure?",
+   				text:"This form will be submitted",
+   				icon: "warning",
+   				buttons:true,
+   				dangerMode:true,
+   			}).then((isOkay) => {
+   				//alert(isOkay)
+   				if (isOkay === true) {
+   					form.submit();
+   				}
+   			})
+   			return false;
+   		}
+   	</script>
+   	<script type="text/javascript">
+   		
+   		$("#student_data").submit( function () {
+    var jns_srt = $("#i_dok").val();
+
+    swal({
+        title: "Are you sure?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes!",
+        cancelButtonText: "Cancel",
+        closeOnConfirm: true
+    }, function(isConfirm){
+      if (isConfirm) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+});
    	</script>
 </body>
 </html>

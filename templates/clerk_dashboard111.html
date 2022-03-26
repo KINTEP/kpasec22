@@ -747,7 +747,7 @@ span a{
 			 
 			    </div>
 			</nav>
-			<div class="flash">
+			<div class="flash" >
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -830,9 +830,9 @@ span a{
 			{{render_field(form1.parent_contact)}}
 			{{form1.parent_contact(placeholder='Enter student parents contact',style='padding-left:2%')}}
 			<br>
-			<label>Student's Date of Birth</label><br>
-			{{render_field(form1.date_of_birth)}}
-			{{form1.date_of_birth(style='padding-left:2%')}}
+			<label>Student's First Name</label><br>
+			{{render_field(form1.firstname)}}
+			{{form1.firstname(placeholder='Enter student firstname', style='padding-left:2%')}}
 
 			{{form1.search_submit(class='sub')}}
 			<br><br><br>
@@ -849,9 +849,17 @@ span a{
 			{{form2.hidden_tag()}}
 			{{form2.csrf_token}}
 			<h3 style="text-align: center;">Register New Student</h3>
-			<label>Student Name</label><br>
-			{{render_field(form2.name)}}
-			{{form2.name(placeholder="Enter student Name", style='padding-left:2%')}}
+			<label>Student First Name</label><br>
+			{{render_field(form2.firstname)}}
+			{{form2.firstname(placeholder="Enter student firstname", style='padding-left:2%')}}
+			<br>
+			<label>Student Last Name</label><br>
+			{{render_field(form2.lastname)}}
+			{{form2.lastname(placeholder="Enter student lastname", style='padding-left:2%')}}
+			<br>
+			<label>Student Other Name</label><br>
+			{{render_field(form2.othername)}}
+			{{form2.othername(placeholder="Enter student othername", style='padding-left:2%')}}
 			<br>
 			<label>Class</label><br>
 			{{render_field(form2.class1)}}

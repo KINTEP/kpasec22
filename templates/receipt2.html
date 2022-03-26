@@ -238,7 +238,8 @@ span a{
              
                 </div>
          </nav>
-        <div class="flash">
+    </header>
+ <div class="flash" style="margin-left: 15%; margin-right: 15%; margin-top: 1%; margin-bottom: 1%;">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -250,8 +251,6 @@ span a{
       {% endif %}
     {% endwith %}
   </div>
-    </header>
-	
 <div class="container bootdey cos" id="print0">
 <div class="row invoice row-printable" id="print1">
     <div class="col-md-10">

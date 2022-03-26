@@ -28,6 +28,7 @@
 		padding: 0%;
 	}
 </style>
+
 <body>
 <div class="">
 	<center>
@@ -47,7 +48,61 @@
 			<div class="col"><button class="btn btn-secondary btn-lg-sm-lg-xl text-wrap badge">Button1</button></div>
 		</div>
 	</div>
+
+	<form method="POST" onsubmit="return submitForm(this);" autocomplete="off" id="formId">
+		{{form.name1}}
+		<br>
+		{{form.submit1}}
+	</form>
 	</center>
 </div>
+<script src="../js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	$('#name1').val('');
+</script>
+<script type="text/javascript">
+	/*function(){
+    $.ajax({url: "/tests", success: function(result){
+    	res1 = result['data']
+
+    	data: form.serialize(),
+    	success: function(data),
+
+    	
+    }})
+  }
+*/
+	function submitForm(form) {
+		var form = $("#formId");
+        var url = form.attr('action');
+
+		swal({
+			title: "Are you here",
+			text: "Hello Sir!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then((isOkay) => {
+			if (isOkay) {
+				form.submit()
+				
+				/*
+    				$.ajax({
+    					url: url, 
+    					type: 'POST',
+    					data: form.serialize(),
+    					success: function(data){
+    						alert("Data sent!")
+    					}
+    	
+    				})
+  				*/
+				//form.reset()
+			}
+		})
+		return false
+	}
+</script>
+
 </body>
 {% endblock %}

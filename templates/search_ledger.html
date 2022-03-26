@@ -246,13 +246,13 @@ span a{
 			    {% endfor %}
 			{% endif %}
 			{{form.phone(placeholder='0541994034', class='cls')}}
-			<label style="color:green">DoB</label>
-			{% if form.dob.errors %}
-			    {% for error in form.dob.errors %}
+			<label style="color:green">Student First Name</label>
+			{% if form.firstname.errors %}
+			    {% for error in form.firstname.errors %}
 			    	{{error}}
 			    {% endfor %}
 			{% endif %}
-			{{form.dob(placeholder='0541994034', class='cls')}}<br>
+			{{form.firstname(placeholder='Isaac', class='cls')}}<br>
 
 			{{form.submit(class='sub')}}
 			<br>

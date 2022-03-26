@@ -23,7 +23,7 @@ class ClientSignUpForm(FlaskForm):
 
 class StudentLedgerForm(FlaskForm):
 	phone = IntegerField("Parent's Contact", validators=[DataRequired()])
-	dob = DateField("DoB", validators=[DataRequired()])
+	firstname = StringField("First Name", validators=[DataRequired()])
 	submit = SubmitField("Generate")
 
 	def validate_phone(self, phone):
@@ -32,12 +32,11 @@ class StudentLedgerForm(FlaskForm):
 		if len(num) != 9:
 			raise ValidationError("Phone number must be 10 digits")
 
-	def validate_dob(self, dob):
-		today = datetime.utcnow()
-		today = dt.date(year=today.year, month=today.month, day=today.day)
-		dob1 = dt.date(year=dob.data.year, month=dob.data.month, day=dob.data.day)
-		if dob1 > today:
-			raise ValidationError(f"Date cant't be further than {today}")
+	def validate_firstname(self, firstname):
+		for char in firstname.data:
+			if inside(ch=char) == False:
+				raise ValidationError(f'Character {char} is not allowed')
+	
 
 class ClientLogInForm(FlaskForm):
     email = EmailField("Email", validators=[DataRequired(), Email()])
@@ -195,10 +194,15 @@ class ChargeForm(FlaskForm):
 
 class SearchForm(FlaskForm):
     parent_contact = StringField("Parent Contact", validators=[DataRequired(), Length(min=8, max=20)])
-    date_of_birth = DateField("Date of Birth", validators=[DataRequired()])
+    firstname = StringField("First Name", validators=[DataRequired()])
     search_submit = SubmitField("Search")
 
     def validate_parent_contact(self, parent_contact):
     	for char in parent_contact.data:
     		if inside2(ch=char) == False:
+    			raise ValidationError(f'Character {char} is not allowed')
+
+    def validate_firstname(self, firstname):
+    	for char in firstname.data:
+    		if inside(ch=char) == False:
     			raise ValidationError(f'Character {char} is not allowed')

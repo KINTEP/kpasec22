@@ -235,30 +235,41 @@ span a{
 			    </div>
 		 </nav>
 	</header>
-	
+<div class="flash" style="margin-left: 30%; margin-right: 30%; margin-top: 1%; margin-bottom: 1%;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{category}} alert-dismissible fade show alert-sm" role="alert">
+          {{message}}
+          <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
 {% include 'expense_modal.html' %}
 	   	<div class="tttable" id="cont2">
    		<h3 class="topp" style="padding-top:4vh; text-align: center; font-family:sans-serif; ">{{title}} </h3>
-   		<form method="POST" action="" id="student_data" class="fff" onsubmit = 'click1()' >
+   		<form method="POST" action="" id="student_data" class="fff" onsubmit = '' >
 			{{form.hidden_tag()}}
 			<label style="color:green">Details</label><br>
 			{{render_field(form.detail)}}
-			{{form.detail()}}<br>
+			{{form.detail(id='detail1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Category</label><br>
 			{{render_field(form.category)}}
-			{{form.category(class='select', )}}<br>
+			{{form.category(class='select', id='category1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Mode of Payment</label><br>
 			{{render_field(form.mode)}}
-			{{form.mode(class='select', )}}<br>
+			{{form.mode(class='select', id='mode1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Semester</label><br>
 			{{render_field(form.semester)}}
-			{{form.semester(class='select',)}}<br>
+			{{form.semester(class='select', id='semester1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Quantity</label><br>
 			{{render_field(form.quantity)}}
-			{{form.quantity(class='cls', placeholder='5 boxes, 10 units')}}<br>
+			{{form.quantity(class='cls', placeholder='5 boxes, 10 units' , id = 'quantity1')}}<br>
 			<label style="text-align:flex-start;color: #2471A3;">Total Cost</label><br>
 			{{render_field(form.totalcost)}}
-			{{form.totalcost(class='cls', placeholder='5.00')}}<br>
+			{{form.totalcost(class='cls', placeholder='5.00', id = 'totalcost1')}}<br>
 			
 			{{form.submit(class='sub')}}<br>
 		</form><br>
@@ -269,6 +280,11 @@ span a{
    	<script src="../js/jquery-3.6.0.min.js"></script>
    	<script type="text/javascript">
    		$('#category1').val('')
+   		$('#detail1').val('')
+   		$('#semester1').val('')
+   		$('#mode1').val('')
+   		$('#quantity1').val('')
+   		$('#totalcost1').val('')
    	</script>
    	<script type="text/javascript">
    		function click1() {

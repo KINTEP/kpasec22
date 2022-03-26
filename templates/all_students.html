@@ -327,7 +327,8 @@ table tr td{
    			<tr>
    				<th class="non">No.</th>
    				<th class="foom">Class</th>
-   				<th class="fom">Name of Students</th>
+   				<th class="fom">First Name</th>
+   				<th class="fom">Full Name</th>
    				<th class="fom">Parent Contact</th>
    				<th class="fomm">Date of Birth</th>
    			</tr>
@@ -335,6 +336,7 @@ table tr td{
    			<tr>
    				<td>{{loop.index}}</td>
    				<td class="fom">{{student.class1}}</td>
+   				<td>{{student.firstname}}</td>
    				<td>{{student.fullname}}</td>
    				<td>{{student.parent_contact}}</td>
    				<td>{{student.date_of_birth}}</td>

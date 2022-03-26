@@ -270,7 +270,7 @@ body{
 
    	<div class="tttable" id="cont2">
    		<h3 class="topp" style="padding-top:9vh; text-align: center; ">Create A New Class </h3>
-   		<form method="POST" action="" id="student_data" class="fff">
+   		<form method="POST" action="" id="student_data" class="fff" onsubmit=";">
    			{{form.hidden_tag()}}
 			<label style="text-align:flex-start;color: #2471A3;">New Category</label><br>
 			{% if form.category.errors %}
@@ -285,7 +285,24 @@ body{
 		</form><br><br>
    	</div>
 
-   
+
+<script type="text/javascript">
+	function submitForm(form) {
+
+		swal({
+			title: "Are you here",
+			text: "Hello Sir!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then((isOkay) => {
+			if (isOkay) {
+				form.submit()
+			}
+		})
+		return false
+	}
+</script>
     
 <script src="../js/jquery-3.6.0.min.js"></script>
 <script >
