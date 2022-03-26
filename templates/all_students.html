@@ -317,12 +317,12 @@ table tr td{
 
 	</header>
 
- 
+
 
    <center>
     <div class="nul"></div>
    	<div class="ttable" id="cont1">
-   		<h3 class="topp" style="padding-top:4vh;font-family: sans-serif;">All Students </h3>
+   		<h3 class="topp" style="padding-top:4vh;font-family: sans-serif;">All Students for <span class="text-warning fw-bold">{{classes}}</span></h3>
    		<table >
    			<tr>
    				<th class="non">No.</th>
@@ -330,7 +330,9 @@ table tr td{
    				<th class="fom">First Name</th>
    				<th class="fom">Full Name</th>
    				<th class="fom">Parent Contact</th>
-   				<th class="fomm">Date of Birth</th>
+   				<th class="fomm">DOB</th>
+   				<th class="fomm">PTA Bal</th>
+   				<th class="fomm">ETL Bal</th>
    			</tr>
    			{% for student in students %}
    			<tr>
@@ -340,6 +342,8 @@ table tr td{
    				<td>{{student.fullname}}</td>
    				<td>{{student.parent_contact}}</td>
    				<td>{{student.date_of_birth}}</td>
+   				<td>{{balances[loop.index-1][0] | currencyFormat}}</td>
+   				<td>{{balances[loop.index-1][1] | currencyFormat}}</td>
    			</tr>
    			{% endfor %}
    		</table><br><br>

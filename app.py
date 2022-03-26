@@ -45,7 +45,7 @@ if uri.startswith("postgres://"):
 app = Flask(__name__)
 
 local = 'sqlite:///kpasec.db'
-uri = local
+uri = uri
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 #app.config['SQLALCHEMY_BINDS'] = {"kpasec": "sqlite:///kpasec.db", "kpasecarchives":"sqlite:///kpasecarchives.db"}
 
@@ -412,13 +412,15 @@ def clerk_dashboard():
 			lastname = form2.data.get('lastname').strip()
 			othername = form2.data.get('othername').strip()
 			class1 = form2.data.get("class1")
+			st_form = class1.class1[0]
 			dob = form2.data.get("date_of_birth")
 			date_ad = form2.data.get("date_admitted")
 			phone = form2.data.get("parent_contact")
 			phone1 = form2.data.get("phone")
 			fullname = firstname + " " + lastname + " " + othername
 			idx = generate_student_id(phone, firstname)
-			stud = Student(clerk=current_user.username,date=date_ad,fullname=fullname, firstname=firstname, lastname=lastname, othername=othername,phone=phone1, date_of_birth=dob, class1=class1.class1, parent_contact=phone, id_number=idx, date_admitted=date_ad)
+			stud = Student(clerk=current_user.username,date=date_ad,fullname=fullname, firstname=firstname, lastname=lastname, othername=othername,phone=phone1, date_of_birth=dob, 
+				class1=class1.class1, parent_contact=phone, id_number=idx, date_admitted=date_ad, form=st_form)
 			db.session.add(stud)
 			db.session.commit()
 			st1 = Student.query.all()
@@ -461,13 +463,24 @@ def clerk_dashboard():
 		abort(404)
 
 
+def get_student_balances(student, idx):
+	df2 = student_ledg(date = student.date_admitted, id1=idx)
+	date = [str(i)[:10] for i in df2['date']]
+	etls = list(df2['etl_amount'])
+	ptas = list(df2['pta_amount'])
+	etl = cumsum(etls)
+	pta = cumsum(ptas)
 
-@app.route("/accountant_dashboard/all_students")
+	return etl[-1], pta[-1]
+
+@app.route("/accountant_dashboard/all_students", methods=['POST', 'GET'])
 @login_required
 def all_students():
 	if account_access():
-		students = Student.query.all()
-		return render_template("all_students.html", students=students)
+		classes = session.get("classes")
+		students = Student.query.filter_by(class1 = classes).all()
+		balances = [get_student_balances(student=i, idx=i.id_number) for i in students]
+		return render_template("all_students2.html", students=students, balances=balances, classes=classes)
 	else:
 		abort(404)
 
@@ -781,6 +794,7 @@ def accountant_dashboard():
 		form1 = ExpensesForm()
 		form2 = ReportsForm()
 		form3 = OtherBusinessForm()
+		form4 = AllStudentForm()
 		if form2.data['submit_rep'] and form2.validate_on_submit():
 			report = form2.data.get("report")
 			filter_by = form2.data.get("filter_by")
@@ -830,8 +844,11 @@ def accountant_dashboard():
 			other = OtherBusiness(adder=current_user.username, name=name, detail=detail, start_date=start_date, end_date=end_date, amount=amount)
 			db.session.add(other)
 			db.session.commit()
+		if form4.data['all_stud_submit'] and form4.validate_on_submit():
+			session['classes'] = form4.data.get('classes').class1
+			return redirect(url_for('all_students'))
 		return render_template("accountant_dashboard11.html", todo=todo, form1=form1, studs=studs, income=pta+etl, pta=pta, etl=etl,
-			expense=expense, form2=form2, form3=form3)
+			expense=expense, form2=form2, form3=form3, form4=form4)
 	else:
 		abort(404)
 
@@ -1240,6 +1257,7 @@ def student_stats():
 		abort(404)
 
 
+
 @app.route("/accountant_dashboard/search_ledgers/ledger_results/")
 @login_required
 def ledger_results():
@@ -1259,21 +1277,16 @@ def ledger_results():
 			else:
 				pta_charge = 0
 				etl_charge = 0
-			#etls = [i for i in df2['etl_amount'] if i != 0]
-			#ptas = [i for i in df2['pta_amount'] if i != 0]
 			etls = list(df2['etl_amount'])
 			ptas = list(df2['pta_amount'])
 			sems = list(df2['semester'])
 			category = list(df2['category'])
-			#etl_category = [i for i in df2['category'] if df2['etl_amount'] != 0]
+			
 			pta = [i for i in ptas if i > 0]
 			etl = [i for i in etls if i > 0]
 			total = sum(etl) + sum(pta)
 			cum1 = cumsum(etls)
 			cum2 = cumsum(ptas)
-			print(len(category))
-			print(etls)
-			print(df2)
 			return render_template("ledger_results1.html", student=student, cum1=cum1, cum2=cum2,sems=sems,
 			 pta_charge=pta_charge, etl_charge=etl_charge,etls=etls, ptas=ptas, date=date, category=category)
 		else:
@@ -1365,6 +1378,14 @@ def classquery():
 
 def expensequery():
 	return ExpenseCategory.query
+
+
+
+class AllStudentForm(FlaskForm):
+	classes = QuerySelectField(query_factory=classquery, get_label = 'class1', allow_blank = False, validators=[DataRequired()])
+	all_stud_submit = SubmitField("Generate")
+
+
 
 class StudentSignUp(FlaskForm):
     firstname = StringField("First Name", validators=[DataRequired()])
@@ -1532,6 +1553,7 @@ class Student(db.Model):
 	othername = db.Column(db.String(80))
 	fullname = db.Column(db.String(80), nullable=False)
 	date_of_birth = db.Column(db.String(10), nullable=False)
+	form = db.Column(db.String(10))
 	class1 = db.Column(db.String(10), nullable=False)
 	parent_contact = db.Column(db.String(12), nullable=False)
 	phone = db.Column(db.String(12))
@@ -1744,7 +1766,7 @@ admin.add_view(MyModelView(StudentPayments, db.session))
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run()
 
 
 

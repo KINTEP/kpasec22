@@ -1,0 +1,68 @@
+<style type="text/css">
+  .modal1{
+    background: #FDFEFE;
+    height: 17em;
+  }
+
+  .fw-bolds{
+    margin-left: 5em;
+    width: 100%;
+    color: black;
+  }
+
+  .fw-bold{
+    background: #D35400 ;
+    color: white;
+    width: 25%;
+    height: 2.1em;
+    border: 1px solid #D35400;
+    border-radius: 5px;
+  }
+
+  .clss{
+    margin-top: 10%;
+    margin-bottom: 6%;
+    width: 70%;
+    height: 2.3em;
+  }
+
+  @media(max-width: 900px){
+    .fw-bolds{
+    margin-left: 3em;
+    width: 100%;
+    color: black;
+  }
+  }
+</style>
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content modal1" id="modal1">
+      <div class="modal-header">
+     <h5 class="modal-title fw-bolds" id="staticBackdropLabel">Add New Expenses Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="button2"></button>
+      </div>
+      <div class="modal-body">
+        <center>
+          <form id="myForm" name = 'form1' action="" method="POST" autocomplete="off" onsubmit="click2()">
+            {{form1.hidden_tag()}}
+            {{form1.csrf_token}}
+            {% if form1.category.errors %}
+                {% for error in form1.category.errors %}
+                 <span class="text-danger">{{error}}</span>
+                 <br>
+                {% endfor %}
+            {% endif %}
+            {{form1.category(class='clss',placeholder="Enter the new category of expenses", id = 'category1')}}
+          <br>
+          {{form1.exp_submit(style = 'margin-top:1%;', class=' fw-bold', id = 'btn11')}}
+        </form>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
