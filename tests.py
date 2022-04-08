@@ -1,3 +1,27 @@
+@app.route('/',methods=['GET'])
+def home():
+    session['attempt'] = 5
+    
+@app.route('/login')
+def login():
+    username = request.form.get('username')
+    session['username'] = username
+    password = request.form.get('password')
+    if username and password and username in users and users[username] == password:
+        session['logged_in'] = True
+        return redirect(url_for('index'))
+    attempt= session.get('attempt')
+    attempt -= 1
+    session['attempt']=attempt
+    #print(attempt,flush=True)
+    if attempt==1:
+        client_ip= session.get('client_ip')
+        flash('This is your last attempt, %s will be blocked for 24hr, Attempt %d of 5'  % (client_ip,attempt), 'error')
+    else:
+        flash('Invalid login credentials, Attempts %d of 5'  % attempt, 'error')
+    return redirect(url_for('login'))
+
+
 @app.route("/accountant_dashboard/cash_book_report/<string:start1>, <string:end1>, <category>")
 @login_required
 def cash_book_report(start1, end1, category):

@@ -14,12 +14,9 @@ import datetime as dt
 from sqlalchemy.sql import extract
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-#import gspread
 import string
 from cryptography.fernet import Fernet
-#from num2words import num2words as n2w
 from wtforms_sqlalchemy.fields import QuerySelectField
-#from flask_migrate import Migrate
 from sqlalchemy import or_, and_, func
 import sqlite3
 import pandas as pd
@@ -34,6 +31,8 @@ import click
 from flask.cli import with_appcontext
 import re
 from firestore import add_student,add_pta_payment,add_etl_payment,add_etl_expense,add_pta_expense
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address 
 
 
 
@@ -47,7 +46,6 @@ app = Flask(__name__)
 local = 'sqlite:///kpasec.db'
 uri = uri
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
-#app.config['SQLALCHEMY_BINDS'] = {"kpasec": "sqlite:///kpasec.db", "kpasecarchives":"sqlite:///kpasecarchives.db"}
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -58,7 +56,7 @@ login_manager.login_view = 'login'
 local = 'sqlite:///client.db'
 filehandler = FileHandler('errorlog.txt')
 filehandler.setLevel(WARNING)
-
+limiter = Limiter(app, key_func = get_remote_address)
 app.logger.addHandler(filehandler)
 #migrate = Migrate(app, db)
 
@@ -170,6 +168,7 @@ def register_user():
 
 
 @app.route("/login", methods = ['GET', 'POST'])
+@limiter.limit("5 per day")
 def login():
 	if current_user.is_authenticated:
 		if clerk_access():
@@ -249,21 +248,16 @@ def etl_expenses():
 	if account_access():
 		title = "Make ETL Expense"
 		form = ETLExpensesForm()
-		#if request.method == 'POST':
-		#	print(form.validate())
-			
 		form1 = NewExpenseCatForm()
-		#print(form1.validate())
+		
 		if form1.data['exp_submit'] and form1.validate_on_submit():
 			category = form1.data.get('category')
-			print(category)
 			new = ExpenseCategory(adder = current_user.username, category=category)
 			db.session.add(new)
 			db.session.commit()
 			#flash(f'{category} category added', 'success')
 		if form.data['submit1'] and form.validate_on_submit():
 			detail = form.data.get('detail')
-			print(detail)
 			mode = form.data.get('mode')
 			totalcost = form.data.get('totalcost')
 			semester = form.data.get('semester')
@@ -301,15 +295,6 @@ def account():
 def promote_all_students():
 	if account_access():
 		return render_template('promote_student.html')
-		#students = Student.query.all()
-		#for stud in students:
-		#	new_class = promote_student(stud.class1)
-		#	if new_class:
-		#		stud.class1 = new_class
-		#	else:
-		#		pass
-		#db.session.commit()
-		#return "All students promoted!"
 	else:
 		abort(404)
 
@@ -478,7 +463,12 @@ def get_student_balances(student, idx):
 def all_students():
 	if account_access():
 		classes = session.get("classes")
-		students = Student.query.filter_by(class1 = classes).all()
+		if classes == "All":
+			students = Student.query.filter_by(status=True).all()
+		if classes == "Old":
+			students = Student.query.filter_by(status=False).all()
+		else:
+			students = Student.query.filter_by(class1 = classes).filter_by(status=True).all()
 		balances = [get_student_balances(student=i, idx=i.id_number) for i in students]
 		return render_template("all_students2.html", students=students, balances=balances, classes=classes)
 	else:
@@ -1212,7 +1202,6 @@ def account_daily_report():
 def student_stats():
 	if account_access():
 		cha = Charges.query.all()
-		print(cha)
 		if len(cha) < 1:
 			#start = dt.date(year=2020, month=1, day=1)
 			#end = datetime.utcnow().date()
@@ -1246,11 +1235,6 @@ def student_stats():
 		one,two,three = et_one + pt_one,et_two + pt_two, et_three + pt_three
 		pta, etl = pt_one+pt_two+pt_three, et_one+et_three+et_two
 		tot = pta + etl
-		#print(tot)
-		print(get_class_stats(start, end))
-		print(start)
-		print(end)
-		#print(etl)
 		return render_template("student_stats.html", et_one=et_one, et_two=et_two, et_three=et_three,
 			pt_one=pt_one, pt_two=pt_two, pt_three=pt_three,pta=pta,etl=etl,one=one,two=two,three=three,tot=tot)
 	else:
@@ -1335,16 +1319,10 @@ def api_ajax():
 def tests():
 	form = testForm()
 	if request.method == 'POST':
-		print("-----------------------------")
-		#print(dir(form.data.values()))
-		print(form.name1.data)
-		print(request.args.get('submit11'))
+		pass
 	#if form.validate_on_submit():
 	if form.data['submit1'] and form.validate_on_submit():
-	#if request.method == 'POST':
-		print("Helloooo")
 		name = form.name1.data
-		print(name) 
 	return render_template('tests.html', form=form)
 
 class Classes(db.Model):
@@ -1766,7 +1744,7 @@ admin.add_view(MyModelView(StudentPayments, db.session))
 
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug=True)
 
 
 

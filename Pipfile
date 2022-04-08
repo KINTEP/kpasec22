@@ -20,6 +20,7 @@ wtforms = {extras = ["email"], version = "*"}
 psycopg2 = "*"
 pipreqs = "*"
 gunicorn = "*"
+flask-limiter = "*"
 
 [dev-packages]
 

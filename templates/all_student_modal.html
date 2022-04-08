@@ -3,6 +3,15 @@
     background: #FDFEFE;
     height: 17em;
   }
+  .modal{
+    overflow: auto;
+  }
+  .modal-open{
+    overflow: auto;
+  }
+  .modal-open[style]{
+    padding-right: 0px ! important;
+  }
 
   .fw-bolds{
     margin-left: 5em;
@@ -26,6 +35,15 @@
     height: 2.3em;
   }
 
+  .but{
+    background:#566573;
+    border: 1px solid #566573;
+    border-radius: 5px;
+    color: white;
+    width: 20%;
+    height: 2.1em;
+  }
+
   @media(max-width: 900px){
     .fw-bolds{
     margin-left: 3em;
@@ -41,18 +59,18 @@
   <div class="modal-dialog modal-dialog-centered ">
     <div class="modal-content modal1" id="modal1">
       <div class="modal-header">
-     <h5 class="modal-title fw-bolds" id="staticBackdropLabel">Choose The Class</h5>
+     <h5 class="modal-title fw-bolds" id="staticBackdropLabel">List of students by class</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="button2"></button>
       </div>
       <div class="modal-body">
         <center>
           <form id="myForm" name = 'form1' action="" method="POST" autocomplete="off" onsubmit="">
            {{form4.hidden_tag()}}
-           <label>Choose Class</label>
+           <label>Choose a Class</label>
            <br>
-           {{form4.classes(style='margin-bottom:1%; width: 50%')}}
+           {{form4.classes(style='margin-bottom:2%; width: 60%;height:2.3em;border-radius:3px')}}
            <br>
-           {{form4.all_stud_submit()}}
+           {{form4.all_stud_submit(class='but')}}
            <br>
         </form>
         </center>

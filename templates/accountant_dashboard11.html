@@ -16,11 +16,11 @@
 <style type="text/css">
 body{
 
-	height: 100%;
+		height: 100%;
 	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
 	background-size: cover;
 	background-repeat: no-repeat;
-	overflow-y: scroll;
+	overflow-y: fixed;
 	overflow-x: hidden;
 	background-attachment: fixed;
 }
@@ -536,6 +536,15 @@ span a{
 
 
    @media  (max-width:900px){
+   	body{
+   		height: 100%;
+	    background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	    background-size: cover;
+	    background-repeat: no-repeat;
+	    overflow-y: fixed;
+	    overflow-x: hidden;
+	    background-attachment: fixed;
+   	}
   	.cont2{
   		background: white;
 		height: 100%;
@@ -697,6 +706,16 @@ span a{
 
     @media(max-width: 500px){
 
+    	body{
+   		height: 100%;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url("{{url_for('static', filename='images/reg2.jpg')}}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: fixed;
+	overflow-x: hidden;
+	background-attachment: fixed;
+   	}
+
     	.cont2 input{
    	height: 2.3em;
    	width: 90%;
@@ -830,7 +849,7 @@ span a{
 			        </li>
 
 			        <li class="nav-item">
-			          <a class="nav-link " href="" id="" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Students</a>
+			          <a class="nav-link " href="" id="student" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Students</a>
 			        </li>
 			        
 			      </ul>
@@ -1042,6 +1061,24 @@ span a{
        $("#cont4").css("display","none");
        $("#cont3").css("display","none");
        $("#oda").css("display","block");
+
+      });
+
+       $("#student").click(function () {
+       $("#cont1").css("display", "none");
+       $("#cont2").css("display","none");
+       $("#cont5").css("display","none");
+       $("#cont4").css("display","none");
+       $("#cont3").css("display","none");
+       $("#oda").css("display","none");
+       $("#staticBackdrop").css("display","block");
+
+      });
+       
+       $("#button2").click(function () {
+       $("#staticBackdrop").css("display", "none");
+       
+       $("#cont1").css("display","block");
 
       });
 
