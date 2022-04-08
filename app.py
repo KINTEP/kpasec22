@@ -44,7 +44,7 @@ if uri.startswith("postgres://"):
 app = Flask(__name__)
 
 local = 'sqlite:///kpasec.db'
-uri = uri
+uri = local
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -1744,7 +1744,7 @@ admin.add_view(MyModelView(StudentPayments, db.session))
 
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug=True)
 
 
 
