@@ -539,7 +539,7 @@ def student_ledg(date, id1):
 	q3['pta_amount'] = -1*q3['pta_amount']
 	q3['date'].astype('datetime64[ns]')
 	q1['date'].astype('datetime64[ns]')
-	comb1 = pd.merge(q3, q1, how = 'outer')
+	comb1 = pd.merge(q3, q1, how = 'outer', on='date')
 	#except:
 	#	q3 = q2[q2['begin_date'] >= pd.to_datetime(date)]
 	#	q3['category'] = 'charge'
