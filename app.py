@@ -536,7 +536,7 @@ def student_ledg(date, id1):
 	q3.rename(columns={'etl':'etl_amount', 'pta':'pta_amount', 'begin_date':'date'}, inplace = True)
 	q3['etl_amount'] = -1*q3['etl_amount']
 	q3['pta_amount'] = -1*q3['pta_amount']
-	comb1 = pd.merge(q3, q1, how = 'outer')
+	comb1 = pd.concat(q3, q1, how = 'outer')
 	comb1['etl_total'] = comb1['etl_amount'].cumsum()
 	comb1['pta_total'] = comb1['pta_amount'].cumsum()
 	df2 = comb1.sort_values('date', ignore_index=True)
