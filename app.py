@@ -539,7 +539,7 @@ def student_ledg(date, id1):
 		q3['pta_amount'] = -1*q3['pta_amount']
 		comb1 = pd.merge(q3, q1, how = 'outer')
 	except:
-		q3 = q2[q2['begin_date'] >= pd.to_datetim(date)]
+		q3 = q2[q2['begin_date'] >= pd.to_datetime(date)]
 		q3['category'] = 'charge'
 		q3.rename(columns={'etl':'etl_amount', 'pta':'pta_amount', 'begin_date':'date'}, inplace = True)
 		q3['etl_amount'] = -1*q3['etl_amount']
