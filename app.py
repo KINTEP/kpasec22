@@ -1727,19 +1727,9 @@ admin.add_view(MyModelView(PTAIncome, db.session))
 admin.add_view(MyModelView(ETLIncome, db.session))
 admin.add_view(MyModelView(StudentPayments, db.session))
 
-#
-#for i in range(10000):
-#	#idx = generate_student_id(phone, dob)
-#	ch1 = [1,2]
-#	ch2 = ['A','B','C','D','E']
-#	r2 = np.random.choice(ch2)
-#	stud = Student(clerk='Kofi Sammy',date=datetime.utcnow(),fullname='Kumi Isaac Newton', 
-#		phone='0544717479', date_of_birth='1992-1-1', class1=r1+r2, parent_contact='0544717479', id_number=str(np.random.randn()+np.random.randn()), date_admitted=dt.date(year=2022,month=3,day=1))
-#	db.session.add(stud)
-#	db.session.commit()
 
 
-
+#print(get_remote_address())
 
 
 
