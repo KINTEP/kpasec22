@@ -534,7 +534,8 @@ def student_ledg(date, id1):
 	#try:
 	q3 = q2[q2['begin_date'] >= date]
 	q3['category'] = 'charge'
-	q3.rename(columns={'etl':'etl_amount', 'pta':'pta_amount', 'begin_date':'date'}, inplace = True)
+	q3 = q3.rename(columns={'etl':'etl_amount', 'pta':'pta_amount', 'begin_date':'date'})
+	#q3.rename(columns={'etl':'etl_amount', 'pta':'pta_amount', 'begin_date':'date'}, inplace = True)
 	q3['etl_amount'] = -1*q3['etl_amount']
 	q3['pta_amount'] = -1*q3['pta_amount']
 	q3['date'].astype('datetime64[ns]')
